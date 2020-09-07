@@ -1,19 +1,4 @@
-interface IEvent {
-  id: string,
-  name: string,
-  description: string,
-  descriptionUrl: string,
-  type: string,
-  timeZone: string,
-  dateTime: string,
-  place: string,
-  comment: string,
-}
-
-interface IOrganizer {
-  id: string,
-  name: string,
-}
+import { IEvent, IOrganizer } from '../interfaces';
 
 class ScheduleService {
   apiBase = 'https://rs-react-schedule.firebaseapp.com/api/team/team19';
