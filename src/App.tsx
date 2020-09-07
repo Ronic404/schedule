@@ -1,8 +1,9 @@
-import React, { ReactElement } from 'react';
+import React, { FC, ReactElement } from 'react';
+
 import logo from './logo.svg';
 import './App.css';
 
-const App: React.FC = (): ReactElement => (
+const App: FC = (): ReactElement => (
   <div className="App">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
