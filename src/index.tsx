@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
 import * as serviceWorker from './serviceWorker';
-import RonicTest from './RonicTest';
+import TaskComponent from './TaskComponent/TaskComponent';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RonicTest />
+    <TaskComponent />
   </React.StrictMode>,
   document.getElementById('root'),
 );
