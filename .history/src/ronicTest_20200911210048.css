@@ -1,0 +1,19 @@
+.wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.task,
+.markdown {
+  /* width: 50%; */
+  height: 600px;
+}
+
+.task {
+  background-color: #aaa;
+}
+
+.markdown {
+  background-color: #888;
+}
