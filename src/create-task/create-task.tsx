@@ -3,13 +3,13 @@ import React, {
 } from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
 import { Button } from 'antd';
-import initialTaskText from './initialTaskText';
+import initialTaskText from './initial-task-text';
 
 import 'github-markdown-css';
 import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
-export default function TaskComponent():ReactElement {
+export default function CreateTask():ReactElement {
   const [taskHide, setTaskHide] = useState<boolean>(true);
   const [text, setText] = useState<string>(initialTaskText);
   const textarea = useRef<HTMLTextAreaElement>(null);
