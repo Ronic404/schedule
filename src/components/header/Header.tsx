@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import {IOptionItem} from '../../interfaces';
 import './Header.css';
 import Dropbox from '../dropbox';
+import StyleSelector from '../style-selector';
 
 const Header: FC = (): ReactElement => {
     const roles: Array<IOptionItem> = [
@@ -55,6 +56,21 @@ const Header: FC = (): ReactElement => {
         },
     ];
     const defaultLocationIndex = 3;
+    const displays: Array<IOptionItem> = [
+        {
+            name: 'Table',
+            id: 1
+        },
+        {
+            name: 'List',
+            id: 2
+        },
+        {
+            name: 'Calendar',
+            id: 3
+        },
+    ];
+    const defaultDisplayIndex = 0;
     return (
         <header className="header">
             <div className="header__top">
@@ -65,12 +81,8 @@ const Header: FC = (): ReactElement => {
             <div className="header__bottom">
                 <div className="header__bottom-left">
                     <Dropbox items={locations} defaultIndex={defaultLocationIndex} />
-                    <div className="header__dropbox-display dropbox">
-                        dropbox-display
-                    </div>
-                    <div className="header__dropbox-style dropbox">
-                        dropbox-style
-                    </div>
+                    <Dropbox items={displays} defaultIndex={defaultDisplayIndex} />
+                    <StyleSelector />
                 </div>
                 <div className="header__bottom-right">
                     <div className="header__download">
