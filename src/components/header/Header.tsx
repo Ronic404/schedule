@@ -3,6 +3,7 @@ import {IOptionItem} from '../../interfaces';
 import './Header.css';
 import Dropbox from '../dropbox';
 import StyleSelector from '../style-selector';
+import Download from '../download';
 
 const Header: FC = (): ReactElement => {
     const roles: Array<IOptionItem> = [
@@ -85,9 +86,7 @@ const Header: FC = (): ReactElement => {
                     <StyleSelector />
                 </div>
                 <div className="header__bottom-right">
-                    <div className="header__download">
-                        download
-                    </div>
+                    <Download />
                 </div>
             </div>
         </header>
