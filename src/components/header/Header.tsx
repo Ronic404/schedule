@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 import {IOptionItem} from '../../interfaces';
-import './header.css';
+import styles from './header.module.css';
 import Dropbox from '../dropbox';
 import StyleSelector from '../style-selector';
 import Download from '../download';
@@ -94,28 +94,28 @@ const Header: FC = (): ReactElement => {
     ]
     const defaultCourseIndex = 0;
     return (
-        <>
-            <div className="header__top">
-                <div className="header__logo">
+        <header className={styles.header}>
+            <div className={styles.header__top}>
+                <div className={styles.header__logo}>
                     <img src={logo} alt="Rolling Scopes School"/>
                 </div>
-                <div className="header__top-left">
+                <div className={styles['header__top-left']}>
                     <Accessibility />
                     <Dropbox items={roles} defaultIndex={defaultRoleIndex} />
                 </div>
             </div>
-            <div className="header__bottom">
-                <div className="header__bottom-left">
-                    <Dropbox className="select-location" items={locations} defaultIndex={defaultLocationIndex} />
+            <div className={styles['header__bottom']}>
+                <div className={styles['header__bottom-left']}>
+                    <Dropbox className='select-location' items={locations} defaultIndex={defaultLocationIndex} />
                     <Dropbox items={displays} defaultIndex={defaultDisplayIndex} />
                     <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
                     <StyleSelector />
                 </div>
-                <div className="header__bottom-right">
+                <div className={styles['header__bottom-right']}>
                     <Download />
                 </div>
             </div>
-        </>
+        </header>
     );
 }
 

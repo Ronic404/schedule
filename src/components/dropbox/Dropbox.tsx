@@ -3,7 +3,7 @@ import { IOptionItem } from '../../interfaces';
 
 import { Select } from "antd";
 
-import './dropbox.css';
+import styles from './dropbox.module.css';
 
 type DropboxProps = {
     items: Array<IOptionItem>,
@@ -14,7 +14,7 @@ type DropboxProps = {
 const Dropbox = ({ items, defaultIndex, className = '' } : DropboxProps ): ReactElement => {
     const { Option } = Select;
     return (
-        <Select defaultValue={items[defaultIndex].name} className={className}>
+        <Select defaultValue={items[defaultIndex].name} className={styles['select-location']}>
             {items.map(({name, id}): ReactElement => {
                 return (
                     <Option value={name} key={id}>{name}</Option>

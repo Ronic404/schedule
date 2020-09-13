@@ -1,10 +1,10 @@
 import React, { FC, ReactElement } from 'react';
 
-import './table-container.css';
+import styles from './table-container.module.css';
 
 const TableContainer: FC = (): ReactElement => {
     return (
-        <section className="table-container">
+        <section className={styles['table-container']}>
             Table
         </section>
     );

@@ -12,9 +12,7 @@ const { Content } = Layout;
 
 const App: FC = (): ReactElement => (
   <Layout>
-    <header className="header">
-      <Header />
-    </header>
+    <Header />
     <Content>
       <TableContainer />
     </Content>
