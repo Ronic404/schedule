@@ -1,20 +1,70 @@
 import React, { FC, ReactElement } from 'react';
-import SelectLocation from '../select-location';
+import {IOptionItem} from '../../interfaces';
 import './Header.css';
+import Dropbox from '../dropbox';
 
 const Header: FC = (): ReactElement => {
+    const roles: Array<IOptionItem> = [
+        {
+            name: 'Student',
+            id: 1,
+        },
+        {
+            name: 'Tutor',
+            id: 2,
+        },
+    ];
+    const defaultRoleIndex = 0;
+
+    const locations: Array<IOptionItem> = [
+        {
+            name: 'Europe/London',
+            id: 1,
+        },
+        {
+            name: 'Europe/Warsaw',
+            id: 2,
+        },
+        {
+            name: 'Europe/Kiev',
+            id: 3,
+        },
+        {
+            name: 'Europe/Minsk',
+            id: 4,
+        },
+        {
+            name: 'Europe/Moscow',
+            id: 5,
+        },
+        {
+            name: 'Europe/Volgograd',
+            id: 6,
+        },
+        {
+            name: 'Europe/Yekaterinburg',
+            id: 7,
+        },
+        {
+            name: 'Europe/Tashkent',
+            id: 8,
+        },
+        {
+            name: 'Europe/Tbilisi',
+            id: 9,
+        },
+    ];
+    const defaultLocationIndex = 3;
     return (
         <header className="header">
             <div className="header__top">
                 <div className="header__logo">
                 </div>
-                <div className="header__dropbox-role dropbox">
-                    dropbox-role
-                </div>
+                <Dropbox items={roles} defaultIndex={defaultRoleIndex} />
             </div>
             <div className="header__bottom">
                 <div className="header__bottom-left">
-                    <SelectLocation />
+                    <Dropbox items={locations} defaultIndex={defaultLocationIndex} />
                     <div className="header__dropbox-display dropbox">
                         dropbox-display
                     </div>
