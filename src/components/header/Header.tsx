@@ -5,6 +5,7 @@ import Dropbox from '../dropbox';
 import StyleSelector from '../style-selector';
 import Download from '../download';
 import logo from './logo.png';
+import Accessibility from '../accessibility';
 
 const Header: FC = (): ReactElement => {
     const roles: Array<IOptionItem> = [
@@ -13,7 +14,7 @@ const Header: FC = (): ReactElement => {
             id: 1,
         },
         {
-            name: 'Tutor',
+            name: 'Mentor',
             id: 2,
         },
     ];
@@ -73,18 +74,41 @@ const Header: FC = (): ReactElement => {
         },
     ];
     const defaultDisplayIndex = 0;
+    const courses: Array<IOptionItem> = [
+        {
+            name: 'RSS react 2020 Q3',
+            id: 1,
+        },
+        {
+            name: 'RSS 2020 Q1',
+            id: 2,
+        },
+        {
+            name: 'RSS angular 2020 Q3',
+            id: 3,
+        },
+        {
+            name: 'RSS node js 2020 Q3',
+            id: 4,
+        },
+    ]
+    const defaultCourseIndex = 0;
     return (
         <>
             <div className="header__top">
                 <div className="header__logo">
                     <img src={logo} alt="Rolling Scopes School"/>
                 </div>
-                <Dropbox items={roles} defaultIndex={defaultRoleIndex} />
+                <div className="header__top-left">
+                    <Accessibility />
+                    <Dropbox items={roles} defaultIndex={defaultRoleIndex} />
+                </div>
             </div>
             <div className="header__bottom">
                 <div className="header__bottom-left">
                     <Dropbox className="select-location" items={locations} defaultIndex={defaultLocationIndex} />
                     <Dropbox items={displays} defaultIndex={defaultDisplayIndex} />
+                    <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
                     <StyleSelector />
                 </div>
                 <div className="header__bottom-right">
