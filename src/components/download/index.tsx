@@ -1,3 +1,3 @@
-import Download from './Download';
+import Download from './download';
 
 export default Download;

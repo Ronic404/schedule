@@ -7,7 +7,7 @@ import './style-selector.css';
 
 const StyleSelector: FC = (): ReactElement => {
     return (
-        <Button><BgColorsOutlined /></Button>
+        <Button type="text" size="large"><BgColorsOutlined /></Button>
     );
 }
 

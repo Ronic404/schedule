@@ -1,9 +1,10 @@
 import React, { FC, ReactElement } from 'react';
 import {IOptionItem} from '../../interfaces';
-import './Header.css';
+import './header.css';
 import Dropbox from '../dropbox';
 import StyleSelector from '../style-selector';
 import Download from '../download';
+import logo from './logo.png';
 
 const Header: FC = (): ReactElement => {
     const roles: Array<IOptionItem> = [
@@ -73,15 +74,16 @@ const Header: FC = (): ReactElement => {
     ];
     const defaultDisplayIndex = 0;
     return (
-        <header className="header">
+        <>
             <div className="header__top">
                 <div className="header__logo">
+                    <img src={logo} alt="Rolling Scopes School"/>
                 </div>
                 <Dropbox items={roles} defaultIndex={defaultRoleIndex} />
             </div>
             <div className="header__bottom">
                 <div className="header__bottom-left">
-                    <Dropbox items={locations} defaultIndex={defaultLocationIndex} />
+                    <Dropbox className="select-location" items={locations} defaultIndex={defaultLocationIndex} />
                     <Dropbox items={displays} defaultIndex={defaultDisplayIndex} />
                     <StyleSelector />
                 </div>
@@ -89,7 +91,7 @@ const Header: FC = (): ReactElement => {
                     <Download />
                 </div>
             </div>
-        </header>
+        </>
     );
 }
 

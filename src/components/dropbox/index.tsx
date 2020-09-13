@@ -1,3 +1,3 @@
-import Dropbox from './Dropbox';
+import Dropbox from './dropbox';
 
 export default Dropbox;

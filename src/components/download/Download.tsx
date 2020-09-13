@@ -3,11 +3,11 @@ import React, { FC, ReactElement } from 'react';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
-import './Download.css';
+import './download.css';
 
 const Download: FC = (): ReactElement => {
     return (
-        <Button><DownloadOutlined /></Button>
+        <Button type="text" size="large"><DownloadOutlined/></Button>
     );
 }
 
