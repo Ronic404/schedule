@@ -7,7 +7,7 @@ import initialTaskText from './initialTaskText';
 
 import 'github-markdown-css';
 import 'antd/dist/antd.css';
-import './style.css';
+import styles from './style.module.css';
 
 export default function TaskComponent():ReactElement {
   const [taskHide, setTaskHide] = useState<boolean>(true);
@@ -27,18 +27,18 @@ export default function TaskComponent():ReactElement {
 
   return (
     <>
-      <div className="wrapper">
-        <div className="main">
+      <div className={styles.wrapper}>
+        <div className={styles.main}>
           <textarea
             ref={textarea}
             value={text}
             onChange={handleChange}
-            className={!taskHide ? 'task' : 'task hide'}
+            className={!taskHide ? styles.task : styles.hide}
           />
-          <ReactMarkdown source={text} className="markdown markdown-body" escapeHtml={false} />
+          <ReactMarkdown source={text} className={`${styles.markdown} markdown-body`} escapeHtml={false} />
         </div>
         <Button
-          className="button-task"
+          className={styles['button-task']}
           onClick={() => setTaskHide(!taskHide)}
           type="primary"
           size="large"
