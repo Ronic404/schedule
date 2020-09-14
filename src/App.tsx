@@ -1,28 +1,21 @@
 import React, { FC, ReactElement } from 'react';
-
-import logo from './logo.svg';
 import './App.css';
+import { Layout } from 'antd';
+import Header from './components/header';
+
+import TableContainer from './components/table-container';
+import CreateTask from './components/create-task';
+
+const { Content } = Layout;
 
 const App: FC = (): ReactElement => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit
-        <code>src/App.tsx</code>
-        {' '}
-        and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-    </header>
-  </div>
+  <Layout>
+    <Header />
+    <Content>
+      <TableContainer />
+    </Content>
+    <CreateTask />
+  </Layout>
 );
 
 export default App;

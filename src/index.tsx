@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
-import TaskComponent from './create-task/create-task';
 
 ReactDOM.render(
   <React.StrictMode>
-    <TaskComponent />
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 );
