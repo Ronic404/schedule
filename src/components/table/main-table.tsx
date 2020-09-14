@@ -1,4 +1,6 @@
-import React, { FC, ReactElement } from 'react';
+import React, {
+  FC, ReactElement, useEffect, useState,
+} from 'react';
 import {
   Table, Tag, Checkbox,
 } from 'antd';
@@ -6,33 +8,56 @@ import moment from 'moment';
 
 import styles from './main-table.module.css';
 import OrganizerCell from '../organizer-cell';
+import ColsSelector from '../cols-selector';
 
-const taskTypes = [
+interface taskTypesArray {
+  text: string,
+  value: string,
+  color?: string,
+}
+
+const taskTypes: taskTypesArray[] = [
   {
-    type: 'stream',
+    text: 'Stream',
+    value: 'stream',
     color: '#FF9A6F',
   },
   {
-    type: 'faculty',
+    text: 'Faculty',
+    value: 'faculty',
     color: '#BE6AFF',
   },
   {
-    type: 'self-education',
+    text: 'Self-education',
+    value: 'self-education',
     color: '#FCFF6A',
   },
   {
-    type: 'test',
+    text: 'Test',
+    value: 'test',
     color: '#6ADBFF',
   },
   {
-    type: 'deadline',
+    text: 'Deadline',
+    value: 'deadline',
     color: '#FF6A6A',
   },
   {
-    type: 'start',
+    text: 'Start',
+    value: 'start',
     color: '#A3FF6A',
   },
 ];
+
+const filterTypes = () => {
+  const [...typesArray] = taskTypes;
+  const temp = typesArray.map((task) => {
+    const { ...newTemp } = task;
+    delete newTemp.color;
+    return newTemp;
+  });
+  return temp;
+};
 
 const columns = [
   {
@@ -49,18 +74,15 @@ const columns = [
     title: 'Type',
     dataIndex: 'type',
     key: 'type',
-    render: (tags: string[]) => (
+    render: (tag: string) => (
       <>
-        {tags.map((tag) => {
-          const color = taskTypes.find((task) => task.type === tag)?.color;
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        <Tag color={taskTypes.find((task) => task.value === tag)?.color} key={tag}>
+          {tag.toUpperCase()}
+        </Tag>
       </>
     ),
+    filters: filterTypes(),
+    onFilter: (value: any, record: any) => record.type.indexOf(value) === 0,
   },
   {
     title: 'Place',
@@ -71,17 +93,6 @@ const columns = [
     title: 'Name',
     key: 'name',
     dataIndex: 'name',
-    // render: (text: string, record: any) => (
-    //   <Space size="middle">
-    //     <span>
-    //       Invite
-    //       {' '}
-    //       {' '}
-    //       {record.name}
-    //     </span>
-    //     <span>Delete</span>
-    //   </Space>
-    // ),
   },
   {
     title: 'Organizer',
@@ -102,12 +113,21 @@ const columns = [
   },
 ];
 
+const createColsTitles = () => {
+  const temp: {title: string, checked: boolean}[] = [];
+  const [...titles] = columns;
+  titles.forEach((col) => {
+    temp.push({ title: col.title, checked: true });
+  });
+  return temp;
+};
+
 const data = [
   {
     key: '1',
     date: moment().format('ll'),
     time: moment().format('LT'),
-    type: ['test'],
+    type: 'test',
     place: 'ddddd',
     name: 'fffff',
     organizer: 'nastassiamilashevskaya',
@@ -115,10 +135,10 @@ const data = [
     done: false,
   },
   {
-    key: '1',
+    key: '2',
     date: moment().format('ll'),
     time: moment().format('LT'),
-    type: ['start'],
+    type: 'start',
     place: 'ddddd',
     name: 'fffff',
     organizer: 'nastassiamilashevskaya',
@@ -126,10 +146,10 @@ const data = [
     done: true,
   },
   {
-    key: '1',
+    key: '3',
     date: moment().format('ll'),
     time: moment().format('LT'),
-    type: ['stream'],
+    type: 'stream',
     place: 'ddddd',
     name: 'fffff',
     organizer: 'nastassiamilashevskaya',
@@ -138,10 +158,35 @@ const data = [
   },
 ];
 
-const MainTable: FC = (): ReactElement => (
-  <div className={styles.container}>
-    <Table size="middle" columns={columns} dataSource={data} />
-  </div>
-);
+const MainTable: FC = (): ReactElement => {
+  const [colsTitles, setColsTitles] = useState<{title: string, checked: boolean}[]>([]);
+
+  const changeColsHandler = (cols: {title: string, checked: boolean}[]) => {
+    setColsTitles(cols);
+  };
+
+  const activeCols = () => {
+    const temp: any = [];
+    colsTitles.forEach((el) => {
+      if (el.checked) temp.push(columns.find((c) => c.title === el.title));
+    });
+    console.log(colsTitles);
+    return temp;
+  };
+
+  useEffect(() => {
+    setColsTitles(createColsTitles());
+  }, []);
+
+  return (
+    <div className={styles.container}>
+      <ColsSelector
+        onChangeCols={(cols: {title: string, checked: boolean}[]) => changeColsHandler(cols)}
+        columns={colsTitles}
+      />
+      <Table size="middle" columns={activeCols()} dataSource={data} />
+    </div>
+  );
+};
 
 export default MainTable;
