@@ -1,0 +1,55 @@
+.hide {
+  display: none;
+}
+
+.wrapper {
+  /* max-width: 1000px; */
+  /* margin: 0 auto; */
+  position: relative;
+  padding: 0 50px;
+}
+
+.main {
+  display: flex;
+}
+
+.task,
+.markdown {
+  min-height: 600px;
+  flex: 1;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.task {
+  background-color: #ddd;
+  padding-top: 20px;
+}
+
+.markdown {
+  margin-left: 10px;
+}
+
+.button-task {
+  position: absolute;
+  right: 50px;
+  top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    padding: 0 20px;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+
+  .markdown {
+    margin-left: 0;
+  }
+
+  .button-task {
+    right: 20px;
+  }
+}

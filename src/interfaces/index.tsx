@@ -14,3 +14,8 @@ export interface IOrganizer {
   id: string,
   name: string,
 }
+
+export interface IOptionItem {
+  name: string,
+  id: number,
+}
