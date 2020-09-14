@@ -1,13 +1,12 @@
 import React, { FC, ReactElement } from 'react';
-import {IOptionItem} from '../../interfaces';
 import styles from './header.module.css';
 import Dropbox from '../dropbox';
-import StyleSelector from '../style-selector';
-import Download from '../download';
 import logo from './logo.png';
-import Accessibility from '../accessibility';
 
 import {roles, defaultRoleIndex, locations, defaultLocationIndex, displays, defaultDisplayIndex, courses, defaultCourseIndex } from './header-data';
+
+import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
+import HeaderButton from '../header-button/header-button';
 
 const Header: FC = (): ReactElement => {
     return (
@@ -17,7 +16,7 @@ const Header: FC = (): ReactElement => {
                     <img src={logo} alt="Rolling Scopes School"/>
                 </div>
                 <div className={styles['header__top-left']}>
-                    <Accessibility />
+                    <HeaderButton buttonImage={<EyeOutlined />}/>
                     <Dropbox items={roles} defaultIndex={defaultRoleIndex} />
                 </div>
             </div>
@@ -26,10 +25,10 @@ const Header: FC = (): ReactElement => {
                     <Dropbox className='select-location' items={locations} defaultIndex={defaultLocationIndex} />
                     <Dropbox items={displays} defaultIndex={defaultDisplayIndex} />
                     <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
-                    <StyleSelector />
+                    <HeaderButton buttonImage={<BgColorsOutlined />}/>
                 </div>
                 <div className={styles['header__bottom-right']}>
-                    <Download />
+                    <HeaderButton buttonImage={<DownloadOutlined />}/>
                 </div>
             </div>
         </header>
