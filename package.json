@@ -13,6 +13,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "antd": "^4.6.3",
+    "github-markdown-css": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
@@ -20,6 +21,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
+    "remark-toc": "^7.0.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
