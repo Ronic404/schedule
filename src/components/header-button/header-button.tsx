@@ -6,10 +6,8 @@ type HeaderButtonProps = {
     buttonImage: ReactElement,
 }
 
-const HeaderButton = ({ buttonImage } : HeaderButtonProps): ReactElement => {
-    return (
-        <Button type="text" size="large">{buttonImage}</Button>
-    );
-}
+const HeaderButton = ({ buttonImage } : HeaderButtonProps): ReactElement => (
+  <Button type="text" size="large">{buttonImage}</Button>
+);
 
 export default HeaderButton;
