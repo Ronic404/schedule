@@ -5,19 +5,24 @@ import { IOptionItem } from '../../interfaces';
 import styles from './dropbox.module.css';
 
 type DropboxProps = {
-  items: Array<IOptionItem>,
-  defaultIndex: number,
+    items: Array<IOptionItem>,
+    defaultIndex: number,
+    componentClassName?: string
 }
 
-const Dropbox = ({ items, defaultIndex }: DropboxProps): ReactElement => {
+const Dropbox = ({ items, defaultIndex, componentClassName = '' } : DropboxProps): ReactElement => {
   const { Option } = Select;
   return (
-    <Select defaultValue={items[defaultIndex].name} className={styles['select-location']}>
+    <Select defaultValue={items[defaultIndex].name} className={styles[componentClassName]}>
       {items.map(({ name, id }): ReactElement => (
         <Option value={name} key={id}>{name}</Option>
       ))}
     </Select>
   );
+};
+
+Dropbox.defaultProps = {
+  componentClassName: '',
 };
 
 export default Dropbox;
