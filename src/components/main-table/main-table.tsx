@@ -2,10 +2,10 @@ import React, {
   FC, ReactElement, useEffect, useState,
 } from 'react';
 import {
-  Table,
+  Table, Layout,
 } from 'antd';
 
-import styles from './main-table.module.css';
+// import styles from './main-table.module.css';
 import ColsSelector from '../cols-selector';
 import columns from '../columns';
 import data from '../data';
@@ -39,13 +39,13 @@ const MainTable: FC = (): ReactElement => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <ColsSelector
         onChangeCols={(cols: {title: string, checked: boolean}[]) => changeColsHandler(cols)}
         columns={colsTitles}
       />
       <Table size="middle" columns={activeCols()} dataSource={data} />
-    </div>
+    </Layout>
   );
 };
 
