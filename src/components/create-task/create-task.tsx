@@ -9,7 +9,7 @@ import 'github-markdown-css';
 import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
-export default function CreateTask():ReactElement {
+export default function CreateTask(): ReactElement {
   const [taskHide, setTaskHide] = useState<boolean>(true);
   const [text, setText] = useState<string>(initialTaskText);
   const textarea = useRef<HTMLTextAreaElement>(null);
@@ -42,7 +42,6 @@ export default function CreateTask():ReactElement {
           onClick={() => setTaskHide(!taskHide)}
           type="primary"
           size="large"
-          shape="round"
         >
           Edit
         </Button>
