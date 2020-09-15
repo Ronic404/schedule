@@ -8,13 +8,13 @@ import styles from './dropbox.module.css';
 type DropboxProps = {
     items: Array<IOptionItem>,
     defaultIndex: number,
-    className?: string
+    componentClassName?: string
 }
 
-const Dropbox = ({ items, defaultIndex, className = '' } : DropboxProps ): ReactElement => {
+const Dropbox = ({ items, defaultIndex, componentClassName = '' } : DropboxProps ): ReactElement => {
     const { Option } = Select;
     return (
-        <Select defaultValue={items[defaultIndex].name} className={styles['select-location']}>
+        <Select defaultValue={items[defaultIndex].name} className={styles[componentClassName]}>
             {items.map(({name, id}): ReactElement => {
                 return (
                     <Option value={name} key={id}>{name}</Option>

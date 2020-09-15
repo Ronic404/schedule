@@ -7,12 +7,12 @@ import {roles, defaultRoleIndex } from './header-data';
 
 const Header: FC = (): ReactElement => {
     return (
-        <header className={styles.header}>
+        <header>
             <div className={styles.header__main}>
                 <div className={styles.header__logo}>
                     <img src={logo} alt="Rolling Scopes School"/>
                 </div>
-                <div className={styles['header__top-left']}>
+                <div>
                     <Dropbox items={roles} defaultIndex={defaultRoleIndex} />
                 </div>
             </div>

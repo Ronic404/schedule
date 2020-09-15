@@ -10,3 +10,16 @@
 .table__header-left *:not(:last-child) {
     margin-right: 20px;
 }
+
+@media screen and (max-width: 550px) {
+    .table__header-left,
+    .table__header {
+        display: flex;
+        flex-direction: column;   
+    }
+
+    .table__header-left *:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

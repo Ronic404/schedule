@@ -19,8 +19,8 @@ const App: FC = (): ReactElement => (
     </div>
     <Content>
       <TableContainer />
+      <CreateTask />
     </Content>
-    <CreateTask />
   </Layout>
 );
 

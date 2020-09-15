@@ -11,7 +11,7 @@ const TableHeader: FC = (): ReactElement => {
     return (
         <div className={styles['table__header']}>
             <div className={styles['table__header-left']}>
-                <Dropbox className='select-location' items={locations} defaultIndex={defaultLocationIndex} />
+                <Dropbox componentClassName='select-location' items={locations} defaultIndex={defaultLocationIndex} />
                 <Dropbox items={displays} defaultIndex={defaultDisplayIndex} />
                 <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
                 <HeaderButton buttonImage={<BgColorsOutlined />}/>
