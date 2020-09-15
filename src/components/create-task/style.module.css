@@ -3,8 +3,6 @@
 }
 
 .wrapper {
-  /* max-width: 1000px; */
-  /* margin: 0 auto; */
   position: relative;
   padding: 0 50px;
 }
@@ -19,11 +17,18 @@
   flex: 1;
   overflow: hidden;
   padding: 10px;
+  border: 1px solid rgb(195, 195, 195);
 }
 
 .task {
-  background-color: #ddd;
+  font-size: 16px;
+  background-color: #f6f8fa;
   padding-top: 20px;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
 }
 
 .markdown {
@@ -31,8 +36,9 @@
 }
 
 .button-task {
+  width: 100px;
   position: absolute;
-  right: 50px;
+  right: 60px;
   top: 10px;
 }
 
@@ -45,11 +51,15 @@
     flex-direction: column;
   }
 
+  .task {
+    margin-bottom: 10px;
+  }
+
   .markdown {
     margin-left: 0;
   }
 
   .button-task {
-    right: 20px;
+    right: 30px;
   }
 }
