@@ -1,30 +1,9 @@
-.header {
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100px;
-}
-
-.header__top,
-.header__bottom {
+.header__main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-}
-
-.header__top {
     padding-right: 19px;
-}
-
-.header__bottom {
-    padding-left: 19px;
-    padding-right: 12px;
-}
-
-.header__bottom *:not(:last-child) {
-    margin-right: 20px;
 }
 
 .header__logo img {
