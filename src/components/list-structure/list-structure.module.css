@@ -1,9 +1,10 @@
 .list {
-  margin: 10px 50px;
+  margin: 10px 20px;
 }
 
 .item {
   justify-content: flex-start;
+  width: 25%;
 }
 
 .marker{
@@ -11,7 +12,8 @@
 }
 
 .main {
-  padding-left: 1rem;
+  /* padding-left: 1rem; */
+  flex: 10;
 }
 
 /* .date {
@@ -22,6 +24,32 @@
 
 } */
 
-/* .type {
+.type {
+  /* flex: 1; */
+}
 
-} */
+.link {
+  flex: 1;
+  color: #1890ff; 
+}
+
+@media screen and (max-width: 1000px) {
+  .item {
+    justify-content: flex-start;
+    width: 33.3333%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .item {
+    justify-content: flex-start;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .item {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
