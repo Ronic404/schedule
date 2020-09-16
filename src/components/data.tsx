@@ -10,7 +10,7 @@ const data = [
     name: 'Тест как учиться в RSSchool',
     organizer: 'dzmitry-varabei',
     comment: '4 часа на прохождение',
-    done: true,
+    done: false,
   },
   {
     key: '2',
