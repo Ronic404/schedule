@@ -1,0 +1,27 @@
+.list {
+  margin: 10px 50px;
+}
+
+.item {
+  justify-content: flex-start;
+}
+
+.marker{
+  width: 30px;
+}
+
+.main {
+  padding-left: 1rem;
+}
+
+/* .date {
+
+} */
+
+/* .name {
+
+} */
+
+/* .type {
+
+} */

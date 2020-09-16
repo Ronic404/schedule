@@ -5,6 +5,7 @@ import Header from './components/header';
 
 import TableContainer from './components/table-container';
 import CreateTask from './components/create-task';
+import ListStructure from './components/list-structure';
 
 const { Content } = Layout;
 
@@ -15,6 +16,7 @@ const App: FC = (): ReactElement => (
       <TableContainer />
     </Content>
     <CreateTask />
+    <ListStructure />
   </Layout>
 );
 
