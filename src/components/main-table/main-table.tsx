@@ -24,14 +24,24 @@ const MainTable: FC = (): ReactElement => {
   const [checkedRows, setCheckedRows] = useState<{ key: string, done: boolean }[]>([]);
   const [hidedRows, setHidedRows] = useState<{ key: string, hided: boolean }[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
+  const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
+  const [visibleData,setVisibleData] = useState<{key:string,hided:boolean,done: boolean}[]>(data)
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
   };
 
 const hideClickHandle= () =>{
-  
+  const updatedData= visibleData.filter(row => !hidedRows.some(hiddenRow => row.key === hiddenRow.key));
+  setShowHideBtn(false);
+  setVisibleData(updatedData);
+  setShowAllBtn(true);
 };
+
+const unhideClickHandle = ()=>{
+  setVisibleData(data);
+  setShowAllBtn(false);
+}
   const activeCols = () => {
      const temp: any = [];
      colsTitles.forEach((el) => {
@@ -97,11 +107,13 @@ const hideClickHandle= () =>{
           onChangeCols={(cols: { title: string, checked: boolean }[]) => changeColsHandler(cols)}
           columns={colsTitles}
         />
+      { showAllBtn?  <Button type="primary" size="small" onClick={unhideClickHandle} >SHOW HIDED</Button>
+          : null  }
         {showHideBtn ?
           <Button type="primary" size="small" onClick={hideClickHandle} >HIDE</Button>
           : null}
       </div>
-      <Table size="middle" columns={activeCols()} dataSource={data}
+      <Table size="middle" columns={activeCols()} dataSource={visibleData}
         onRow={(record) => ({ onClick: el => selectRow(record, el) })}
       />
     </Layout>
