@@ -11,6 +11,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '4 часа на прохождение',
     done: false,
+    hided: false,
   },
   {
     key: '2',
@@ -22,6 +23,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '3',
@@ -33,6 +35,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '4',
@@ -44,6 +47,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '5',
@@ -55,6 +59,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '6',
@@ -66,6 +71,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '7',
@@ -77,6 +83,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '8',
@@ -88,6 +95,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '9',
@@ -99,6 +107,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '10',
@@ -110,6 +119,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: 'Ссылка будет в Discord. Его необходимо пройти за 24 часа',
     done: false,
+    hided: false,
   },
   {
     key: '11',
@@ -121,6 +131,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '12',
@@ -132,6 +143,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '13',
@@ -143,6 +155,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
   {
     key: '14',
@@ -154,6 +167,7 @@ const data = [
     organizer: 'dzmitry-varabei',
     comment: '',
     done: false,
+    hided: false,
   },
 ];
 
