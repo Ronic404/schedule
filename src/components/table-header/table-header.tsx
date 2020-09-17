@@ -29,4 +29,4 @@ const TableHeader: FC = (): ReactElement => (
   </div>
 );
 
-export default TableHeader;
+export default (TableHeader);

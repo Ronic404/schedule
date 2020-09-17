@@ -3,34 +3,7 @@
 }
 
 .item {
-  justify-content: flex-start;
   width: 25%;
-}
-
-.marker{
-  width: 30px;
-}
-
-.main {
-  /* padding-left: 1rem; */
-  flex: 10;
-}
-
-/* .date {
-
-} */
-
-/* .name {
-
-} */
-
-.type {
-  /* flex: 1; */
-}
-
-.link {
-  flex: 1;
-  color: #1890ff; 
 }
 
 @media screen and (max-width: 1000px) {

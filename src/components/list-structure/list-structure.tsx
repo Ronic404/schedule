@@ -10,10 +10,7 @@ export default function ListStructure(): ReactElement {
   return (
     <Card className={styles.list} title="Tasks list" bodyStyle={{ padding: 0 }}>
       <List
-        // className={styles.list}
         dataSource={data}
-        // bordered
-        // size="small"
         renderItem={(item) => (
           <Card.Grid className={styles.item} key={item.key}>
             <Tag
