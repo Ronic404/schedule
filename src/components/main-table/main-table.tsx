@@ -26,7 +26,7 @@ const MainTable: FC = (): ReactElement => {
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
   // eslint-disable-next-line
-  const [visibleData, setVisibleData] = useState<{key:string, hided:boolean, done: boolean}[]>(data);
+  const [visibleData, setVisibleData] = useState<{ key: string, hided: boolean, done: boolean }[]>(data);
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
@@ -106,10 +106,10 @@ const MainTable: FC = (): ReactElement => {
           onChangeCols={(cols: { title: string, checked: boolean }[]) => changeColsHandler(cols)}
           columns={colsTitles}
         />
-        { showAllBtn ? <Button type="primary" size="small" onClick={unhideClickHandle}>SHOW HIDED</Button>
-          : null }
+        {showAllBtn ? <Button  onClick={unhideClickHandle}>Show Hided</Button>
+          : null}
         {showHideBtn
-          ? <Button type="primary" size="small" onClick={hideClickHandle}>HIDE</Button>
+          ? <Button onClick={hideClickHandle}>Hide</Button>
           : null}
       </div>
       <Table
