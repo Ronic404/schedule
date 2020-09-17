@@ -3,8 +3,8 @@ import moment from 'moment';
 const data = [
   {
     key: '1',
-    date: moment([2020,8, 19]).format('ll'),
-    time: moment({hour: 18, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 19]).format('ll'),
+    time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
     type: 'test',
     place: '',
     name: 'Тест как учиться в RSSchool',
@@ -15,8 +15,8 @@ const data = [
   },
   {
     key: '2',
-    date: moment([2020,8, 19]).format('ll'),
-    time: moment({hour: 19, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 19]).format('ll'),
+    time: moment({ hour: 19, minute: 0 }).format('HH:mm'),
     type: 'stream',
     place: '',
     name: 'Git Basics. Live coding',
@@ -27,8 +27,8 @@ const data = [
   },
   {
     key: '3',
-    date: moment([2020,8, 21]).format('ll'),
-    time: moment({hour: 12, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 21]).format('ll'),
+    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Task 1. Calculator',
@@ -39,8 +39,8 @@ const data = [
   },
   {
     key: '4',
-    date: moment([2020,8, 22]).format('ll'),
-    time: moment({hour: 12, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 22]).format('ll'),
+    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Алгоритмические задания Stage#1. Part #1',
@@ -51,7 +51,7 @@ const data = [
   },
   {
     key: '5',
-    date: moment([2020,8, 22]).format('ll'),
+    date: moment([2020, 8, 22]).format('ll'),
     time: '',
     type: 'self-education',
     place: '',
@@ -63,8 +63,8 @@ const data = [
   },
   {
     key: '6',
-    date: moment([2020,8, 22]).format('ll'),
-    time: moment({hour: 20, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 22]).format('ll'),
+    time: moment({ hour: 20, minute: 0 }).format('HH:mm'),
     type: 'stream',
     place: '',
     name: 'FAQ: Photoshop and Figma',
@@ -75,7 +75,7 @@ const data = [
   },
   {
     key: '7',
-    date: moment([2020,8, 22]).format('ll'),
+    date: moment([2020, 8, 22]).format('ll'),
     time: '',
     type: 'self-education',
     place: '',
@@ -87,7 +87,7 @@ const data = [
   },
   {
     key: '8',
-    date: moment([2020,8, 24]).format('ll'),
+    date: moment([2020, 8, 24]).format('ll'),
     time: '',
     type: 'self-education',
     place: '',
@@ -99,8 +99,8 @@ const data = [
   },
   {
     key: '9',
-    date: moment([2020,8, 25]).format('ll'),
-    time: moment({hour: 19, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 25]).format('ll'),
+    time: moment({ hour: 19, minute: 0 }).format('HH:mm'),
     type: 'faculty',
     place: '',
     name: 'Live coding макета',
@@ -111,8 +111,8 @@ const data = [
   },
   {
     key: '10',
-    date: moment([2020,8, 26]).format('ll'),
-    time: moment({hour: 18, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 26]).format('ll'),
+    time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
     type: 'test',
     place: '',
     name: 'Тест по основам Git.',
@@ -123,7 +123,7 @@ const data = [
   },
   {
     key: '11',
-    date: moment([2020,8, 28]).format('ll'),
+    date: moment([2020, 8, 28]).format('ll'),
     time: '',
     type: 'self-education',
     place: '',
@@ -135,8 +135,8 @@ const data = [
   },
   {
     key: '12',
-    date: moment([2020,8, 28]).format('ll'),
-    time: moment({hour: 12, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 28]).format('ll'),
+    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Task 2. Dynamic Landing Page',
@@ -147,8 +147,8 @@ const data = [
   },
   {
     key: '13',
-    date: moment([2020,8, 29]).format('ll'),
-    time: moment({hour: 12, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 29]).format('ll'),
+    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Singolo. Part 2 (tags, 4 and 3 columns layout)',
@@ -159,8 +159,8 @@ const data = [
   },
   {
     key: '14',
-    date: moment([2020,8, 26]).format('ll'),
-    time: moment({hour: 18, minute: 0 },).format('HH:mm'),
+    date: moment([2020, 8, 26]).format('ll'),
+    time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
     type: 'self-education',
     place: '',
     name: 'JS Data Types',

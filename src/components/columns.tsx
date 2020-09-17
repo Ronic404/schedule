@@ -63,6 +63,6 @@ export default [
     title: 'Done',
     key: 'done',
     dataIndex: 'done',
-    render: (done: boolean): ReactElement => <Checkbox  checked={done} />,
+    render: (done: boolean): ReactElement => <Checkbox checked={done} />,
   },
 ];

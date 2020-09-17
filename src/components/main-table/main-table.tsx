@@ -2,7 +2,7 @@ import React, {
   FC, ReactElement, useEffect, useState,
 } from 'react';
 import {
-  Table, Layout, Button
+  Table, Layout, Button,
 } from 'antd';
 
 import styles from './main-table.module.css';
@@ -25,28 +25,30 @@ const MainTable: FC = (): ReactElement => {
   const [hidedRows, setHidedRows] = useState<{ key: string, hided: boolean }[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
-  const [visibleData,setVisibleData] = useState<{key:string,hided:boolean,done: boolean}[]>(data)
+  // eslint-disable-next-line
+  const [visibleData, setVisibleData] = useState<{key:string, hided:boolean, done: boolean}[]>(data);
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
   };
 
-const hideClickHandle= () =>{
-  const updatedData= visibleData.filter(row => !hidedRows.some(hiddenRow => row.key === hiddenRow.key));
-  setShowHideBtn(false);
-  setVisibleData(updatedData);
-  setShowAllBtn(true);
-};
+  const hideClickHandle = () => {
+    // eslint-disable-next-line
+    const updatedData = visibleData.filter((row) => !hidedRows.some((hiddenRow) => row.key === hiddenRow.key));
+    setShowHideBtn(false);
+    setVisibleData(updatedData);
+    setShowAllBtn(true);
+  };
 
-const unhideClickHandle = ()=>{
-  setVisibleData(data);
-  setShowAllBtn(false);
-}
+  const unhideClickHandle = () => {
+    setVisibleData(data);
+    setShowAllBtn(false);
+  };
   const activeCols = () => {
-     const temp: any = [];
-     colsTitles.forEach((el) => {
+    const temp: any = [];
+    colsTitles.forEach((el) => {
       if (el.checked) temp.push(columns.find((c) => c.title === el.title));
-    })
+    });
     return temp;
   };
 
@@ -55,23 +57,21 @@ const unhideClickHandle = ()=>{
     let rowsToHide = [...hidedRows];
 
     if (el.shiftKey && el.target.classList.contains('ant-table-cell')) {
-      el.target.parentNode.classList.toggle('ant-table-row-selected')
+      el.target.parentNode.classList.toggle('ant-table-row-selected');
       if (rowsToHide.indexOf(record) !== -1) {
-        //record.hided = false;
+        // record.hided = false;
         rowsToHide.splice(rowsToHide.indexOf(record), 1);
       } else {
         rowsToHide.push(record);
         // record.hided = true;
       }
       setHidedRows(rowsToHide);
-
     }
-   
 
     if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
-      const removeStyles=document.querySelectorAll('.ant-table-row-selected');
-      removeStyles.forEach((el: any) => { el.classList.remove('ant-table-row-selected')});
-      if (rowsToHide[0]) { rowsToHide = [] } else {
+      const removeStyles = document.querySelectorAll('.ant-table-row-selected');
+      removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
+      if (rowsToHide[0]) { rowsToHide = []; } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
         //  record.hided = true;
@@ -81,15 +81,15 @@ const unhideClickHandle = ()=>{
     console.log(rowsToHide);
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
-        record.done = false;
+        // record.done = false;
         selectedRows.splice(selectedRows.indexOf(record), 1);
       } else {
         selectedRows.push(record);
-        record.done = true;
+        // record.done = true;
       }
       setCheckedRows(selectedRows);
     }
-  }
+  };
 
   useEffect(() => {
     setColsTitles(createColsTitles());
@@ -99,7 +99,6 @@ const unhideClickHandle = ()=>{
     setShowHideBtn(Boolean(hidedRows.length));
   }, [hidedRows]);
 
-
   return (
     <Layout>
       <div className={styles['btn-container']}>
@@ -107,14 +106,17 @@ const unhideClickHandle = ()=>{
           onChangeCols={(cols: { title: string, checked: boolean }[]) => changeColsHandler(cols)}
           columns={colsTitles}
         />
-      { showAllBtn?  <Button type="primary" size="small" onClick={unhideClickHandle} >SHOW HIDED</Button>
-          : null  }
-        {showHideBtn ?
-          <Button type="primary" size="small" onClick={hideClickHandle} >HIDE</Button>
+        { showAllBtn ? <Button type="primary" size="small" onClick={unhideClickHandle}>SHOW HIDED</Button>
+          : null }
+        {showHideBtn
+          ? <Button type="primary" size="small" onClick={hideClickHandle}>HIDE</Button>
           : null}
       </div>
-      <Table size="middle" columns={activeCols()} dataSource={visibleData}
-        onRow={(record) => ({ onClick: el => selectRow(record, el) })}
+      <Table
+        size="middle"
+        columns={activeCols()}
+        dataSource={visibleData}
+        onRow={(record) => ({ onClick: (el) => selectRow(record, el) })}
       />
     </Layout>
   );
