@@ -59,11 +59,11 @@ const MainTable: FC = (): ReactElement => {
     if (el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       el.target.parentNode.classList.toggle('ant-table-row-selected');
       if (rowsToHide.indexOf(record) !== -1) {
-        // record.hided = false;
+       // record.hided = false;
         rowsToHide.splice(rowsToHide.indexOf(record), 1);
       } else {
         rowsToHide.push(record);
-        // record.hided = true;
+       // record.hided = true;
       }
       setHidedRows(rowsToHide);
     }
@@ -81,11 +81,11 @@ const MainTable: FC = (): ReactElement => {
     console.log(rowsToHide);
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
-        // record.done = false;
+         record.done = false;
         selectedRows.splice(selectedRows.indexOf(record), 1);
       } else {
         selectedRows.push(record);
-        // record.done = true;
+         record.done = true;
       }
       setCheckedRows(selectedRows);
     }
