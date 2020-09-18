@@ -1,9 +1,23 @@
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
-const data = [
+interface Item {
+  key: string,
+  date?: string | Moment,
+  time: string,
+  type: string,
+  place: string,
+  name: string,
+  organizer: string,
+  comment: string,
+  done?: boolean,
+}
+
+const dateFormat = 'YYYY/MM/DD';
+
+const data: Item[] = [
   {
     key: '1',
-    date: moment().format('ll'),
+    date: moment('2015/01/01', dateFormat),
     time: moment().format('LT'),
     type: 'test',
     place: 'ddddd',
@@ -14,7 +28,7 @@ const data = [
   },
   {
     key: '2',
-    date: moment().format('ll'),
+    date: moment('2015/01/01', dateFormat),
     time: moment().format('LT'),
     type: 'start',
     place: 'ddddd',
@@ -25,7 +39,7 @@ const data = [
   },
   {
     key: '3',
-    date: moment().format('ll'),
+    date: moment('2015/01/01', dateFormat),
     time: moment().format('LT'),
     type: 'stream',
     place: 'ddddd',

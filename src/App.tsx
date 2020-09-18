@@ -6,7 +6,7 @@ import Header from './components/header';
 import styles from './App.module.css';
 
 import TableContainer from './components/table-container';
-import CreateTask from './components/create-task';
+// import CreateTask from './components/create-task';
 import TableHeader from './components/table-header';
 
 const { Content } = Layout;
@@ -19,7 +19,7 @@ const App: FC = (): ReactElement => (
     </div>
     <Content>
       <TableContainer />
-      <CreateTask />
+      {/* <CreateTask /> */}
     </Content>
   </Layout>
 );
