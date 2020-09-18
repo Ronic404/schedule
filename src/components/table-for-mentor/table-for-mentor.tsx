@@ -6,6 +6,8 @@ import {
 import allData from '../data';
 import allCols from '../columns';
 
+const dateFormat = 'DD-MM-YYYY';
+
 interface Item {
     key: string,
     date?: any,
@@ -41,12 +43,21 @@ const createOriginData = () => {
 const originData = createOriginData();
 
 const mapDateToString = (data: Item[]) => {
-  const [...tempData] = data;
-  return tempData.map((el) => {
-    const { ...temp } = el;
-    temp.date = temp.date?.toLocaleString();
-    return temp;
-  });
+  try {
+    const [...tempData] = data;
+    return tempData.map((el) => {
+      const { ...temp } = el;
+      temp.date = temp.date?.format(dateFormat);
+      return temp;
+    });
+  } catch {
+    const [...tempData] = data;
+    return tempData.map((el) => {
+      const { ...temp } = el;
+      temp.date = temp.date?.toString();
+      return temp;
+    });
+  }
 };
 
 const mapStringToDate = () => {
@@ -82,11 +93,11 @@ const EditableTable = () => {
 
   function onChange(date: any, dateString: any) {
     console.log('date', dateString);
-    setDateStr(dateString)
+    setDateStr(dateString);
   }
 
   const chooseInputNode = (type: any) => {
-    if (type === 'Date') return <DatePicker onChange={onChange} />;
+    if (type === 'Date') return <DatePicker onChange={onChange} format="DD-MM-YYYY" />;
     return <Input />;
   };
 
@@ -148,7 +159,7 @@ const EditableTable = () => {
     console.log('data', data);
     const record = data.find((el) => typeof el.date === 'object');
     console.log('record', record);
-    console.log('key', editingKey)
+    console.log('key', editingKey);
     if (record) edit(record);
   }, [data]);
 
@@ -181,7 +192,7 @@ const EditableTable = () => {
         row.date = dateStr;
         console.log('item', item);
         newData.splice(index, 1, { ...item, ...row });
-        console.log('new data', row)
+        console.log('new data', row);
         setData(newData);
         setEditingKey('');
       } else {
@@ -209,7 +220,7 @@ const EditableTable = () => {
     },
     {
       title: 'Type',
-      dataIndex: 'address',
+      dataIndex: 'type',
       editable: true,
       inputType: 'text',
     },

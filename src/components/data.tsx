@@ -12,12 +12,12 @@ interface Item {
   done?: boolean,
 }
 
-const dateFormat = 'YYYY/MM/DD';
+const dateFormat = 'DD-MM-YYYY';
 
 const data: Item[] = [
   {
     key: '1',
-    date: moment('2015/01/01', dateFormat),
+    date: moment('01/01/2015', dateFormat),
     time: moment().format('LT'),
     type: 'test',
     place: 'ddddd',
@@ -28,7 +28,7 @@ const data: Item[] = [
   },
   {
     key: '2',
-    date: moment('2015/01/01', dateFormat),
+    date: moment('01/01/2015', dateFormat),
     time: moment().format('LT'),
     type: 'start',
     place: 'ddddd',
@@ -39,7 +39,7 @@ const data: Item[] = [
   },
   {
     key: '3',
-    date: moment('2015/01/01', dateFormat),
+    date: moment('01/01/2015', dateFormat),
     time: moment().format('LT'),
     type: 'stream',
     place: 'ddddd',
