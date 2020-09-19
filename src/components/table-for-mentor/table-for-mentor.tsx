@@ -26,6 +26,7 @@ interface Item {
     organizer: string,
     comment: string,
     done?: boolean,
+    hided?: boolean,
 }
 
 interface Column {

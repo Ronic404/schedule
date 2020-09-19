@@ -1,0 +1,28 @@
+.list {
+  margin: 10px 20px;
+}
+
+.item {
+  width: 25%;
+}
+
+@media screen and (max-width: 1000px) {
+  .item {
+    justify-content: flex-start;
+    width: 33.3333%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .item {
+    justify-content: flex-start;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .item {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}

@@ -18,13 +18,11 @@ export default [
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
-    editable: true,
   },
   {
     title: 'Time',
     dataIndex: 'time',
     key: 'time',
-    editable: true,
   },
   {
     title: 'Type',
@@ -39,38 +37,32 @@ export default [
     ),
     filters: filterTypes(),
     onFilter: (value: any, record: any): boolean => record.type.indexOf(value) === 0,
-    editable: true,
   },
   {
     title: 'Place',
     key: 'place',
     dataIndex: 'place',
-    editable: true,
   },
   {
     title: 'Name',
     key: 'name',
     dataIndex: 'name',
-    editable: true,
   },
   {
     title: 'Organizer',
     key: 'organizer',
     dataIndex: 'organizer',
     render: (name: string): ReactElement => <OrganizerCell name={name} />,
-    editable: true,
   },
   {
     title: 'Comment',
     key: 'comment',
     dataIndex: 'comment',
-    editable: true,
   },
   {
     title: 'Done',
     key: 'done',
     dataIndex: 'done',
     render: (done: boolean): ReactElement => <Checkbox checked={done} />,
-    editable: true,
   },
 ];
