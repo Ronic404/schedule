@@ -9,6 +9,7 @@ import styles from './table-for-mentor.module.css';
 import allCols from '../columns';
 import allData from '../data';
 import allTypes from '../task-types';
+import OrganizerCell from '../organizer-cell';
 
 const { Option } = Select;
 
@@ -226,6 +227,11 @@ const EditableTable: FC = (): ReactElement => {
       );
       return temp;
     }
+    if (el.title === 'Organizer') {
+      const { ...temp } = el;
+      temp.render = ((org: string) => <OrganizerCell name={org} />);
+      return temp;
+    }
     return el;
   });
 
@@ -277,6 +283,7 @@ const EditableTable: FC = (): ReactElement => {
     <>
       <Form form={form} component={false}>
         <Table
+          size="middle"
           components={{
             body: {
               cell: EditableCell,
