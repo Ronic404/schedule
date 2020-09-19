@@ -6,7 +6,7 @@ import taskTypes from '../task-types';
 
 import styles from './list-structure.module.css';
 
-export default function ListStructure(): ReactElement {
+export default function ListContainer(): ReactElement {
   return (
     <Card className={styles.list} title="Tasks list" bodyStyle={{ padding: 0 }}>
       <List

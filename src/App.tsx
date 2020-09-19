@@ -9,7 +9,7 @@ import Header from './components/header';
 import TableContainer from './components/table-container';
 import CreateTask from './components/create-task';
 import TableHeader from './components/table-header';
-import ListStructure from './components/list-structure';
+import ListContainer from './components/list-container';
 
 const { Content } = Layout;
 
@@ -21,7 +21,7 @@ const App: FC = ({ types }:any): ReactElement => {
       viewTasks = <TableContainer />;
       break;
     case 'List':
-      viewTasks = <ListStructure />;
+      viewTasks = <ListContainer />;
       break;
     case 'Calendar':
       viewTasks = <CreateTask />;

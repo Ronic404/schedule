@@ -7,7 +7,6 @@ const initialState: stateType = {
 };
 
 const typeReducer = (state: stateType = initialState, action: any): stateType => {
-  console.log('Мой редюсер');
   switch (action.type) {
     case 'CHANGE_TYPE':
       return { ...state, type: action.payload };

@@ -18,7 +18,6 @@ import HeaderButton from '../header-button/header-button';
 
 const TableHeader: FC<any> = ({ changeType }): ReactElement => {
   const typeChange = (el:any):void => {
-    console.log(changeType(el));
     changeType(el);
   };
 
