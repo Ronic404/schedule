@@ -45,7 +45,6 @@ const dateCellRender = (value : Moment): ReactElement => {
       </ul>
     );
 }
-
   
 const CalendarSchedule: FC = (): ReactElement => {
     return (
