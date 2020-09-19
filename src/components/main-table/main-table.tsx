@@ -62,11 +62,10 @@ const MainTable: FC = (): ReactElement => {
     if (el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       el.target.parentNode.classList.toggle('ant-table-row-selected');
       if (rowsToHide.indexOf(record) !== -1) {
-       // record.hided = false;
         rowsToHide.splice(rowsToHide.indexOf(record), 1);
       } else {
         rowsToHide.push(record);
-       // record.hided = true;
+
       }
       setHidedRows(rowsToHide);
     }
@@ -74,21 +73,22 @@ const MainTable: FC = (): ReactElement => {
     if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       const removeStyles = document.querySelectorAll('.ant-table-row-selected');
       removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
-      if (rowsToHide[0]) { rowsToHide = []; } else {
+      if (rowsToHide.length) 
+      { rowsToHide = []; }
+       else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
-        //  record.hided = true;
       }
       setHidedRows(rowsToHide);
     }
     console.log(rowsToHide);
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
-         record.done = false;
+        record.done = false;
         selectedRows.splice(selectedRows.indexOf(record), 1);
       } else {
         selectedRows.push(record);
-         record.done = true;
+        record.done = true;
       }
       setCheckedRows(selectedRows);
     }
@@ -109,11 +109,8 @@ const MainTable: FC = (): ReactElement => {
           onChangeCols={(cols: { title: string, checked: boolean }[]) => changeColsHandler(cols)}
           columns={colsTitles}
         />
-        {showAllBtn ? <Button  onClick={unhideClickHandle}>Show Hided</Button>
-          : null}
-        {showHideBtn
-          ? <Button onClick={hideClickHandle}>Hide</Button>
-          : null}
+        {showAllBtn && <Button onClick={unhideClickHandle}>Show Hided</Button>}
+        {showHideBtn && <Button onClick={hideClickHandle}>Hide</Button>}
       </div>
       <Table
        rowClassName={record => (moment(record.dateTime).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
