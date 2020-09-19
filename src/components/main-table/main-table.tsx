@@ -9,6 +9,7 @@ import styles from './main-table.module.css';
 import ColsSelector from '../cols-selector';
 import columns from '../columns';
 import data from '../data';
+import moment from 'moment-timezone'; 
 
 const createColsTitles = () => {
   const temp: { title: string, checked: boolean }[] = [];
@@ -25,8 +26,9 @@ const MainTable: FC = (): ReactElement => {
   const [hidedRows, setHidedRows] = useState<{ key: string, hided: boolean }[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
+  const startOfToday = moment().startOf('day');
   // eslint-disable-next-line
-  const [visibleData, setVisibleData] = useState<{ key: string, hided: boolean, done: boolean }[]>(data);
+  const [visibleData, setVisibleData] = useState<{ key: string, hided: boolean, done: boolean, dateTime: moment.Moment }[]>(data);
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
@@ -44,6 +46,7 @@ const MainTable: FC = (): ReactElement => {
     setVisibleData(data);
     setShowAllBtn(false);
   };
+
   const activeCols = () => {
     const temp: any = [];
     colsTitles.forEach((el) => {
@@ -113,6 +116,7 @@ const MainTable: FC = (): ReactElement => {
           : null}
       </div>
       <Table
+       rowClassName={record => (moment(record.dateTime).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
         size="middle"
         columns={activeCols()}
         dataSource={visibleData}

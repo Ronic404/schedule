@@ -2,7 +2,6 @@ import { IEvent, IOrganizer } from '../interfaces';
 
 class ScheduleService {
   apiBase = 'https://rs-react-schedule.firebaseapp.com/api/team/team19';
-
   async getResource(url: string): Promise<any> {
     const res = await fetch(`${this.apiBase}${url}`);
 

@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { Tag, Checkbox } from 'antd';
 import OrganizerCell from './organizer-cell';
 import taskTypes from './task-types';
+import moment from 'moment-timezone'; 
 
 const filterTypes = () => {
   const [...typesArray] = taskTypes;
@@ -13,16 +14,32 @@ const filterTypes = () => {
   return temp;
 };
 
+const dateRenderer = (timeZone: string) => (value: string) =>
+  value
+    ? moment(value, 'YYYY-MM-DD HH:mmZ')
+        .tz(timeZone)
+        .format('ll')
+    : '';
+
+const timeRenderer = (timeZone: string) => (value: string) =>
+  value
+    ? moment(value, 'YYYY-MM-DD HH:mmZ')
+        .tz(timeZone)
+        .format('HH:mm')
+    : '';
+
 export default [
   {
     title: 'Date',
-    dataIndex: 'date',
+    dataIndex: 'dateTime',
     key: 'date',
+    render: dateRenderer('Europe/Minsk'),
   },
   {
     title: 'Time',
-    dataIndex: 'time',
+    dataIndex: 'dateTime',
     key: 'time',
+    render: timeRenderer('Europe/Minsk'),
   },
   {
     title: 'Type',
