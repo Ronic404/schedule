@@ -165,14 +165,14 @@ const EditableTable: FC = (): ReactElement => {
       ...record,
     });
   };
-
+  /* eslint-disable */
   useEffect(() => {
     const record = data.find((el) => typeof el.date === 'object');
     if (record) {
       edit(record);
     }
   }, [data]);
-
+  /* eslint-enable */
   const editHandler = (record: Item) => {
     const temp = originData.map((el, i) => {
       if ((i + 1).toString() !== record.key) {
