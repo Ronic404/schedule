@@ -3,7 +3,7 @@ import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/ico
 import { connect } from 'react-redux';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
-import changeType from '../../actions/change-type';
+import { changeType } from '../../actions';
 
 import {
   locations,
