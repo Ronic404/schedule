@@ -13,8 +13,6 @@ interface Item {
   hided?: boolean,
 }
 
-// const dateFormat = 'DD-MM-YYYY';
-
 const data: Item[] = [
   {
     key: '1',
