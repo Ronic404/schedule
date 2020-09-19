@@ -18,7 +18,7 @@ const taskTypes: taskTypesArray[] = [
   {
     text: 'Self-education',
     value: 'self-education',
-    color: '#FCFF6A',
+    color: '#f9d800',
   },
   {
     text: 'Test',
