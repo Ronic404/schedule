@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  FC, ReactElement, useEffect, useRef, useState,
+} from 'react';
 import {
   Table, Input, Popconfirm, Form, DatePicker, Select, Tag,
 } from 'antd';
 
 import allData from '../data';
-import allCols from '../columns';
 import allTypes from '../task-types';
 
 const { Option } = Select;
@@ -63,19 +64,7 @@ const mapDateToString = (data: Item[]) => {
   }
 };
 
-const createCols = () => {
-  const [...columns] = allCols;
-  const temp = columns.map((data) => {
-    const { ...newTemp } = data;
-    delete newTemp.render;
-    delete newTemp.filters;
-    delete newTemp.onFilter;
-    return newTemp;
-  });
-  return temp;
-};
-
-const EditableTable = () => {
+const EditableTable: FC = (): ReactElement => {
   const [form] = Form.useForm();
   const [data, setData] = useState(mapDateToString(originData));
   const [editingKey, setEditingKey] = useState('');
@@ -152,16 +141,8 @@ const EditableTable = () => {
 
   const edit = (record: Item) => {
     form.setFieldsValue({
-    //   date: '',
-    //   time: '',
-    //   type: '',
-    //   place: '',
-    //   name: '',
-    //   organizer: '',
-    //   comment: '',
       ...record,
     });
-    // setEditingKey(record.key);
   };
 
   useEffect(() => {
