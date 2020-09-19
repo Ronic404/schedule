@@ -1,28 +1,24 @@
 import React, { ReactElement } from 'react';
 import { Select } from 'antd';
-import { connect } from 'react-redux';
 import { IOptionItem } from '../../interfaces';
-import changeType from '../../actions/change-type';
 
 import styles from './dropbox.module.css';
 
 type DropboxProps = {
     items: Array<IOptionItem>,
     defaultIndex: number,
-    componentClassName?: string
+    componentClassName?: string,
+    handler?: any,
 }
 
-const Dropbox = ({ items, defaultIndex, componentClassName = '' } : DropboxProps): ReactElement => {
+const Dropbox = ({
+  items, defaultIndex, componentClassName = '', handler,
+} : DropboxProps): ReactElement => {
   const { Option } = Select;
-
-  const changeHandler = (el:any):string => {
-    console.log(el);
-    return el;
-  };
 
   return (
     <Select
-      onChange={changeHandler}
+      onChange={handler}
       defaultValue={items[defaultIndex].name}
       className={styles[componentClassName]}
     >
@@ -35,10 +31,7 @@ const Dropbox = ({ items, defaultIndex, componentClassName = '' } : DropboxProps
 
 Dropbox.defaultProps = {
   componentClassName: '',
+  handler: '',
 };
 
-const mapDispatchToProps = {
-  changeType,
-};
-
-export default connect(null, mapDispatchToProps)(Dropbox);
+export default Dropbox;
