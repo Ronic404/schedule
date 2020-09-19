@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import { Layout, Calendar, Tag } from 'antd';
 
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import data from '../data';
 import taskTypes from '../task-types';
 
@@ -22,11 +22,10 @@ type list = {
 
 const getListData = (value: Moment): Array<list> => {
   const listData = data.filter((el) => {
-    const day = el.date.substring(
-      el.date.indexOf(' ') + 1,
-      el.date.indexOf(','),
-    );
-    return parseInt(day, 10) === value.date();
+    const date = moment(el.date); 
+    return date.date() === value.date() 
+      && date.month() === value.month() 
+      && date.year() === value.year();
   });
   const newArr = listData.map((item: list) => ({
     ...item,
