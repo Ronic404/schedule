@@ -8,7 +8,6 @@ import CalendarSchedule from '../calendar-schedule';
 const TableContainer: FC = (): ReactElement => (
   <section className={styles['table-container']}>
     <MainTable />
-    <CalendarSchedule />
   </section>
 );
 

@@ -10,6 +10,7 @@ import TableContainer from './components/table-container';
 import CreateTask from './components/create-task';
 import TableHeader from './components/table-header';
 import ListContainer from './components/list-container';
+import CalendarSchedule from './components/calendar-schedule';
 
 const { Content } = Layout;
 
@@ -24,7 +25,7 @@ const App: FC = ({ types }:any): ReactElement => {
       viewTasks = <ListContainer />;
       break;
     case 'Calendar':
-      viewTasks = <CreateTask />;
+      viewTasks = <CalendarSchedule />;
       break;
     default:
       viewTasks = <TableContainer />;
