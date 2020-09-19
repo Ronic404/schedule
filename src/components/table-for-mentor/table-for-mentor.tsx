@@ -4,6 +4,7 @@ import React, {
 import {
   Table, Input, Popconfirm, Form, DatePicker, Select, Tag,
 } from 'antd';
+import moment from 'moment';
 
 import styles from './table-for-mentor.module.css';
 import allCols from '../columns';
@@ -92,14 +93,14 @@ const EditableTable: FC = (): ReactElement => {
   const [data, setData] = useState(mapDateToString(originData));
   const [editingKey, setEditingKey] = useState('');
   const [dateStr, setDateStr] = useState('');
-  const typeRef = useRef('');
+  const rowRef = useRef({ type: '', organizer: '' });
 
   function onDateChange(date: any, dateString: string) {
     setDateStr(dateString);
   }
 
   function onTypeChange(type: string) {
-    typeRef.current = type;
+    rowRef.current.type = type;
   }
 
   const chooseInputNode = (title: string) => {
@@ -107,7 +108,7 @@ const EditableTable: FC = (): ReactElement => {
     if (title === 'Type') {
       return (
         <Input.Group compact>
-          <Select onChange={onTypeChange} defaultValue={typeRef.current}>
+          <Select onChange={onTypeChange} defaultValue={rowRef.current.type}>
             {allTypes.map((type) => (
               <Option
                 key={type.value}
@@ -167,7 +168,9 @@ const EditableTable: FC = (): ReactElement => {
 
   useEffect(() => {
     const record = data.find((el) => typeof el.date === 'object');
-    if (record) edit(record);
+    if (record) {
+      edit(record);
+    }
   }, [data]);
 
   const editHandler = (record: Item) => {
@@ -183,25 +186,39 @@ const EditableTable: FC = (): ReactElement => {
     setData(temp);
     setEditingKey(record.key);
     setDateStr(record.date);
-    typeRef.current = record.type;
+    rowRef.current.type = record.type;
   };
 
   const cancel = () => {
     setEditingKey('');
+    let dataToMap = data.filter((el) => typeof el.date === 'object');
+    dataToMap = mapDateToString(dataToMap);
+    const newData = data.map((el) => {
+      if (el.key === dataToMap[0].key) return dataToMap[0];
+      return el;
+    });
+    setData(newData);
   };
 
   const save = async (key: string) => {
     try {
       const row = (await form.validateFields()) as Item;
+      const originRow = (await form.validateFields()) as Item;
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         const item: Item = newData[index];
+        const originItem: Item = originData[index];
         item.date = dateStr;
+        originItem.date = moment(dateStr, dateFormat);
         row.date = dateStr;
-        item.type = typeRef.current;
-        row.type = typeRef.current;
+        originRow.date = moment(dateStr, dateFormat);
+        item.type = rowRef.current.type;
+        originItem.type = rowRef.current.type;
+        row.type = rowRef.current.type;
+        originRow.type = rowRef.current.type;
         newData.splice(index, 1, { ...item, ...row });
+        originData.splice(index, 1, { ...originItem, ...originRow });
         setData(newData);
         setEditingKey('');
       } else {
