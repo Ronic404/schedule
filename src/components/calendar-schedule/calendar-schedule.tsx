@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import { Layout, Calendar, Badge } from 'antd';
+import { Layout, Calendar, Badge, Tag } from 'antd';
 
 import data from '../data';
 import taskTypes from '../task-types';
@@ -38,8 +38,11 @@ const dateCellRender = (value : Moment): ReactElement => {
     return (
       <ul className={styles['calendar__cell']}>
         {listData.map((item: list) => (
-          <li key={item.key}>
-            <Badge color={item.color} text={item.name} />
+          <li key={item.key} className={styles['calendar__list-item']}>
+            <Tag color={taskTypes.find((task) => task.value === item.type)?.color}>
+              {item.type.toUpperCase()}
+            </Tag>
+            <span>{item.name}</span>
           </li>
         ))}
       </ul>
