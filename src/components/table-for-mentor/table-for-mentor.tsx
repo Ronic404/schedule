@@ -51,6 +51,7 @@ const createOriginData = () => {
   const temp = originData.map((data) => {
     const { ...newTemp } = data;
     delete newTemp.done;
+    delete newTemp.hided;
     return newTemp;
   });
   return temp;
