@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Table, Input, InputNumber, Popconfirm, Form, DatePicker, Button,
+  Table, Input, Popconfirm, Form, DatePicker, Select, Tag,
 } from 'antd';
 
 import allData from '../data';
 import allCols from '../columns';
+import allTypes from '../task-types';
+
+const { Option } = Select;
 
 const dateFormat = 'DD-MM-YYYY';
 
@@ -23,8 +26,8 @@ interface Item {
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
     dataIndex: string;
-    title: any;
-    inputType: any;
+    title: string;
+    inputType: string;
     record: Item;
     index: number;
     children: React.ReactNode;
@@ -60,10 +63,6 @@ const mapDateToString = (data: Item[]) => {
   }
 };
 
-const mapStringToDate = () => {
-
-};
-
 const createCols = () => {
   const [...columns] = allCols;
   const temp = columns.map((data) => {
@@ -76,28 +75,40 @@ const createCols = () => {
   return temp;
 };
 
-// for (let i = 0; i < 100; i += 1) {
-//   originData.push({
-//     key: i.toString(),
-//     name: `Edrward ${i}`,
-//     age: 32,
-//     address: `London Park no. ${i}`,
-//   });
-// }
-
 const EditableTable = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState(mapDateToString(originData));
   const [editingKey, setEditingKey] = useState('');
   const [dateStr, setDateStr] = useState('');
+  const typeRef = useRef('');
 
-  function onChange(date: any, dateString: any) {
-    console.log('date', dateString);
+  function onDateChange(date: any, dateString: string) {
     setDateStr(dateString);
   }
 
-  const chooseInputNode = (type: any) => {
-    if (type === 'Date') return <DatePicker onChange={onChange} format="DD-MM-YYYY" />;
+  function onTypeChange(type: string) {
+    typeRef.current = type;
+  }
+
+  const chooseInputNode = (title: string, record: Item) => {
+    if (title === 'Date') return <DatePicker onChange={onDateChange} format="DD-MM-YYYY" />;
+    if (title === 'Type') {
+      return (
+        <Input.Group compact>
+          <Select onChange={onTypeChange} defaultValue={record.type}>
+            {allTypes.map((type) => (
+              <Option
+                key={type.value}
+                value={type.value}
+              >
+                {/* {type.value} */}
+                <Tag color={type.color} key={type.value}>{type.value.toUpperCase()}</Tag>
+              </Option>
+            ))}
+          </Select>
+        </Input.Group>
+      );
+    }
     return <Input />;
   };
 
@@ -111,7 +122,7 @@ const EditableTable = () => {
     children,
     ...restProps
   }: EditableCellProps) => {
-    const inputNode = chooseInputNode(inputType);
+    const inputNode = chooseInputNode(title, record);
     return (
       // eslint-disable-next-line
       <td {...restProps}>
@@ -139,8 +150,6 @@ const EditableTable = () => {
 
   const isEditing = (record: Item) => record.key === editingKey;
 
-  //   console.log('origin', mapDateToString(originData), 'to string', originData);
-
   const edit = (record: Item) => {
     form.setFieldsValue({
     //   date: '',
@@ -156,10 +165,7 @@ const EditableTable = () => {
   };
 
   useEffect(() => {
-    console.log('data', data);
     const record = data.find((el) => typeof el.date === 'object');
-    console.log('record', record);
-    console.log('key', editingKey);
     if (record) edit(record);
   }, [data]);
 
@@ -175,6 +181,7 @@ const EditableTable = () => {
     });
     setData(temp);
     setEditingKey(record.key);
+    setDateStr(record.date);
   };
 
   const cancel = () => {
@@ -190,9 +197,9 @@ const EditableTable = () => {
         const item: Item = newData[index];
         item.date = dateStr;
         row.date = dateStr;
-        console.log('item', item);
+        item.type = typeRef.current;
+        row.type = typeRef.current;
         newData.splice(index, 1, { ...item, ...row });
-        console.log('new data', row);
         setData(newData);
         setEditingKey('');
       } else {
@@ -223,6 +230,13 @@ const EditableTable = () => {
       dataIndex: 'type',
       editable: true,
       inputType: 'text',
+      render: (type: string) => (
+        <Tag
+          color={allTypes.find((t) => t.value === type)?.color}
+        >
+          {type.toUpperCase()}
+        </Tag>
+      ),
     },
     {
       title: 'Place',
@@ -295,7 +309,6 @@ const EditableTable = () => {
   });
   return (
     <>
-      {/* <Button type="default" style={{ marginBottom: 20 }} onClick={editHandler}>Edit</Button> */}
       <Form form={form} component={false}>
         <Table
           components={{
