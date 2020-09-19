@@ -308,7 +308,6 @@ const EditableTable: FC = (): ReactElement => {
               cell: EditableCell,
             },
           }}
-          bordered
           dataSource={data}
           columns={mergedColumns}
           rowClassName="editable-row"
