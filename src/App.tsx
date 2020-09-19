@@ -14,7 +14,21 @@ import ListStructure from './components/list-structure';
 const { Content } = Layout;
 
 const App: FC = ({ types }:any): ReactElement => {
-  console.log(`Этот тип передаётся в APP: ${types}`);
+  let viewTasks;
+
+  switch (types) {
+    case 'Table':
+      viewTasks = <TableContainer />;
+      break;
+    case 'List':
+      viewTasks = <ListStructure />;
+      break;
+    case 'Calendar':
+      viewTasks = <CreateTask />;
+      break;
+    default:
+      viewTasks = <TableContainer />;
+  }
 
   return (
     <Layout>
@@ -23,9 +37,7 @@ const App: FC = ({ types }:any): ReactElement => {
         <TableHeader />
       </div>
       <Content>
-        <TableContainer />
-        <ListStructure />
-        <CreateTask />
+        {viewTasks}
       </Content>
     </Layout>
   );
