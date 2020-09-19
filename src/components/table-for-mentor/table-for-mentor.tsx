@@ -5,6 +5,8 @@ import {
   Table, Input, Popconfirm, Form, DatePicker, Select, Tag,
 } from 'antd';
 
+import styles from './table-for-mentor.module.css';
+import allCols from '../columns';
 import allData from '../data';
 import allTypes from '../task-types';
 
@@ -24,11 +26,18 @@ interface Item {
     done?: boolean,
 }
 
+interface Column {
+    key?: string,
+    title: string,
+    dataIndex: string,
+    editable?: boolean,
+    render?: any
+}
+
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
     dataIndex: string;
     title: string;
-    inputType: string;
     record: Item;
     index: number;
     children: React.ReactNode;
@@ -45,6 +54,19 @@ const createOriginData = () => {
 };
 
 const originData = createOriginData();
+
+const createCols = (): Column[] => {
+  const tempCols = [...allCols];
+  const temp = tempCols.map((data) => {
+    const { ...newTemp } = data;
+    delete newTemp.render;
+    delete newTemp.filters;
+    delete newTemp.onFilter;
+    return newTemp;
+  });
+  temp.pop();
+  return temp;
+};
 
 const mapDateToString = (data: Item[]) => {
   try {
@@ -79,18 +101,17 @@ const EditableTable: FC = (): ReactElement => {
     typeRef.current = type;
   }
 
-  const chooseInputNode = (title: string, record: Item) => {
+  const chooseInputNode = (title: string) => {
     if (title === 'Date') return <DatePicker onChange={onDateChange} format="DD-MM-YYYY" />;
     if (title === 'Type') {
       return (
         <Input.Group compact>
-          <Select onChange={onTypeChange} defaultValue={record.type}>
+          <Select onChange={onTypeChange} defaultValue={typeRef.current}>
             {allTypes.map((type) => (
               <Option
                 key={type.value}
                 value={type.value}
               >
-                {/* {type.value} */}
                 <Tag color={type.color} key={type.value}>{type.value.toUpperCase()}</Tag>
               </Option>
             ))}
@@ -105,13 +126,11 @@ const EditableTable: FC = (): ReactElement => {
     editing,
     dataIndex,
     title,
-    inputType,
     record,
-    index,
     children,
     ...restProps
   }: EditableCellProps) => {
-    const inputNode = chooseInputNode(title, record);
+    const inputNode = chooseInputNode(title);
     return (
       // eslint-disable-next-line
       <td {...restProps}>
@@ -163,6 +182,7 @@ const EditableTable: FC = (): ReactElement => {
     setData(temp);
     setEditingKey(record.key);
     setDateStr(record.date);
+    typeRef.current = record.type;
   };
 
   const cancel = () => {
@@ -193,86 +213,52 @@ const EditableTable: FC = (): ReactElement => {
     }
   };
 
-  const columns = [
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      editable: true,
-      inputType: 'Date',
-    },
-    {
-      title: 'Time',
-      dataIndex: 'time',
-      editable: true,
-      inputType: 'text',
-    },
-    {
-      title: 'Type',
-      dataIndex: 'type',
-      editable: true,
-      inputType: 'text',
-      render: (type: string) => (
+  let newCols: Column[] = [...createCols()];
+  newCols = newCols.map((el) => {
+    if (el.title === 'Type') {
+      const { ...temp } = el;
+      temp.render = (type: string) => (
         <Tag
           color={allTypes.find((t) => t.value === type)?.color}
         >
           {type.toUpperCase()}
         </Tag>
-      ),
-    },
-    {
-      title: 'Place',
-      dataIndex: 'place',
-      editable: true,
-      inputType: 'text',
-    },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      editable: true,
-      inputType: 'text',
-    },
-    {
-      title: 'Organizer',
-      dataIndex: 'organizer',
-      editable: true,
-      inputType: 'text',
-    },
-    {
-      title: 'Comment',
-      dataIndex: 'comment',
-      editable: true,
-      inputType: 'text',
-    },
+      );
+      return temp;
+    }
+    return el;
+  });
 
-    {
-      title: 'operation',
-      dataIndex: 'operation',
-      render: (_: any, record: Item) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <button
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-              type="button"
-            >
-              Save
-            </button>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <button type="button">Cancel</button>
-            </Popconfirm>
-          </span>
-        ) : (
-          <button disabled={editingKey !== ''} onClick={() => editHandler(record)} type="button">
-            Edit
+  newCols.push({
+    title: 'Operation',
+    dataIndex: 'operation',
+    render: (_: any, record: Item) => {
+      const editable = isEditing(record);
+      return editable ? (
+        <span>
+          <button
+            onClick={() => save(record.key)}
+            style={{
+              marginRight: 8,
+            }}
+            className={styles.button}
+            type="button"
+          >
+            Save
           </button>
-        );
-      },
+          <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+            <button className={styles.button} type="button">Cancel</button>
+          </Popconfirm>
+        </span>
+      ) : (
+        <button disabled={editingKey !== ''} className={styles.button} onClick={() => editHandler(record)} type="button">
+          Edit
+        </button>
+      );
     },
-  ];
-  const mergedColumns = columns.map((col) => {
+  });
+
+  const mergedColumns = newCols.map((col) => {
     if (!col.editable) {
       return col;
     }
@@ -281,7 +267,6 @@ const EditableTable: FC = (): ReactElement => {
       ...col,
       onCell: (record: Item) => ({
         record,
-        inputType: col.inputType,
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
