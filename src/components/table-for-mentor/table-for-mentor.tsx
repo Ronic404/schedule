@@ -136,6 +136,13 @@ const EditableTable: FC = (): ReactElement => {
     ...restProps
   }: EditableCellProps) => {
     const inputNode = chooseInputNode(title);
+    const chooseRequire = () => {
+      if (title === 'Place' || title === 'Comment') {
+        return false;
+      }
+      return true;
+    };
+
     return (
       // eslint-disable-next-line
       <td {...restProps}>
@@ -147,7 +154,7 @@ const EditableTable: FC = (): ReactElement => {
             }}
             rules={[
               {
-                required: true,
+                required: chooseRequire(),
                 message: `Please Input ${title}!`,
               },
             ]}
