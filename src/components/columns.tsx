@@ -28,18 +28,18 @@ const timeRenderer = (timeZone: string) => (value: string) =>
         .format('HH:mm')
     : '';
 
-export default [
+export const getColumnDefs = (timezone: string) =>([
   {
     title: 'Date',
     dataIndex: 'dateTime',
     key: 'date',
-    render: dateRenderer('Europe/Minsk'),
+    render: dateRenderer(timezone),
   },
   {
     title: 'Time',
     dataIndex: 'dateTime',
     key: 'time',
-    render: timeRenderer('Europe/Minsk'),
+    render: timeRenderer(timezone),
   },
   {
     title: 'Type',
@@ -82,4 +82,4 @@ export default [
     dataIndex: 'done',
     render: (done: boolean): ReactElement => <Checkbox checked={done} />,
   },
-];
+])

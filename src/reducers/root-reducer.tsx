@@ -4,7 +4,8 @@ import timezoneReducer from './timezone-reducer';
 import index from './index';
 
 const rootReducer = combineReducers({
-  types: typeReducer,timezoneReducer,
+  types: typeReducer,
+  timezone: timezoneReducer,
   index,
 });
 

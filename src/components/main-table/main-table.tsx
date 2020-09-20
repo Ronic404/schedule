@@ -1,31 +1,33 @@
 import React, {
-  FC, ReactElement, useEffect, useState,
+  FC, useEffect, useState,
 } from 'react';
 import {
   Table, Layout, Button,
 } from 'antd';
-
+import { connect } from 'react-redux';
 import styles from './main-table.module.css';
 import ColsSelector from '../cols-selector';
-import columns from '../columns';
+import {getColumnDefs} from '../columns';
 import data from '../data';
 import moment from 'moment-timezone'; 
 
-const createColsTitles = () => {
+const createColsTitles = (columns: any) => {
+
   const temp: { title: string, checked: boolean }[] = [];
   const [...titles] = columns;
-  titles.forEach((col) => {
+  titles.forEach((col:any) => {
     temp.push({ title: col.title, checked: true });
   });
   return temp;
 };
 
-const MainTable: FC = (): ReactElement => {
+const MainTable: FC<{timezone: string}> = ({timezone}) => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<{ key: string, done: boolean }[]>([]);
   const [hidedRows, setHidedRows] = useState<{ key: string, hided: boolean }[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
+  const [columns,setColumns]= useState(getColumnDefs(timezone));
   const startOfToday = moment().startOf('day');
   // eslint-disable-next-line
   const [visibleData, setVisibleData] = useState<{ key: string, hided: boolean, done: boolean, dateTime: moment.Moment }[]>(data);
@@ -81,7 +83,7 @@ const MainTable: FC = (): ReactElement => {
       }
       setHidedRows(rowsToHide);
     }
-    console.log(rowsToHide);
+  
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
         record.done = false;
@@ -94,10 +96,12 @@ const MainTable: FC = (): ReactElement => {
     }
   };
 
-  useEffect(() => {
-    setColsTitles(createColsTitles());
-  }, []);
-
+useEffect(() => {
+  const newColumns = getColumnDefs(timezone);
+  setColumns(newColumns);
+  setColsTitles(createColsTitles(newColumns));
+  }, [timezone]);
+ 
   useEffect(() => {
     setShowHideBtn(Boolean(hidedRows.length));
   }, [hidedRows]);
@@ -122,5 +126,8 @@ const MainTable: FC = (): ReactElement => {
     </Layout>
   );
 };
+const mapStateToProps = (state:any) => (({
+  timezone: state.timezone.type,
+}));
 
-export default MainTable;
+export default connect(mapStateToProps)(MainTable);
