@@ -6,7 +6,7 @@ import TableForMentor from '../table-for-mentor';
 
 const TableContainer: FC = (): ReactElement => (
   <section className={styles['table-container']}>
-    <MainTable />
+    {/* <MainTable /> */}
     <TableForMentor />
   </section>
 );

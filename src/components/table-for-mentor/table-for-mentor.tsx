@@ -2,13 +2,13 @@ import React, {
   FC, ReactElement, useEffect, useRef, useState,
 } from 'react';
 import {
-  Table, Input, Popconfirm, Form, DatePicker, Select, Tag,
+  Table, Input, Popconfirm, Form, DatePicker, Select, Tag, Button,
 } from 'antd';
 import moment from 'moment';
 
 import styles from './table-for-mentor.module.css';
 import allCols from '../columns';
-import allData from '../data';
+import datafromFile from '../data';
 import allTypes from '../task-types';
 import OrganizerCell from '../organizer-cell';
 
@@ -46,10 +46,10 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
   }
 
-const createOriginData = () => {
-  const [...originData] = allData;
-  const temp = originData.map((data) => {
-    const { ...newTemp } = data;
+const createOriginData = (data: Item[]) => {
+  const [...originData] = data;
+  const temp = originData.map((d) => {
+    const { ...newTemp } = d;
     delete newTemp.done;
     delete newTemp.hided;
     return newTemp;
@@ -57,7 +57,8 @@ const createOriginData = () => {
   return temp;
 };
 
-const originData = createOriginData();
+let allData = [...datafromFile];
+let originData = createOriginData(allData);
 
 const createCols = (): Column[] => {
   const tempCols = [...allCols];
@@ -194,6 +195,7 @@ const EditableTable: FC = (): ReactElement => {
   const cancel = () => {
     setEditingKey('');
     let dataToMap = data.filter((el) => typeof el.date === 'object');
+    if (!dataToMap.length) return;
     dataToMap = mapDateToString(dataToMap);
     const newData = data.map((el) => {
       if (el.key === dataToMap[0].key) return dataToMap[0];
@@ -202,25 +204,51 @@ const EditableTable: FC = (): ReactElement => {
     setData(newData);
   };
 
+  const handleAdd = () => {
+    const newData = {
+      key: (data.length + 1).toString(),
+      date: moment([2020, 8, 19]),
+      time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
+      type: 'test',
+      place: ' ',
+      name: ' ',
+      organizer: 'dzmitry-varabei',
+      comment: ' ',
+      done: false,
+      hided: false,
+    };
+    allData = [...allData, newData];
+    originData = createOriginData(allData);
+    const tempNewData = mapDateToString(originData);
+    setData(tempNewData);
+  };
+
   const save = async (key: string) => {
     try {
       const row = (await form.validateFields()) as Item;
       const originRow = (await form.validateFields()) as Item;
+      const allDataRow = (await form.validateFields()) as Item;
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         const item: Item = newData[index];
         const originItem: Item = originData[index];
+        const allDataItem: Item = allData[index];
         item.date = dateStr;
-        originItem.date = moment(dateStr, dateFormat);
         row.date = dateStr;
+        originItem.date = moment(dateStr, dateFormat);
         originRow.date = moment(dateStr, dateFormat);
+        allDataItem.date = moment(dateStr, dateFormat);
+        allDataRow.date = moment(dateStr, dateFormat);
         item.type = rowRef.current.type;
-        originItem.type = rowRef.current.type;
         row.type = rowRef.current.type;
         originRow.type = rowRef.current.type;
+        originItem.type = rowRef.current.type;
+        allDataRow.type = rowRef.current.type;
+        allDataItem.type = rowRef.current.type;
         newData.splice(index, 1, { ...item, ...row });
         originData.splice(index, 1, { ...originItem, ...originRow });
+        allData.splice(index, 1, { ...allDataItem, ...allDataRow });
         setData(newData);
         setEditingKey('');
       } else {
@@ -298,8 +326,12 @@ const EditableTable: FC = (): ReactElement => {
       }),
     };
   });
+
   return (
     <>
+      <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
+        Add a row
+      </Button>
       <Form form={form} component={false}>
         <Table
           size="middle"
