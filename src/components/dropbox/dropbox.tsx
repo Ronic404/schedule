@@ -9,11 +9,11 @@ type DropboxProps = {
     defaultIndex: number,
     componentClassName?: string,
     handler?: any,
-    userTimeZone?: string,
+    userTimeZone?: string,// eslint-disable-line
 }
 
 const Dropbox = ({
-  items, defaultIndex, userTimeZone, componentClassName = '', handler,
+  items, defaultIndex, userTimeZone, componentClassName = '', handler, // eslint-disable-line
 } : DropboxProps): ReactElement => {
   const { Option } = Select;
 

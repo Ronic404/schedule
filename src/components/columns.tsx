@@ -13,19 +13,19 @@ const filterTypes = () => {
   });
   return temp;
 };
- 
-    const dateRenderer = (timeZone: string) => (value: string) => (value
-      ? moment(value, 'YYYY-MM-DD HH:mmZ')
-        .tz(timeZone)
-        .format('ll')
-      : '');
-    
-    const timeRenderer = (timeZone: string) => (value: string) => (value
-      ? moment(value, 'YYYY-MM-DD HH:mmZ')
-        .tz(timeZone)
-        .format('HH:mm')
-      : '');
-    
+
+const dateRenderer = (timeZone: string) => (value: string) => (value
+  ? moment(value, 'YYYY-MM-DD HH:mmZ')
+    .tz(timeZone)
+    .format('ll')
+  : '');
+
+const timeRenderer = (timeZone: string) => (value: string) => (value
+  ? moment(value, 'YYYY-MM-DD HH:mmZ')
+    .tz(timeZone)
+    .format('HH:mm')
+  : '');
+
 const getColumnDefs = (timezone: string) => ([
   {
     title: 'Date',
