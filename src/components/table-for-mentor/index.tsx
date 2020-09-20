@@ -1,3 +1,3 @@
 import TableForMentor from './table-for-mentor';
 
-export default TableForMentor;
+ export default TableForMentor;

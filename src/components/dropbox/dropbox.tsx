@@ -9,17 +9,18 @@ type DropboxProps = {
     defaultIndex: number,
     componentClassName?: string,
     handler?: any,
+    userTimeZone?: string,
 }
 
 const Dropbox = ({
-  items, defaultIndex, componentClassName = '', handler,
+  items, defaultIndex, userTimeZone, componentClassName = '', handler,
 } : DropboxProps): ReactElement => {
   const { Option } = Select;
 
   return (
     <Select
       onChange={handler}
-      defaultValue={items[defaultIndex].name}
+      defaultValue={userTimeZone || items[defaultIndex].name}
       className={styles[componentClassName]}
     >
       {items.map(({ name, id }): ReactElement => (

@@ -1,9 +1,7 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 interface Item {
   key: string,
-  date?: any,
-  time: string,
   type: string,
   place: string,
   name: string,
@@ -11,13 +9,12 @@ interface Item {
   comment: string,
   done?: boolean,
   hided?: boolean,
+  dateTime: moment.Moment,
 }
 
 const data: Item[] = [
   {
     key: '1',
-    date: moment([2020, 8, 19]),
-    time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
     type: 'test',
     place: '',
     name: 'Тест как учиться в RSSchool',
@@ -25,11 +22,12 @@ const data: Item[] = [
     comment: '4 часа на прохождение',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 10, year: 2020, month: 8, hour: 18, minute: 0,
+    }),
   },
   {
     key: '2',
-    date: moment([2020, 8, 19]),
-    time: moment({ hour: 19, minute: 0 }).format('HH:mm'),
     type: 'stream',
     place: '',
     name: 'Git Basics. Live coding',
@@ -37,11 +35,12 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 19, year: 2020, month: 8, hour: 19, minute: 0,
+    }),
   },
   {
     key: '3',
-    date: moment([2020, 8, 21]),
-    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Task 1. Calculator',
@@ -49,11 +48,12 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 21, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '4',
-    date: moment([2020, 8, 22]),
-    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Алгоритмические задания Stage#1. Part #1',
@@ -61,11 +61,12 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 22, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '5',
-    date: moment([2020, 8, 22]),
-    time: '',
     type: 'self-education',
     place: '',
     name: 'JavaScript Intro',
@@ -73,11 +74,10 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({ day: 22, year: 2020, month: 8 }),
   },
   {
     key: '6',
-    date: moment([2020, 8, 22]),
-    time: moment({ hour: 20, minute: 0 }).format('HH:mm'),
     type: 'stream',
     place: '',
     name: 'FAQ: Photoshop and Figma',
@@ -85,11 +85,12 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 22, year: 2020, month: 8, hour: 20, minute: 0,
+    }),
   },
   {
     key: '7',
-    date: moment([2020, 8, 22]),
-    time: '',
     type: 'self-education',
     place: '',
     name: 'Flexbox and Grid',
@@ -97,11 +98,10 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({ day: 22, year: 2020, month: 8 }),
   },
   {
     key: '8',
-    date: moment([2020, 8, 24]),
-    time: '',
     type: 'self-education',
     place: '',
     name: 'Ответы на вопросы по алгоритмическим заданиям Stage#1. Part #1',
@@ -109,11 +109,10 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({ day: 24, year: 2020, month: 8 }),
   },
   {
     key: '9',
-    date: moment([2020, 8, 25]),
-    time: moment({ hour: 19, minute: 0 }).format('HH:mm'),
     type: 'faculty',
     place: '',
     name: 'Live coding макета',
@@ -121,11 +120,12 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 25, year: 2020, month: 8, hour: 19, minute: 0,
+    }),
   },
   {
     key: '10',
-    date: moment([2020, 8, 26]),
-    time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
     type: 'test',
     place: '',
     name: 'Тест по основам Git.',
@@ -133,11 +133,12 @@ const data: Item[] = [
     comment: 'Ссылка будет в Discord. Его необходимо пройти за 24 часа',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 26, year: 2020, month: 8, hour: 18, minute: 0,
+    }),
   },
   {
     key: '11',
-    date: moment([2020, 8, 28]),
-    time: '',
     type: 'self-education',
     place: '',
     name: 'Evening Talk: Algorithms bootstrap',
@@ -145,11 +146,10 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({ day: 28, year: 2020, month: 8 }),
   },
   {
     key: '12',
-    date: moment([2020, 8, 28]),
-    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Task 2. Dynamic Landing Page',
@@ -157,11 +157,12 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 28, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '13',
-    date: moment([2020, 8, 29]),
-    time: moment({ hour: 12, minute: 0 }).format('HH:mm'),
     type: 'start',
     place: '',
     name: 'Singolo. Part 2 (tags, 4 and 3 columns layout)',
@@ -169,11 +170,12 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 29, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '14',
-    date: moment([2020, 8, 26]),
-    time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
     type: 'self-education',
     place: '',
     name: 'JS Data Types',
@@ -181,6 +183,9 @@ const data: Item[] = [
     comment: '',
     done: false,
     hided: false,
+    dateTime: moment({
+      day: 26, year: 2020, month: 8, hour: 18, minute: 0,
+    }),
   },
 ];
 

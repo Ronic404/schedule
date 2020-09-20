@@ -22,7 +22,7 @@ export default function ListContainer(): ReactElement {
             <Card
               className={styles.main}
               type="inner"
-              title={item.date.format('LL')}
+              title={item.dateTime.format('DD-MM-YYYY HH:mm')}
               extra={<a href="#">More</a>}
             >
               {item.name}

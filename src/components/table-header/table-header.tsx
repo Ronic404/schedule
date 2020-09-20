@@ -1,30 +1,34 @@
-import React, { FC, ReactElement } from 'react';
-import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
+import React, { useState, FC, ReactElement } from 'react';
 import { connect } from 'react-redux';
+import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
-import { changeType } from '../../actions';
-
+import { changeType,changeTimezone } from '../../actions';
+import HeaderButton from '../header-button/header-button';
 import {
   locations,
-  defaultLocationIndex,
   displays,
   defaultDisplayIndex,
   courses,
+  defaultLocationIndex,
   defaultCourseIndex,
 } from './table-header-data';
 
-import HeaderButton from '../header-button/header-button';
-
-const TableHeader: FC<any> = ({ changeType }): ReactElement => {
+const TableHeader: FC<any> = ({ changeType, changeTimezone }): ReactElement => {
   const typeChange = (el:any):void => {
     changeType(el);
   };
 
+  const timezoneChange = (el:any):void => {
+    changeTimezone(el);
+  };
+
+  const [timeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
   return (
     <div className={styles.table__header}>
       <div className={styles['table__header-left']}>
-        <Dropbox componentClassName="select-location" items={locations} defaultIndex={defaultLocationIndex} />
+        <Dropbox handler={timezoneChange} userTimeZone={timeZone} componentClassName="select-location" items={locations} defaultIndex={defaultLocationIndex} />
         <Dropbox handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
         <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
         <HeaderButton buttonImage={<BgColorsOutlined />} />
@@ -38,13 +42,7 @@ const TableHeader: FC<any> = ({ changeType }): ReactElement => {
 };
 
 const mapDispatchToProps = {
-  changeType,
+  changeType, changeTimezone,
 };
-
-// const mapDispatchToProps = (dispatch: any) => ({
-//   change: (newType: string) => {
-//     dispatch(changeType);
-//   },
-// });
 
 export default connect(null, mapDispatchToProps)(TableHeader);
