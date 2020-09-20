@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import './App.css';
 import { Layout } from 'antd';
 import Header from './components/header';
@@ -8,20 +8,23 @@ import styles from './App.module.css';
 import TableContainer from './components/table-container';
 import CreateTask from './components/create-task';
 import TableHeader from './components/table-header';
+import { TableDownloadProps } from './components/table-download-modal/table-download-modal';
 
 const { Content } = Layout;
 
-const App: FC = (): ReactElement => (
-  <Layout>
+const App: FC = (): ReactElement => {
+  const [tableRef, setTableRef] = useState();
+
+  return (<Layout>
     <div className={styles.header}>
       <Header />
-      <TableHeader />
+      <TableHeader tableRef={tableRef} />
     </div>
     <Content>
-      <TableContainer />
+      <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />
       <CreateTask />
     </Content>
-  </Layout>
-);
+  </Layout>);
+};
 
 export default App;

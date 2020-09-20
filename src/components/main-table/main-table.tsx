@@ -9,6 +9,8 @@ import {
 import ColsSelector from '../cols-selector';
 import columns from '../columns';
 import data from '../data';
+import { PDFExport } from '@progress/kendo-react-pdf';
+import { TableContainerProps } from '../table-container/table-container';
 
 const createColsTitles = () => {
   const temp: {title: string, checked: boolean}[] = [];
@@ -19,7 +21,13 @@ const createColsTitles = () => {
   return temp;
 };
 
-const MainTable: FC = (): ReactElement => {
+interface MainTableProps {
+  setTableRef: TableContainerProps['setTableRef'];
+}
+
+const MainTable: FC<MainTableProps> = ({
+  setTableRef,
+}): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{title: string, checked: boolean}[]>([]);
 
   const changeColsHandler = (cols: {title: string, checked: boolean}[]) => {
@@ -44,7 +52,9 @@ const MainTable: FC = (): ReactElement => {
         onChangeCols={(cols: {title: string, checked: boolean}[]) => changeColsHandler(cols)}
         columns={colsTitles}
       />
-      <Table size="middle" columns={activeCols()} dataSource={data} />
+      <PDFExport ref={(component) => setTableRef(component)}>
+        <Table size="middle" columns={activeCols()} dataSource={data} />
+      </PDFExport>
     </Layout>
   );
 };
