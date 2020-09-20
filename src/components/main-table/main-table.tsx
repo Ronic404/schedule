@@ -10,6 +10,30 @@ import ColsSelector from '../cols-selector';
 import columns from '../columns';
 import data from '../data';
 
+const dateFormat = 'DD-MM-YYYY';
+
+interface Item {
+  key: string,
+  date?: any,
+  time: string,
+  type: string,
+  place: string,
+  name: string,
+  organizer: string,
+  comment: string,
+  done?: boolean,
+  hided?: boolean,
+}
+
+const mapDatesToString = () => {
+  const [...tempData] = data;
+  return tempData.map((el) => {
+    const { ...temp } = el;
+    temp.date = temp.date?.format(dateFormat);
+    return temp;
+  });
+};
+
 const createColsTitles = () => {
   const temp: { title: string, checked: boolean }[] = [];
   const [...titles] = columns;
@@ -21,12 +45,12 @@ const createColsTitles = () => {
 
 const MainTable: FC = (): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
-  const [checkedRows, setCheckedRows] = useState<{ key: string, done: boolean }[]>([]);
-  const [hidedRows, setHidedRows] = useState<{ key: string, hided: boolean }[]>([]);
+  const [checkedRows, setCheckedRows] = useState<Item[]>([]);
+  const [hidedRows, setHidedRows] = useState<Item[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
   // eslint-disable-next-line
-  const [visibleData, setVisibleData] = useState<{ key: string, hided: boolean, done: boolean }[]>(data);
+  const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
@@ -52,7 +76,7 @@ const MainTable: FC = (): ReactElement => {
     return temp;
   };
 
-  const selectRow = (record: { key: string, done: boolean, hided: boolean }, el: any) => {
+  const selectRow = (record: Item, el: any) => {
     const selectedRows = [...checkedRows];
     let rowsToHide = [...hidedRows];
 
@@ -78,10 +102,12 @@ const MainTable: FC = (): ReactElement => {
     console.log(rowsToHide);
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
+        // eslint-disable-next-line no-param-reassign
         record.done = false;
         selectedRows.splice(selectedRows.indexOf(record), 1);
       } else {
         selectedRows.push(record);
+        // eslint-disable-next-line no-param-reassign
         record.done = true;
       }
       setCheckedRows(selectedRows);
