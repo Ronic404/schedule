@@ -12,3 +12,9 @@
 .calendar__list-item {
     margin-bottom: 5px;
 }
+
+.calendar__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

@@ -7,7 +7,7 @@ type stateType = {
 
 const initialState: stateType = {
   role: 'mentor',
-  type: 'table'
+  type: 'table',
 };
 
 const reducer = (state: stateType = initialState, action: any): stateType => {
@@ -18,20 +18,18 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
         role: action.payload,
       };
     case 'CHANGE_TYPE':
-      return { 
-        ...state, 
-        type: action.payload 
+      return {
+        ...state,
+        type: action.payload,
       };
     default:
       return state;
   }
 };
 
-
 const rootReducer = combineReducers({
   types: reducer,
-  roles: reducer
+  roles: reducer,
 });
-
 
 export { reducer, rootReducer };
