@@ -1,5 +1,6 @@
 import React, {
-  FC, ReactElement, useEffect, useRef, useState,
+  FC, ReactElement,
+  // useEffect, useRef, useState,
 } from 'react';
 // import {
 //   Table, Input, Popconfirm, Form, DatePicker, Select, Tag,
@@ -89,7 +90,9 @@ import React, {
 //   }
 // };
 
-const EditableTable: FC = (): ReactElement => {
+const EditableTable: FC = (): ReactElement => (
+  <></>
+);
 //   const [form] = Form.useForm();
 //   const [data, setData] = useState(mapDateToString(originData));
 //   const [editingKey, setEditingKey] = useState('');
@@ -275,6 +278,7 @@ const EditableTable: FC = (): ReactElement => {
 //           </Popconfirm>
 //         </span>
 //       ) : (
+// eslint-disable-next-line
 //         <button disabled={editingKey !== ''} className={styles.button} onClick={() => editHandler(record)} type="button">
 //           Edit
 //         </button>
@@ -297,8 +301,7 @@ const EditableTable: FC = (): ReactElement => {
 //       }),
 //     };
 //   });
-   return (
-     <></>
+
 //     <>
 //       <Form form={form} component={false}>
 //         <Table
@@ -317,7 +320,5 @@ const EditableTable: FC = (): ReactElement => {
 //         />
 //       </Form>
 //     </?>
- )
- };
-
- export default EditableTable;
+// );
+export default EditableTable;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
-import { changeType,changeTimezone } from '../../actions';
+import { changeType, changeTimezone } from '../../actions';
 import HeaderButton from '../header-button/header-button';
 import {
   locations,
@@ -13,7 +13,7 @@ import {
   defaultLocationIndex,
   defaultCourseIndex,
 } from './table-header-data';
-
+// eslint-disable-next-line
 const TableHeader: FC<any> = ({ changeType, changeTimezone }): ReactElement => {
   const typeChange = (el:any):void => {
     changeType(el);

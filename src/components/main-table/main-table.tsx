@@ -11,7 +11,7 @@ import ColsSelector from '../cols-selector';
 import getColumnDefs from '../columns';
 import data from '../data';
 
-//const dateFormat = 'DD-MM-YYYY';
+// const dateFormat = 'DD-MM-YYYY';
 
 interface Item {
   key: string,
@@ -42,7 +42,7 @@ const createColsTitles = (columns: any) => {
   });
   return temp;
 };
-
+  // eslint-disable-next-line
 const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<Item[]>([]);
@@ -51,9 +51,9 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
   const [columns, setColumns] = useState(getColumnDefs(timezone));
   const startOfToday = moment().startOf('day');
- 
- // const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
-  // eslint-disable-next-line 
+
+  // const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
+  // eslint-disable-next-line
  const [visibleData, setVisibleData] = useState<Item[]>(data);
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
@@ -98,8 +98,8 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
     if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       const removeStyles = document.querySelectorAll('.ant-table-row-selected');
       removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
-      if (rowsToHide.length) { 
-        rowsToHide = []; 
+      if (rowsToHide.length) {
+        rowsToHide = [];
       } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);

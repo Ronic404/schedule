@@ -12,5 +12,4 @@ const changeTimezone = (newTimezone: string): { type: string, payload: string } 
   payload: newTimezone,
 });
 
-
-export { changeRole, changeType,changeTimezone };
+export { changeRole, changeType, changeTimezone };
