@@ -11,6 +11,8 @@ import styles from './calendar-schedule.module.css';
 
 type list = {
     key: string,
+    date?: any,
+    time: string,
     type: string,
     place: string,
     name: string,
@@ -19,7 +21,6 @@ type list = {
     done?: boolean,
     hided?: boolean,
     color?: string
-    dateTime: moment.Moment,
 }
 
 type headerRenderTypes = {
@@ -29,7 +30,7 @@ type headerRenderTypes = {
 
 const getListData = (value: Moment): Array<list> => {
   const listData = data.filter((el) => {
-    const date = moment(el.dateTime);
+    const date = moment(el.date);
     return date.date() === value.date()
       && date.month() === value.month()
       && date.year() === value.year();

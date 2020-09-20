@@ -2,14 +2,12 @@ import { combineReducers } from 'redux';
 
 type stateType = {
   role: string,
-  type: string,
-  zone: string,
+  type: string
 }
 
 const initialState: stateType = {
   role: 'mentor',
   type: 'table',
-  zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 };
 
 const reducer = (state: stateType = initialState, action: any): stateType => {
@@ -24,11 +22,6 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
         ...state,
         type: action.payload,
       };
-    case 'CHANGE_TIMEZONE':
-      return {
-        ...state,
-        type: action.payload,
-      };
     default:
       return state;
   }
@@ -37,7 +30,6 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
 const rootReducer = combineReducers({
   types: reducer,
   roles: reducer,
-  timezone: reducer,
 });
 
 export { reducer, rootReducer };

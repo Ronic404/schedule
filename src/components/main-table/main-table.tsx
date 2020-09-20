@@ -1,20 +1,21 @@
 import React, {
-  FC, useEffect, useState,
+  FC, ReactElement, useEffect, useState,
 } from 'react';
 import {
   Table, Layout, Button,
 } from 'antd';
-import { connect } from 'react-redux';
-import moment from 'moment-timezone';
+
 import styles from './main-table.module.css';
 import ColsSelector from '../cols-selector';
-import getColumnDefs from '../columns';
+import columns from '../columns';
 import data from '../data';
 
-//const dateFormat = 'DD-MM-YYYY';
+const dateFormat = 'DD-MM-YYYY';
 
 interface Item {
   key: string,
+  date?: any,
+  time: string,
   type: string,
   place: string,
   name: string,
@@ -22,39 +23,34 @@ interface Item {
   comment: string,
   done?: boolean,
   hided?: boolean,
-  dateTime:any,
 }
 
-// const mapDatesToString = () => {
-//   const [...tempData] = data;
-//   return tempData.map((el) => {
-//     const { ...temp } = el;
-//     temp.dateTime = temp.dateTime?.format(dateFormat);
-//     return temp;
-//   });
-// };
+const mapDatesToString = () => {
+  const [...tempData] = data;
+  return tempData.map((el) => {
+    const { ...temp } = el;
+    temp.date = temp.date?.format(dateFormat);
+    return temp;
+  });
+};
 
-const createColsTitles = (columns: any) => {
+const createColsTitles = () => {
   const temp: { title: string, checked: boolean }[] = [];
   const [...titles] = columns;
-  titles.forEach((col: any) => {
+  titles.forEach((col) => {
     temp.push({ title: col.title, checked: true });
   });
   return temp;
 };
 
-const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
+const MainTable: FC = (): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<Item[]>([]);
   const [hidedRows, setHidedRows] = useState<Item[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
-  const [columns, setColumns] = useState(getColumnDefs(timezone));
-  const startOfToday = moment().startOf('day');
- 
- // const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
-  // eslint-disable-next-line 
- const [visibleData, setVisibleData] = useState<Item[]>(data);
+  // eslint-disable-next-line
+  const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
@@ -72,7 +68,6 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
     setVisibleData(data);
     setShowAllBtn(false);
   };
-
   const activeCols = () => {
     const temp: any = [];
     colsTitles.forEach((el) => {
@@ -106,7 +101,7 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
       }
       setHidedRows(rowsToHide);
     }
-
+    console.log(rowsToHide);
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
         // eslint-disable-next-line no-param-reassign
@@ -122,10 +117,8 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
   };
 
   useEffect(() => {
-    const newColumns = getColumnDefs(timezone);
-    setColumns(newColumns);
-    setColsTitles(createColsTitles(newColumns));
-  }, [timezone]);
+    setColsTitles(createColsTitles());
+  }, []);
 
   useEffect(() => {
     setShowHideBtn(Boolean(hidedRows.length));
@@ -142,7 +135,6 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
         {showHideBtn && <Button onClick={hideClickHandle}>Hide</Button>}
       </div>
       <Table
-        rowClassName={(record) => (moment(record.dateTime).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
         size="middle"
         columns={activeCols()}
         dataSource={visibleData}
@@ -151,8 +143,5 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
     </Layout>
   );
 };
-const mapStateToProps = (state: any) => (({
-  timezone: state.timezone.type,
-}));
 
-export default connect(mapStateToProps)(MainTable);
+export default MainTable;
