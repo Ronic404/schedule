@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
 import { Button } from 'antd';
+import Map from '../map';
 import initialTaskText from './initial-task-text';
 
 import 'github-markdown-css';
@@ -28,6 +29,7 @@ export default function CreateTask(): ReactElement {
   return (
     <>
       <div className={styles.wrapper}>
+        <Map />
         <div className={styles.main}>
           <textarea
             ref={textarea}
