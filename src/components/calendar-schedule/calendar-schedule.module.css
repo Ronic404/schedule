@@ -1,0 +1,20 @@
+.calendar {
+    margin-left: 16px;
+    margin-right: 19px;
+}
+
+.calendar__cell {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.calendar__list-item {
+    margin-bottom: 5px;
+}
+
+.calendar__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

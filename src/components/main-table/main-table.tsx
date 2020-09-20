@@ -93,7 +93,9 @@ const MainTable: FC = (): ReactElement => {
     if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       const removeStyles = document.querySelectorAll('.ant-table-row-selected');
       removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
-      if (rowsToHide.length) { rowsToHide = []; } else {
+      if (rowsToHide.length) { 
+        rowsToHide = []; 
+      } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
       }

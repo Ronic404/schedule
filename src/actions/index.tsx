@@ -3,4 +3,9 @@ const changeRole = (newRole: string): { type: string, payload: string } => ({
   payload: newRole,
 });
 
-export default changeRole;
+const changeType = (newType: string): { type: string, payload: string } => ({
+  type: 'CHANGE_TYPE',
+  payload: newType,
+});
+
+export { changeRole, changeType };
