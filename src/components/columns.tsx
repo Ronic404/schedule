@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { Tag, Checkbox } from 'antd';
+import moment from 'moment-timezone';
 import OrganizerCell from './organizer-cell';
 import taskTypes from './task-types';
-import moment from 'moment-timezone'; 
 
 const filterTypes = () => {
   const [...typesArray] = taskTypes;
@@ -14,21 +14,19 @@ const filterTypes = () => {
   return temp;
 };
 
-const dateRenderer = (timeZone: string) => (value: string) =>
-  value
-    ? moment(value, 'YYYY-MM-DD HH:mmZ')
-        .tz(timeZone)
-        .format('ll')
-    : '';
+const dateRenderer = (timeZone: string) => (value: string) => (value
+  ? moment(value, 'YYYY-MM-DD HH:mmZ')
+    .tz(timeZone)
+    .format('ll')
+  : '');
 
-const timeRenderer = (timeZone: string) => (value: string) =>
-  value
-    ? moment(value, 'YYYY-MM-DD HH:mmZ')
-        .tz(timeZone)
-        .format('HH:mm')
-    : '';
+const timeRenderer = (timeZone: string) => (value: string) => (value
+  ? moment(value, 'YYYY-MM-DD HH:mmZ')
+    .tz(timeZone)
+    .format('HH:mm')
+  : '');
 
-export const getColumnDefs = (timezone: string) =>([
+const getColumnDefs = (timezone: string) => ([
   {
     title: 'Date',
     dataIndex: 'dateTime',
@@ -82,4 +80,5 @@ export const getColumnDefs = (timezone: string) =>([
     dataIndex: 'done',
     render: (done: boolean): ReactElement => <Checkbox checked={done} />,
   },
-])
+]);
+export default getColumnDefs;

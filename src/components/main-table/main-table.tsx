@@ -5,29 +5,28 @@ import {
   Table, Layout, Button,
 } from 'antd';
 import { connect } from 'react-redux';
+import moment from 'moment-timezone';
 import styles from './main-table.module.css';
 import ColsSelector from '../cols-selector';
-import {getColumnDefs} from '../columns';
+import getColumnDefs from '../columns';
 import data from '../data';
-import moment from 'moment-timezone'; 
 
 const createColsTitles = (columns: any) => {
-
   const temp: { title: string, checked: boolean }[] = [];
   const [...titles] = columns;
-  titles.forEach((col:any) => {
+  titles.forEach((col: any) => {
     temp.push({ title: col.title, checked: true });
   });
   return temp;
 };
 
-const MainTable: FC<{timezone: string}> = ({timezone}) => {
+const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<{ key: string, done: boolean }[]>([]);
   const [hidedRows, setHidedRows] = useState<{ key: string, hided: boolean }[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
-  const [columns,setColumns]= useState(getColumnDefs(timezone));
+  const [columns, setColumns] = useState(getColumnDefs(timezone));
   const startOfToday = moment().startOf('day');
   // eslint-disable-next-line
   const [visibleData, setVisibleData] = useState<{ key: string, hided: boolean, done: boolean, dateTime: moment.Moment }[]>(data);
@@ -67,7 +66,6 @@ const MainTable: FC<{timezone: string}> = ({timezone}) => {
         rowsToHide.splice(rowsToHide.indexOf(record), 1);
       } else {
         rowsToHide.push(record);
-
       }
       setHidedRows(rowsToHide);
     }
@@ -75,15 +73,13 @@ const MainTable: FC<{timezone: string}> = ({timezone}) => {
     if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       const removeStyles = document.querySelectorAll('.ant-table-row-selected');
       removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
-      if (rowsToHide.length) 
-      { rowsToHide = []; }
-       else {
+      if (rowsToHide.length) { rowsToHide = []; } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
       }
       setHidedRows(rowsToHide);
     }
-  
+
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
         record.done = false;
@@ -96,12 +92,12 @@ const MainTable: FC<{timezone: string}> = ({timezone}) => {
     }
   };
 
-useEffect(() => {
-  const newColumns = getColumnDefs(timezone);
-  setColumns(newColumns);
-  setColsTitles(createColsTitles(newColumns));
+  useEffect(() => {
+    const newColumns = getColumnDefs(timezone);
+    setColumns(newColumns);
+    setColsTitles(createColsTitles(newColumns));
   }, [timezone]);
- 
+
   useEffect(() => {
     setShowHideBtn(Boolean(hidedRows.length));
   }, [hidedRows]);
@@ -117,7 +113,7 @@ useEffect(() => {
         {showHideBtn && <Button onClick={hideClickHandle}>Hide</Button>}
       </div>
       <Table
-       rowClassName={record => (moment(record.dateTime).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
+        rowClassName={(record) => (moment(record.dateTime).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
         size="middle"
         columns={activeCols()}
         dataSource={visibleData}
@@ -126,7 +122,7 @@ useEffect(() => {
     </Layout>
   );
 };
-const mapStateToProps = (state:any) => (({
+const mapStateToProps = (state: any) => (({
   timezone: state.timezone.type,
 }));
 

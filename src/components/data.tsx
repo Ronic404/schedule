@@ -10,7 +10,9 @@ const data = [
     comment: '4 часа на прохождение',
     done: false,
     hided: false,
-    dateTime: moment({day: 10, year:2020, month:8, hour: 18, minute: 0 },),
+    dateTime: moment({
+      day: 10, year: 2020, month: 8, hour: 18, minute: 0,
+    }),
   },
   {
     key: '2',
@@ -21,7 +23,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 19, year:2020, month:8, hour: 19, minute: 0 },),
+    dateTime: moment({
+      day: 19, year: 2020, month: 8, hour: 19, minute: 0,
+    }),
   },
   {
     key: '3',
@@ -32,7 +36,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 21, year:2020, month:8, hour: 12, minute: 0 },),
+    dateTime: moment({
+      day: 21, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '4',
@@ -43,7 +49,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 22, year:2020, month:8, hour: 12, minute: 0 },),
+    dateTime: moment({
+      day: 22, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '5',
@@ -54,7 +62,7 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 22, year:2020, month:8 },),
+    dateTime: moment({ day: 22, year: 2020, month: 8 }),
   },
   {
     key: '6',
@@ -65,7 +73,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 22, year:2020, month:8, hour: 20, minute: 0 },),
+    dateTime: moment({
+      day: 22, year: 2020, month: 8, hour: 20, minute: 0,
+    }),
   },
   {
     key: '7',
@@ -76,7 +86,7 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 22, year:2020, month:8},),
+    dateTime: moment({ day: 22, year: 2020, month: 8 }),
   },
   {
     key: '8',
@@ -87,7 +97,7 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 24, year:2020, month:8},),
+    dateTime: moment({ day: 24, year: 2020, month: 8 }),
   },
   {
     key: '9',
@@ -98,7 +108,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 25, year:2020, month:8, hour: 19, minute: 0 },),
+    dateTime: moment({
+      day: 25, year: 2020, month: 8, hour: 19, minute: 0,
+    }),
   },
   {
     key: '10',
@@ -109,7 +121,9 @@ const data = [
     comment: 'Ссылка будет в Discord. Его необходимо пройти за 24 часа',
     done: false,
     hided: false,
-    dateTime: moment({day: 26, year:2020, month:8, hour: 18, minute: 0 },),
+    dateTime: moment({
+      day: 26, year: 2020, month: 8, hour: 18, minute: 0,
+    }),
   },
   {
     key: '11',
@@ -120,7 +134,7 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 28, year:2020, month:8},),
+    dateTime: moment({ day: 28, year: 2020, month: 8 }),
   },
   {
     key: '12',
@@ -131,7 +145,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 28, year:2020, month:8, hour: 12, minute: 0 },),
+    dateTime: moment({
+      day: 28, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '13',
@@ -142,7 +158,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 29, year:2020, month:8, hour: 12, minute: 0 },),
+    dateTime: moment({
+      day: 29, year: 2020, month: 8, hour: 12, minute: 0,
+    }),
   },
   {
     key: '14',
@@ -153,7 +171,9 @@ const data = [
     comment: '',
     done: false,
     hided: false,
-    dateTime: moment({day: 26, year:2020, month:8, hour: 18, minute: 0 },),
+    dateTime: moment({
+      day: 26, year: 2020, month: 8, hour: 18, minute: 0,
+    }),
   },
 ];
 

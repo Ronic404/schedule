@@ -13,14 +13,14 @@ type DropboxProps = {
 }
 
 const Dropbox = ({
-  items, defaultIndex,userTimeZone, componentClassName = '', handler,
+  items, defaultIndex, userTimeZone, componentClassName = '', handler,
 } : DropboxProps): ReactElement => {
   const { Option } = Select;
 
   return (
     <Select
       onChange={handler}
-      defaultValue={userTimeZone?userTimeZone:items[defaultIndex].name} 
+      defaultValue={userTimeZone || items[defaultIndex].name}
       className={styles[componentClassName]}
     >
       {items.map(({ name, id }): ReactElement => (
@@ -36,4 +36,3 @@ Dropbox.defaultProps = {
 };
 
 export default Dropbox;
-
