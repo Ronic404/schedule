@@ -13,7 +13,7 @@ import CalendarSchedule from './components/calendar-schedule';
 
 const { Content } = Layout;
 
-const App: FC = ({ types }:any): ReactElement => {
+const App: FC = ({ types }: any): ReactElement => {
   let viewTasks;
 
   switch (types) {
@@ -43,7 +43,7 @@ const App: FC = ({ types }:any): ReactElement => {
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   types: state.types.type,
 });
 

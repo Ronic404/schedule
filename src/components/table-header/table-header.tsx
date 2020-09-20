@@ -17,7 +17,7 @@ import {
 import HeaderButton from '../header-button/header-button';
 
 const TableHeader: FC<any> = ({ changeType }): ReactElement => {
-  const typeChange = (el:any):void => {
+  const typeChange = (el: any): void => {
     changeType(el);
   };
 
@@ -40,11 +40,5 @@ const TableHeader: FC<any> = ({ changeType }): ReactElement => {
 const mapDispatchToProps = {
   changeType,
 };
-
-// const mapDispatchToProps = (dispatch: any) => ({
-//   change: (newType: string) => {
-//     dispatch(changeType);
-//   },
-// });
 
 export default connect(null, mapDispatchToProps)(TableHeader);

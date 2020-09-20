@@ -4,11 +4,16 @@ import React, {
 import {
   Table, Layout, Button,
 } from 'antd';
+import { connect } from 'react-redux';
 
-import styles from './main-table.module.css';
 import ColsSelector from '../cols-selector';
+
+import compose from '../../utils';
 import columns from '../columns';
 import data from '../data';
+import { IEvent } from '../../interfaces';
+import withScheduleService from '../hoc';
+import styles from './main-table.module.css';
 
 const dateFormat = 'DD-MM-YYYY';
 
@@ -43,12 +48,18 @@ const createColsTitles = () => {
   return temp;
 };
 
-const MainTable: FC = (): ReactElement => {
+type TypeProps = {
+  scheduleService: any,
+  events: IEvent[],
+};
+
+const MainTable: FC<TypeProps> = ({ scheduleService, events }: TypeProps): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<Item[]>([]);
   const [hidedRows, setHidedRows] = useState<Item[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
+  const [loadedData, setLoadedData] = useState<IEvent[]>(events);
   // eslint-disable-next-line
   const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
 
@@ -64,14 +75,17 @@ const MainTable: FC = (): ReactElement => {
     setShowAllBtn(true);
   };
 
-  const unhideClickHandle = () => {
+  const unhiddenClickHandle = () => {
     setVisibleData(data);
     setShowAllBtn(false);
   };
+
   const activeCols = () => {
     const temp: any = [];
     colsTitles.forEach((el) => {
-      if (el.checked) temp.push(columns.find((c) => c.title === el.title));
+      if (el.checked) {
+        temp.push(columns.find((c) => c.title === el.title));
+      }
     });
     return temp;
   };
@@ -93,15 +107,15 @@ const MainTable: FC = (): ReactElement => {
     if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       const removeStyles = document.querySelectorAll('.ant-table-row-selected');
       removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
-      if (rowsToHide.length) { 
-        rowsToHide = []; 
+      if (rowsToHide.length) {
+        rowsToHide = [];
       } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
       }
       setHidedRows(rowsToHide);
     }
-    console.log(rowsToHide);
+
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
         // eslint-disable-next-line no-param-reassign
@@ -115,6 +129,13 @@ const MainTable: FC = (): ReactElement => {
       setCheckedRows(selectedRows);
     }
   };
+
+  useEffect(() => {
+    scheduleService.getAllEvents()
+      .then((res: any) => {
+        setLoadedData(res.events);
+      });
+  }, []);
 
   useEffect(() => {
     setColsTitles(createColsTitles());
@@ -131,7 +152,7 @@ const MainTable: FC = (): ReactElement => {
           onChangeCols={(cols: { title: string, checked: boolean }[]) => changeColsHandler(cols)}
           columns={colsTitles}
         />
-        {showAllBtn && <Button onClick={unhideClickHandle}>Show Hided</Button>}
+        {showAllBtn && <Button onClick={unhiddenClickHandle}>Show Hided</Button>}
         {showHideBtn && <Button onClick={hideClickHandle}>Hide</Button>}
       </div>
       <Table
@@ -144,4 +165,11 @@ const MainTable: FC = (): ReactElement => {
   );
 };
 
-export default MainTable;
+const mapStateToProps = (state: any) => ({
+  events: state.events,
+});
+
+export default compose(
+  withScheduleService(),
+  connect(mapStateToProps),
+)(MainTable);
