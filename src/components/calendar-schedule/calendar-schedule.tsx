@@ -1,5 +1,7 @@
 import React, { FC, ReactElement } from 'react';
-import { Layout, Calendar, Tag, Select, Row, Col } from 'antd';
+import {
+  Layout, Calendar, Tag, Select, Row, Col,
+} from 'antd';
 
 import moment, { Moment } from 'moment';
 import data from '../data';
@@ -23,7 +25,7 @@ type list = {
 
 type headerRenderTypes = {
   value: any,
-  onChange: Function,
+  onChange: (date: Moment) => void,
 }
 
 const getListData = (value: Moment): Array<list> => {
@@ -56,7 +58,7 @@ const dateCellRender = (value : Moment): ReactElement => {
   );
 };
 
-const  headerRender = ({ value, onChange } : headerRenderTypes) => {
+const headerRender = ({ value, onChange } : headerRenderTypes) => {
   const start = 0;
   const end = 12;
   const monthOptions = [];
@@ -64,12 +66,12 @@ const  headerRender = ({ value, onChange } : headerRenderTypes) => {
   const current = value.clone();
   const localeData = value.localeData();
   const months = [];
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 12; i += 1) {
     current.month(i);
     months.push(localeData.monthsShort(current));
   }
 
-  for (let index = start; index < end; index++) {
+  for (let index = start; index < end; index += 1) {
     monthOptions.push(
       <Select.Option className="month-item" key={`${index}`} value={index}>
         {months[index]}
@@ -89,13 +91,13 @@ const  headerRender = ({ value, onChange } : headerRenderTypes) => {
   }
   return (
     <div style={{ padding: 8 }}>
-      <Row gutter={8} className={styles['calendar__header']}>
+      <Row gutter={8} className={styles.calendar__header}>
         <Col>
           <Select
             size="small"
             dropdownMatchSelectWidth={false}
             className="my-year-select"
-            onChange={newYear => {
+            onChange={(newYear) => {
               const now = value.clone().year(newYear);
               onChange(now);
             }}
@@ -108,7 +110,7 @@ const  headerRender = ({ value, onChange } : headerRenderTypes) => {
           <Select
             size="small"
             dropdownMatchSelectWidth={false}
-            onChange={selectedMonth => {
+            onChange={(selectedMonth) => {
               const newValue = value.clone();
               newValue.month(parseInt(selectedMonth, 10));
               onChange(newValue);
@@ -121,10 +123,10 @@ const  headerRender = ({ value, onChange } : headerRenderTypes) => {
       </Row>
     </div>
   );
-}
+};
 
 const CalendarSchedule: FC = (): ReactElement => (
-  <Layout className={styles.calendar} >
+  <Layout className={styles.calendar}>
     <Calendar dateCellRender={dateCellRender} headerRender={headerRender} />
   </Layout>
 );
