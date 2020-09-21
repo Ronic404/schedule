@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
 import {
-  Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch,
+  Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table,
 } from 'antd';
 import MapRonic from '../map';
 import initialTaskText from './initial-task-text';
@@ -16,12 +16,43 @@ import styles from './style.module.css';
 export default function CreateTask(): ReactElement {
   const [taskHide, setTaskHide] = useState<boolean>(true);
   const [text, setText] = useState<string>(initialTaskText);
-  const [latitude, setLatitude] = useState<number>(55.75);
-  const [longitude, setLongitude] = useState<number>(37.57);
+  const [latitude, setLatitude] = useState<number>(53.9000000);
+  const [longitude, setLongitude] = useState<number>(27.5666700);
   const [showMap, setShowMap] = useState<boolean>(true);
+  const [nameFolder, setNameFolder] = useState<string>('RSSschool');
+  const [nameBranch, setNameBranch] = useState<string>('RSSschool');
+  const [deadlineDate, setDeadlineDate] = useState<string>('01.01.1970');
+  const [deadlineTime, setDeadlineTime] = useState<string>('00:00');
   const textarea = useRef<HTMLTextAreaElement>(null);
 
   const mapComponent = !showMap ? <MapRonic latitude={latitude} longitude={longitude} /> : null;
+
+  const columns = [
+    {
+      title: 'Deadline',
+      dataIndex: 'Deadline',
+      key: 'Deadline',
+    },
+    {
+      title: 'Folder',
+      dataIndex: 'Folder',
+      key: 'Folder',
+    },
+    {
+      title: 'Branch',
+      dataIndex: 'Branch',
+      key: 'Branch',
+    },
+  ];
+
+  const data = [
+    {
+      key: '1',
+      Deadline: `${deadlineDate} ${deadlineTime}`,
+      Folder: nameFolder,
+      Branch: nameBranch,
+    },
+  ];
 
   useEffect((): void => {
     if (localStorage.getItem('task-text')) {
@@ -36,18 +67,56 @@ export default function CreateTask(): ReactElement {
 
   const saveDescription = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    setDeadlineDate((document.querySelector('#deadlineDate') as HTMLInputElement).value);
+    setDeadlineTime((document.querySelector('#deadlineTime') as HTMLInputElement).value);
+    setNameFolder((document.querySelector('#folder') as HTMLInputElement).value);
+    setNameBranch((document.querySelector('#branch') as HTMLInputElement).value);
     setLatitude(Number((document.querySelector('#latitude') as HTMLInputElement).value));
     setLongitude(Number((document.querySelector('#longitude') as HTMLInputElement).value));
+
+    // console.log((document.querySelector('#DeadlineDate') as HTMLInputElement).value);
   };
 
   return (
     <>
       <div className={styles.wrapper}>
-        {/* {mapComponent} */}
         <div className={styles.main}>
           {/* <div className={!taskHide ? styles.task : styles.hide}> */}
           <div className={taskHide ? styles.task : styles.hide}>
             <Form>
+              <Form.Item
+                label="Deadline date"
+                name="deadlineDate"
+                required={false}
+                rules={[{ required: true, message: 'Назначьте дату дедлайна!' }]}
+              >
+                <DatePicker />
+              </Form.Item>
+              <Form.Item
+                label="Deadline time"
+                name="deadlineTime"
+                required={false}
+                rules={[{ required: true, message: 'Выберите время дедлайна!' }]}
+              >
+                <TimePicker minuteStep={5} format="HH:mm" />
+              </Form.Item>
+              <Form.Item
+                label="Name folder"
+                name="folder"
+                id="folder"
+                required={false}
+                rules={[{ required: true, message: 'Напишите название папки!' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Name branch"
+                name="branch"
+                required={false}
+                rules={[{ required: true, message: 'Напишите название ветки!' }]}
+              >
+                <Input />
+              </Form.Item>
               <Form.Item
                 label="Name task"
                 name="Name"
@@ -57,28 +126,12 @@ export default function CreateTask(): ReactElement {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Date"
-                name="Date"
+                label="Start task"
+                name="StartTask"
                 required={false}
                 rules={[{ required: true, message: 'Выберите дату!' }]}
               >
                 <DatePicker />
-              </Form.Item>
-              <Form.Item
-                label="Deadline"
-                name="Deadline"
-                required={false}
-                rules={[{ required: true, message: 'Назначьте время сдач!' }]}
-              >
-                <DatePicker />
-              </Form.Item>
-              <Form.Item
-                label="Time"
-                name="Time"
-                required={false}
-                rules={[{ required: true, message: 'Выберите время!' }]}
-              >
-                <TimePicker minuteStep={5} format="HH:mm" />
               </Form.Item>
               <Form.Item
                 label="Type"
@@ -138,6 +191,9 @@ export default function CreateTask(): ReactElement {
           </div>
           <div>
             {mapComponent}
+            <div>
+              <Table columns={columns} dataSource={data} bordered pagination={false} />
+            </div>
             <ReactMarkdown source={text} className={`${styles.markdown} markdown-body`} escapeHtml={false} />
           </div>
         </div>
