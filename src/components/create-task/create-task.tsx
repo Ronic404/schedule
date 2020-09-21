@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
 import {
-  Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table,
+  Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table, Divider,
 } from 'antd';
 import MapRonic from '../map';
 import initialTaskText from './initial-task-text';
@@ -21,6 +21,7 @@ export default function CreateTask(): ReactElement {
   const [showMap, setShowMap] = useState<boolean>(true);
   const [nameFolder, setNameFolder] = useState<string>('RSSschool');
   const [nameBranch, setNameBranch] = useState<string>('RSSschool');
+  const [nameTask, setNameTask] = useState<string>('Name task');
   const [deadlineDate, setDeadlineDate] = useState<string>('01.01.1970');
   const [deadlineTime, setDeadlineTime] = useState<string>('00:00');
   const textarea = useRef<HTMLTextAreaElement>(null);
@@ -71,6 +72,7 @@ export default function CreateTask(): ReactElement {
     setDeadlineTime((document.querySelector('#deadlineTime') as HTMLInputElement).value);
     setNameFolder((document.querySelector('#folder') as HTMLInputElement).value);
     setNameBranch((document.querySelector('#branch') as HTMLInputElement).value);
+    setNameTask((document.querySelector('#nameTask') as HTMLInputElement).value);
     setLatitude(Number((document.querySelector('#latitude') as HTMLInputElement).value));
     setLongitude(Number((document.querySelector('#longitude') as HTMLInputElement).value));
 
@@ -81,8 +83,8 @@ export default function CreateTask(): ReactElement {
     <>
       <div className={styles.wrapper}>
         <div className={styles.main}>
-          {/* <div className={!taskHide ? styles.task : styles.hide}> */}
-          <div className={taskHide ? styles.task : styles.hide}>
+          {/* <div className={!taskHide ? styles.editTask : styles.hide}> */}
+          <div className={taskHide ? styles.editTask : styles.hide}>
             <Form>
               <Form.Item
                 label="Deadline date"
@@ -119,7 +121,7 @@ export default function CreateTask(): ReactElement {
               </Form.Item>
               <Form.Item
                 label="Name task"
-                name="Name"
+                name="nameTask"
                 required={false}
                 rules={[{ required: true, message: 'Напишите название задания!' }]}
               >
@@ -187,13 +189,21 @@ export default function CreateTask(): ReactElement {
               ref={textarea}
               value={text}
               onChange={handleChange}
+              className={styles.textarea}
             />
           </div>
-          <div>
-            {mapComponent}
+          <div className={styles.taskPage}>
             <div>
-              <Table columns={columns} dataSource={data} bordered pagination={false} />
+              <Table
+                columns={columns}
+                dataSource={data}
+                bordered
+                pagination={false}
+                className={styles.topTable}
+              />
+              <Divider style={{ fontSize: '3em' }}>{nameTask}</Divider>
             </div>
+            {mapComponent}
             <ReactMarkdown source={text} className={`${styles.markdown} markdown-body`} escapeHtml={false} />
           </div>
         </div>
