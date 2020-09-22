@@ -13,20 +13,22 @@ import StyleSelectorItem from '../style-selector-item';
 const StyleSelector: FC = (): ReactElement => {
     const [stateColor, setStateColor] = useState('#fff');
     const [stateElement, setStateElement] = useState(null);
+    const [visible, setVisible] = useState(true)
     const [taskData, setTaskData] = useState(taskTypes.map((item, id) => {
         // @ts-ignore
         return {...item, id}
     }));
     const handleOk = (): void => {
         taskTypes.forEach((e, idx) => {
-            console.log(taskData[idx].color)
             e.color = taskData[idx].color
         })
+        setVisible(false)
     }
 
     const handleCancel = (): void => {
-        console.log('cancel')
+        setVisible(false)
     }
+
     const handleChangeComplete = ({hex}: any): void => {
         setStateColor(hex);
         if (stateElement !== null) {
@@ -45,6 +47,7 @@ const StyleSelector: FC = (): ReactElement => {
             }
         }
     }
+
     const onColorPick = (e: any): void => {
         if (e) {
             const target = e.target;
@@ -56,7 +59,7 @@ const StyleSelector: FC = (): ReactElement => {
     return (
         <Modal
         title="Select Styles"
-        visible={true}
+        visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
       >

@@ -4,7 +4,7 @@ interface taskTypesArray {
     color?: string,
   }
 
-const taskTypes: Array<taskTypesArray> = [
+const taskTypes: taskTypesArray[] = [
   {
     text: 'Stream',
     value: 'stream',
