@@ -1,4 +1,5 @@
 .style-selector__item { 
     display: flex;
     justify-content: space-between;
+    margin-bottom: 6px;
 }

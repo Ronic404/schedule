@@ -8,14 +8,18 @@ type StyleSelectorItemType = {
 }
 
 const StyleSelectorItem = ({ text, color }: StyleSelectorItemType): ReactElement => {
+    console.log(styles)
+    const colorStyles = {
+        width: '26px',
+        height: '26px',
+        'background-color': color,
+        display: 'inline-block',
+        'border-radius': '50%'
+    }
     return (
         <div className={styles['style-selector__item']}>
             <span>{text}</span>
-            {color === 'Background' ? (
-                <span>{color}</span>
-            ) : (
-                <span style={{background: color}}>{color}</span>
-            )}
+            <span style={colorStyles} />
         </div>
     );
 }

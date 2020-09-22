@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import {
     Modal
 } from 'antd';
@@ -11,6 +11,9 @@ import styles from './style-selector.module.css';
 import StyleSelectorItem from '../style-selector-item';
 
 const StyleSelector: FC = (): ReactElement => {
+    const [state, setState] = useState({
+        background: '#fff'
+    })
     const handleOk = (): void => {
         console.log('ok')
     }
@@ -20,9 +23,8 @@ const StyleSelector: FC = (): ReactElement => {
     const handleCancel = (): void => {
         console.log('cancel')
     }
-    const styleSelectorItemHeader = {
-        text: 'Type',
-        color: 'Background'
+    const handleChangeComplete = ({hex}: any): void => {
+        setState({background: hex})
     }
     return (
         <Modal
@@ -33,7 +35,6 @@ const StyleSelector: FC = (): ReactElement => {
       >
           <div className={styles['modal-container']}>
             <ul className={styles['style-selector__list']}>
-                <li><StyleSelectorItem {...styleSelectorItemHeader} /></li>
                 {taskTypesData.map(({text, color, id}) => {
                     return (
                         <li key={id}><StyleSelectorItem text={text} color={color}/></li>
@@ -41,7 +42,10 @@ const StyleSelector: FC = (): ReactElement => {
                 })}
             </ul>
             <div className="color-selector">
-                <SketchPicker onChangeComplete={(a) => console.log(a)}/>
+                <SketchPicker
+                    color={state.background}
+                    onChangeComplete={handleChangeComplete} 
+                />
             </div>
           </div>
       </Modal>
