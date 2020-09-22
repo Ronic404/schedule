@@ -4,22 +4,22 @@ import styles from './style-selector-item.module.css';
 
 type StyleSelectorItemType = {
     text: string,
-    color?: string
+    color?: string,
+    onColorPick: any
 }
 
-const StyleSelectorItem = ({ text, color }: StyleSelectorItemType): ReactElement => {
-    console.log(styles)
+const StyleSelectorItem = ({ text, color, onColorPick }: StyleSelectorItemType): ReactElement => {
     const colorStyles = {
         width: '26px',
         height: '26px',
-        'background-color': color,
+        backgroundColor: color,
         display: 'inline-block',
-        'border-radius': '50%'
+        borderRadius: '50%'
     }
     return (
         <div className={styles['style-selector__item']}>
             <span>{text}</span>
-            <span style={colorStyles} />
+            <span style={colorStyles} onClick={onColorPick} data-color={color}/>
         </div>
     );
 }

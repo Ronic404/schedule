@@ -11,20 +11,47 @@ import styles from './style-selector.module.css';
 import StyleSelectorItem from '../style-selector-item';
 
 const StyleSelector: FC = (): ReactElement => {
-    const [state, setState] = useState({
-        background: '#fff'
-    })
-    const handleOk = (): void => {
-        console.log('ok')
-    }
-    const taskTypesData = taskTypes.map((item, id) => {
+    const [stateColor, setStateColor] = useState('#fff');
+    const [stateElement, setStateElement] = useState(null);
+    const [taskData, setTaskData] = useState(taskTypes.map((item, id) => {
+        // @ts-ignore
         return {...item, id}
-    })
+    }));
+    const handleOk = (): void => {
+        taskTypes.forEach((e, idx) => {
+            console.log(taskData[idx].color)
+            e.color = taskData[idx].color
+        })
+    }
+
     const handleCancel = (): void => {
         console.log('cancel')
     }
     const handleChangeComplete = ({hex}: any): void => {
-        setState({background: hex})
+        setStateColor(hex);
+        if (stateElement !== null) {
+            // @ts-ignore
+            const color = stateElement.dataset.color
+            const index = taskData.findIndex(item => item.color === color)
+            if (index !== -1) {
+                const task = taskData[index];
+                task.color = hex;
+                const newTaskData = [
+                    ...taskData.slice(0, index),
+                    task,
+                    ...taskData.slice(index + 1)
+                ]
+                setTaskData(newTaskData);
+            }
+        }
+    }
+    const onColorPick = (e: any): void => {
+        if (e) {
+            const target = e.target;
+            const color = target.dataset.color;
+            setStateColor(color);
+            setStateElement(target);
+        }
     }
     return (
         <Modal
@@ -35,15 +62,15 @@ const StyleSelector: FC = (): ReactElement => {
       >
           <div className={styles['modal-container']}>
             <ul className={styles['style-selector__list']}>
-                {taskTypesData.map(({text, color, id}) => {
+                {taskData.map(({text, color, id}) => {
                     return (
-                        <li key={id}><StyleSelectorItem text={text} color={color}/></li>
+                        <li key={id}><StyleSelectorItem text={text} color={color} onColorPick={onColorPick}/></li>
                     )
                 })}
             </ul>
             <div className="color-selector">
                 <SketchPicker
-                    color={state.background}
+                    color={stateColor}
                     onChangeComplete={handleChangeComplete} 
                 />
             </div>
