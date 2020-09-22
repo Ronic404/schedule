@@ -10,6 +10,7 @@ import TableContainer from './components/table-container';
 import TableHeader from './components/table-header';
 import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
+import StyleSelector from './components/style-selector';
 
 const { Content } = Layout;
 
@@ -18,7 +19,8 @@ const App: FC = ({ types }:any): ReactElement => {
 
   switch (types) {
     case 'Table':
-      viewTasks = <TableContainer />;
+      // viewTasks = <TableContainer />;
+      viewTasks = <StyleSelector />;
       break;
     case 'List':
       viewTasks = <ListContainer />;
