@@ -7,13 +7,22 @@ import styles from './dropbox.module.css';
 type DropboxProps = {
     items: Array<IOptionItem>,
     defaultIndex: number,
-    componentClassName?: string
+    componentClassName?: string,
+    handler?: any,
+    userTimeZone?: string,// eslint-disable-line
 }
 
-const Dropbox = ({ items, defaultIndex, componentClassName = '' } : DropboxProps): ReactElement => {
+const Dropbox = ({
+  items, defaultIndex, userTimeZone, componentClassName = '', handler, // eslint-disable-line
+} : DropboxProps): ReactElement => {
   const { Option } = Select;
+
   return (
-    <Select defaultValue={items[defaultIndex].name} className={styles[componentClassName]}>
+    <Select
+      onChange={handler}
+      defaultValue={userTimeZone || items[defaultIndex].name}
+      className={styles[componentClassName]}
+    >
       {items.map(({ name, id }): ReactElement => (
         <Option value={name} key={id}>{name}</Option>
       ))}
@@ -23,6 +32,7 @@ const Dropbox = ({ items, defaultIndex, componentClassName = '' } : DropboxProps
 
 Dropbox.defaultProps = {
   componentClassName: '',
+  handler: '',
 };
 
 export default Dropbox;

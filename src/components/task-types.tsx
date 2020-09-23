@@ -8,32 +8,32 @@ const taskTypes: taskTypesArray[] = [
   {
     text: 'Stream',
     value: 'stream',
-    color: '#FF9A6F',
+    color: 'magenta',
   },
   {
     text: 'Faculty',
     value: 'faculty',
-    color: '#BE6AFF',
+    color: 'purple',
   },
   {
     text: 'Self-education',
     value: 'self-education',
-    color: '#FCFF6A',
+    color: 'gold',
   },
   {
     text: 'Test',
     value: 'test',
-    color: '#6ADBFF',
+    color: 'blue',
   },
   {
     text: 'Deadline',
     value: 'deadline',
-    color: '#FF6A6A',
+    color: 'red',
   },
   {
     text: 'Start',
     value: 'start',
-    color: '#A3FF6A',
+    color: 'green',
   },
 ];
 

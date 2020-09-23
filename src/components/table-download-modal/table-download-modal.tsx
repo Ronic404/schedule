@@ -1,13 +1,8 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { PDFExport } from '@progress/kendo-react-pdf';
-import styles from './table-download-modal.module.css';
 
-export interface TableDownloadProps {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
-  PDFTable?: PDFExport | null;
-}
+import { TableDownloadProps } from '../../interfaces';
+import styles from './table-download-modal.module.css';
 
 const TableDownloadModal: React.FC<TableDownloadProps> = ({
   visible,

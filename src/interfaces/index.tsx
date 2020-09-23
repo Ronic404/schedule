@@ -1,3 +1,5 @@
+import { PDFExport } from '@progress/kendo-react-pdf';
+
 export interface IEvent {
   id: string,
   name: string,
@@ -18,4 +20,10 @@ export interface IOrganizer {
 export interface IOptionItem {
   name: string,
   id: number,
+}
+
+export interface TableDownloadProps {
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
+  PDFTable?: PDFExport | null;
 }

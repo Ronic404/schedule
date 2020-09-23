@@ -1,30 +1,63 @@
 import React, { FC, ReactElement, useState } from 'react';
-import './App.css';
+import { connect } from 'react-redux';
 import { Layout } from 'antd';
+
 import Header from './components/header';
+import TableContainer from './components/table-container';
+import TableHeader from './components/table-header';
+import ListContainer from './components/list-container';
+import CalendarSchedule from './components/calendar-schedule';
+import { TableDownloadProps } from './interfaces';
 
 import styles from './App.module.css';
-
-import TableContainer from './components/table-container';
-import CreateTask from './components/create-task';
-import TableHeader from './components/table-header';
-import { TableDownloadProps } from './components/table-download-modal/table-download-modal';
+import './App.css';
 
 const { Content } = Layout;
 
-const App: FC = (): ReactElement => {
+const App: FC = ({ types }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
 
-  return (<Layout>
-    <div className={styles.header}>
-      <Header />
-      <TableHeader tableRef={tableRef} />
-    </div>
-    <Content>
-      <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />
-      <CreateTask />
-    </Content>
-  </Layout>);
+  let viewTasks;
+
+  switch (types) {
+    case 'Table':
+      viewTasks = (
+        <TableContainer setTableRef={
+        (table: TableDownloadProps['PDFTable']) => setTableRef(table)
+      }
+        />
+      );
+      break;
+    case 'List':
+      viewTasks = <ListContainer />;
+      break;
+    case 'Calendar':
+      viewTasks = <CalendarSchedule />;
+      break;
+    default:
+      viewTasks = (
+        <TableContainer setTableRef={
+        (table: TableDownloadProps['PDFTable']) => setTableRef(table)
+      }
+        />
+      );
+  }
+
+  return (
+    <Layout>
+      <div className={styles.header}>
+        <Header />
+        <TableHeader tableRef={tableRef} />
+      </div>
+      <Content>
+        {viewTasks}
+      </Content>
+    </Layout>
+  );
 };
 
-export default App;
+const mapStateToProps = (state: any) => ({
+  types: state.types.type,
+});
+
+export default connect(mapStateToProps)(App);
