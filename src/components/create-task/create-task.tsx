@@ -1,11 +1,13 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, {
   ReactElement, useEffect, useRef, useState,
 } from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
 import {
-  Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table, Divider,
+  Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table, Divider, message,
 } from 'antd';
 import MapRonic from '../map';
+import Feedback from '../feedback';
 import initialTaskText from './initial-task-text';
 import allTypes from '../task-types';
 
@@ -22,13 +24,22 @@ export default function CreateTask(): ReactElement {
   const [nameFolder, setNameFolder] = useState<string>('RSSschool');
   const [nameBranch, setNameBranch] = useState<string>('RSSschool');
   const [nameTask, setNameTask] = useState<string>('Name task');
+  const [nameOrganizer, setNameOrganizer] = useState<string>('Your name');
+  const [startTaskDate, setStartTaskDate] = useState<string>('01.01.1970');
+  const [startTaskTime, setStartTaskTime] = useState<string>('00:00');
   const [deadlineDate, setDeadlineDate] = useState<string>('01.01.1970');
-  const [deadlineTime, setDeadlineTime] = useState<string>('00:00');
+  const [deadlineTime, setDeadlineTime] = useState<string>('23:59');
+  const [tagNumber, setTagNumber] = useState<number>(0);
   const textarea = useRef<HTMLTextAreaElement>(null);
 
   const mapComponent = !showMap ? <MapRonic latitude={latitude} longitude={longitude} /> : null;
 
-  const columns = [
+  const tableHeader = [
+    {
+      title: 'Start task',
+      dataIndex: 'StartTask',
+      key: 'StartTask',
+    },
     {
       title: 'Deadline',
       dataIndex: 'Deadline',
@@ -46,9 +57,10 @@ export default function CreateTask(): ReactElement {
     },
   ];
 
-  const data = [
+  const tableContent = [
     {
       key: '1',
+      StartTask: `${startTaskDate} ${startTaskTime}`,
       Deadline: `${deadlineDate} ${deadlineTime}`,
       Folder: nameFolder,
       Branch: nameBranch,
@@ -68,15 +80,20 @@ export default function CreateTask(): ReactElement {
 
   const saveDescription = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    setStartTaskDate((document.querySelector('#startTaskDate') as HTMLInputElement).value);
+    setStartTaskTime((document.querySelector('#startTaskTime') as HTMLInputElement).value);
     setDeadlineDate((document.querySelector('#deadlineDate') as HTMLInputElement).value);
     setDeadlineTime((document.querySelector('#deadlineTime') as HTMLInputElement).value);
     setNameFolder((document.querySelector('#folder') as HTMLInputElement).value);
     setNameBranch((document.querySelector('#branch') as HTMLInputElement).value);
     setNameTask((document.querySelector('#nameTask') as HTMLInputElement).value);
+    setNameOrganizer((document.querySelector('#organizer') as HTMLInputElement).value);
+    setTagNumber(Number(document.querySelector('#type')?.getAttribute('aria-activedescendant')?.slice(-1)));
     setLatitude(Number((document.querySelector('#latitude') as HTMLInputElement).value));
     setLongitude(Number((document.querySelector('#longitude') as HTMLInputElement).value));
 
-    // console.log((document.querySelector('#DeadlineDate') as HTMLInputElement).value);
+    message.success('Task has been saved!');
+  // console.log(document.querySelector('#type')?.getAttribute('aria-activedescendant')?.slice(-1));
   };
 
   return (
@@ -86,26 +103,49 @@ export default function CreateTask(): ReactElement {
           {/* <div className={!taskHide ? styles.editTask : styles.hide}> */}
           <div className={taskHide ? styles.editTask : styles.hide}>
             <Form>
-              <Form.Item
-                label="Deadline date"
-                name="deadlineDate"
-                required={false}
-                rules={[{ required: true, message: 'Назначьте дату дедлайна!' }]}
-              >
-                <DatePicker />
+              <Form.Item label="Start task">
+                <Input.Group compact>
+                  <Form.Item
+                    name="startTaskDate"
+                    required={false}
+                    rules={[{ required: true, message: 'Выберите дату!' }]}
+                    style={{ margin: '0' }}
+                  >
+                    <DatePicker />
+                  </Form.Item>
+                  <Form.Item
+                    name="startTaskTime"
+                    required={false}
+                    rules={[{ required: true, message: 'Выберите время начала!' }]}
+                    style={{ margin: '0 0 0 10px' }}
+                  >
+                    <TimePicker minuteStep={1} format="HH:mm" />
+                  </Form.Item>
+                </Input.Group>
               </Form.Item>
-              <Form.Item
-                label="Deadline time"
-                name="deadlineTime"
-                required={false}
-                rules={[{ required: true, message: 'Выберите время дедлайна!' }]}
-              >
-                <TimePicker minuteStep={5} format="HH:mm" />
+              <Form.Item label="Deadline">
+                <Input.Group compact>
+                  <Form.Item
+                    name="deadlineDate"
+                    required={false}
+                    rules={[{ required: true, message: 'Назначьте дату дедлайна!' }]}
+                    style={{ margin: '0' }}
+                  >
+                    <DatePicker />
+                  </Form.Item>
+                  <Form.Item
+                    name="deadlineTime"
+                    required={false}
+                    rules={[{ required: true, message: 'Выберите время дедлайна!' }]}
+                    style={{ margin: '0 0 0 10px' }}
+                  >
+                    <TimePicker minuteStep={1} format="HH:mm" />
+                  </Form.Item>
+                </Input.Group>
               </Form.Item>
               <Form.Item
                 label="Name folder"
                 name="folder"
-                id="folder"
                 required={false}
                 rules={[{ required: true, message: 'Напишите название папки!' }]}
               >
@@ -128,20 +168,11 @@ export default function CreateTask(): ReactElement {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Start task"
-                name="StartTask"
-                required={false}
-                rules={[{ required: true, message: 'Выберите дату!' }]}
-              >
-                <DatePicker />
-              </Form.Item>
-              <Form.Item
                 label="Type"
-                name="Type"
                 required={false}
                 rules={[{ required: true, message: 'Выберите тип задания!' }]}
               >
-                <Select>
+                <Select id="type">
                   {allTypes.map((type) => (
                     <Select.Option
                       key={type.value}
@@ -154,7 +185,7 @@ export default function CreateTask(): ReactElement {
               </Form.Item>
               <Form.Item
                 label="Organizer"
-                name="Organizer"
+                name="organizer"
                 required={false}
                 rules={[{ required: true, message: 'Напишите имя организатора!' }]}
               >
@@ -195,16 +226,27 @@ export default function CreateTask(): ReactElement {
           <div className={styles.taskPage}>
             <div>
               <Table
-                columns={columns}
-                dataSource={data}
+                columns={tableHeader}
+                dataSource={tableContent}
                 bordered
                 pagination={false}
                 className={styles.topTable}
               />
               <Divider style={{ fontSize: '3em' }}>{nameTask}</Divider>
+              <div>
+                <Tag
+                  color={allTypes[tagNumber].color}
+                  key={allTypes[tagNumber].value}
+                >
+                  {allTypes[tagNumber].value.toUpperCase()}
+                </Tag>
+                <span>Organizer: {nameOrganizer}</span>
+                <Divider />
+              </div>
             </div>
-            {mapComponent}
             <ReactMarkdown source={text} className={`${styles.markdown} markdown-body`} escapeHtml={false} />
+            {mapComponent}
+            <Feedback />
           </div>
         </div>
         <Button
