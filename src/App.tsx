@@ -14,13 +14,12 @@ import StyleSelector from './components/style-selector';
 
 const { Content } = Layout;
 
-const App: FC = ({ types }:any): ReactElement => {
+const App: FC = ({ types, styleSelectorVisibility }:any): ReactElement => {
   let viewTasks;
 
   switch (types) {
     case 'Table':
-      // viewTasks = <TableContainer />;
-      viewTasks = <StyleSelector />;
+      viewTasks = <TableContainer />;
       break;
     case 'List':
       viewTasks = <ListContainer />;
@@ -31,7 +30,6 @@ const App: FC = ({ types }:any): ReactElement => {
     default:
       viewTasks = <TableContainer />;
   }
-
   return (
     <Layout>
       <div className={styles.header}>
@@ -40,6 +38,7 @@ const App: FC = ({ types }:any): ReactElement => {
       </div>
       <Content>
         {viewTasks}
+      <StyleSelector visibility={styleSelectorVisibility}/>
       </Content>
     </Layout>
   );
@@ -47,6 +46,7 @@ const App: FC = ({ types }:any): ReactElement => {
 
 const mapStateToProps = (state:any) => ({
   types: state.types.type,
+  styleSelectorVisibility: state.styleSelectorVisibility.styleSelectorVisibility
 });
 
 export default connect(mapStateToProps)(App);

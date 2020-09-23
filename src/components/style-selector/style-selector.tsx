@@ -1,32 +1,31 @@
 import React, { FC, ReactElement, useState } from 'react';
-import {
-    Modal
-} from 'antd';
-
+import { connect } from 'react-redux';
+import { Modal } from 'antd';
+import { changeStyleSelectorVisibility } from '../../actions';
 import { SketchPicker } from 'react-color';
-
-import taskTypes from '../task-types';
-
+import taskTypes, { textColor } from '../task-types';
 import styles from './style-selector.module.css';
 import StyleSelectorItem from '../style-selector-item';
 
-const StyleSelector: FC = (): ReactElement => {
+const StyleSelector: FC<any> = ({ visibility, changeStyleSelectorVisibility }) => {
     const [stateColor, setStateColor] = useState('#fff');
     const [stateElement, setStateElement] = useState(null);
-    const [visible, setVisible] = useState(true)
-    const [taskData, setTaskData] = useState(taskTypes.map((item, id) => {
+    const taskTypesModified = taskTypes.map((item, id) => {
         // @ts-ignore
         return {...item, id}
-    }));
+    })
+    taskTypesModified.push({ ...textColor, id: taskTypes.length });
+    const [taskData, setTaskData] = useState(taskTypesModified);
     const handleOk = (): void => {
         taskTypes.forEach((e, idx) => {
-            e.color = taskData[idx].color
+            e.color = taskData[idx].color;
         })
-        setVisible(false)
+        textColor.color = taskData[taskData.length - 1].color;
+        changeStyleSelectorVisibility(false)
     }
 
     const handleCancel = (): void => {
-        setVisible(false)
+        changeStyleSelectorVisibility(false);
     }
 
     const handleChangeComplete = ({hex}: any): void => {
@@ -59,7 +58,7 @@ const StyleSelector: FC = (): ReactElement => {
     return (
         <Modal
         title="Select Styles"
-        visible={visible}
+        visible={visibility}
         onOk={handleOk}
         onCancel={handleCancel}
       >
@@ -82,4 +81,6 @@ const StyleSelector: FC = (): ReactElement => {
     );
 };
 
-export default StyleSelector;
+const mapDispatchToProps = { changeStyleSelectorVisibility };
+
+export default connect(null, mapDispatchToProps)(StyleSelector);

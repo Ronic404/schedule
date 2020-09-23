@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
-import { changeType, changeTimezone } from '../../actions';
+import { changeType, 
+  changeTimezone, 
+  changeStyleSelectorVisibility } from '../../actions';
 import HeaderButton from '../header-button/header-button';
 import {
   locations,
@@ -14,7 +16,7 @@ import {
   defaultCourseIndex,
 } from './table-header-data';
 // eslint-disable-next-line
-const TableHeader: FC<any> = ({ changeType, changeTimezone }): ReactElement => {
+const TableHeader: FC<any> = ({ changeType, changeTimezone, changeStyleSelectorVisibility }): ReactElement => {
   const typeChange = (el:any):void => {
     changeType(el);
   };
@@ -22,6 +24,10 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone }): ReactElement => {
   const timezoneChange = (el:any):void => {
     changeTimezone(el);
   };
+
+  const styleSelectorVisibilityChange = (): void => {
+    changeStyleSelectorVisibility(true);
+  }
 
   const [timeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
@@ -31,7 +37,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone }): ReactElement => {
         <Dropbox handler={timezoneChange} userTimeZone={timeZone} componentClassName="select-location" items={locations} defaultIndex={defaultLocationIndex} />
         <Dropbox handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
         <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
-        <HeaderButton buttonImage={<BgColorsOutlined />} />
+        <HeaderButton handler={styleSelectorVisibilityChange} buttonImage={<BgColorsOutlined />} />
       </div>
       <div className={styles['table__header-right']}>
         <HeaderButton buttonImage={<EyeOutlined />} />
@@ -42,7 +48,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone }): ReactElement => {
 };
 
 const mapDispatchToProps = {
-  changeType, changeTimezone,
+  changeType, changeTimezone, changeStyleSelectorVisibility
 };
 
 export default connect(null, mapDispatchToProps)(TableHeader);
