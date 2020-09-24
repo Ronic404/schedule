@@ -10,9 +10,6 @@ import CalendarSchedule from './components/calendar-schedule';
 import { TableDownloadProps } from './interfaces';
 
 import styles from './App.module.css';
-import './App.css';
-
-const { Content } = Layout;
 
 const App: FC = ({ types }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
@@ -22,9 +19,8 @@ const App: FC = ({ types }: any): ReactElement => {
   switch (types) {
     case 'Table':
       viewTasks = (
-        <TableContainer setTableRef={
-        (table: TableDownloadProps['PDFTable']) => setTableRef(table)
-      }
+        <TableContainer
+          setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
         />
       );
       break;
@@ -36,9 +32,8 @@ const App: FC = ({ types }: any): ReactElement => {
       break;
     default:
       viewTasks = (
-        <TableContainer setTableRef={
-        (table: TableDownloadProps['PDFTable']) => setTableRef(table)
-      }
+        <TableContainer
+          setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
         />
       );
   }
@@ -48,10 +43,8 @@ const App: FC = ({ types }: any): ReactElement => {
       <div className={styles.header}>
         <Header />
         <TableHeader tableRef={tableRef} />
-      </div>
-      <Content>
         {viewTasks}
-      </Content>
+      </div>
     </Layout>
   );
 };

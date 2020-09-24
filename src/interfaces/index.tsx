@@ -23,7 +23,11 @@ export interface IOptionItem {
 }
 
 export interface TableDownloadProps {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
-  PDFTable?: PDFExport | null;
+  visible: boolean,
+  setVisible: (visible: boolean) => void,
+  PDFTable?: PDFExport | null,
+}
+
+export interface TableContainerProps {
+  setTableRef: (component: TableDownloadProps['PDFTable']) => void,
 }

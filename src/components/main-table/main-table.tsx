@@ -6,12 +6,14 @@ import {
 } from 'antd';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import styles from './main-table.module.css';
+import { PDFExport } from '@progress/kendo-react-pdf';
+
 import ColsSelector from '../cols-selector';
+
 import getColumnDefs from '../columns';
 import data from '../data';
-import { PDFExport } from '@progress/kendo-react-pdf';
-import { TableContainerProps } from '../table-container/table-container';
+import { TableContainerProps } from '../../interfaces';
+import styles from './main-table.module.css';
 
 // const dateFormat = 'DD-MM-YYYY';
 

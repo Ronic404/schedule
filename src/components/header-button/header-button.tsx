@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { ReactElement } from 'react';
 
 import { Button } from 'antd';

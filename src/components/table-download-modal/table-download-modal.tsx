@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import { Modal, Button } from 'antd';
 
@@ -8,7 +9,7 @@ const TableDownloadModal: React.FC<TableDownloadProps> = ({
   visible,
   setVisible,
   PDFTable,
-}): React.ReactElement => {
+}: TableDownloadProps): React.ReactElement => {
   const handleVisibility = (visible: boolean) => () => setVisible(visible);
 
   return (

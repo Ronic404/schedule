@@ -1,16 +1,13 @@
 import React, { FC, ReactElement } from 'react';
 
-import styles from './table-container.module.css';
 import MainTable from '../main-table';
-import { TableDownloadProps } from '../../interfaces';
+import { TableContainerProps } from '../../interfaces';
 
-export interface TableContainerProps {
-  setTableRef: (component: TableDownloadProps['PDFTable']) => void;
-}
+import styles from './table-container.module.css';
 
 const TableContainer: FC<TableContainerProps> = ({
   setTableRef,
-}): ReactElement => (
+}: TableContainerProps): ReactElement => (
   <section className={styles['PDFTable-container']}>
     <MainTable setTableRef={setTableRef} />
   </section>
