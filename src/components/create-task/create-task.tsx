@@ -78,8 +78,11 @@ export default function CreateTask(): ReactElement {
     localStorage.setItem('task-text', JSON.stringify(textarea.current?.value || ''));
   };
 
-  const saveDescription = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const onFinish = () => {
+    message.success('Task has been saved!');
+  };
+
+  const saveDescription = () => {
     setStartTaskDate((document.querySelector('#startTaskDate') as HTMLInputElement).value);
     setStartTaskTime((document.querySelector('#startTaskTime') as HTMLInputElement).value);
     setDeadlineDate((document.querySelector('#deadlineDate') as HTMLInputElement).value);
@@ -91,7 +94,6 @@ export default function CreateTask(): ReactElement {
     setTagNumber(Number(document.querySelector('#type')?.getAttribute('aria-activedescendant')?.slice(-1)));
     setLatitude(Number((document.querySelector('#latitude') as HTMLInputElement).value));
     setLongitude(Number((document.querySelector('#longitude') as HTMLInputElement).value));
-    message.success('Task has been saved!');
   };
 
   return (
@@ -99,12 +101,13 @@ export default function CreateTask(): ReactElement {
       <div className={styles.wrapper}>
         <div className={styles.main}>
           <div className={!taskHide ? styles.editTask : styles.hide}>
-            <Form>
+            <Form onFinish={onFinish}>
               <Form.Item label="Start task">
                 <Input.Group compact>
                   <Form.Item
                     name="startTaskDate"
                     required={false}
+                    hasFeedback
                     rules={[{ required: true, message: 'Выберите дату!' }]}
                     style={{ margin: '0' }}
                   >
@@ -113,6 +116,7 @@ export default function CreateTask(): ReactElement {
                   <Form.Item
                     name="startTaskTime"
                     required={false}
+                    hasFeedback
                     rules={[{ required: true, message: 'Выберите время начала!' }]}
                     style={{ margin: '0 0 0 10px' }}
                   >
@@ -125,6 +129,7 @@ export default function CreateTask(): ReactElement {
                   <Form.Item
                     name="deadlineDate"
                     required={false}
+                    hasFeedback
                     rules={[{ required: true, message: 'Назначьте дату дедлайна!' }]}
                     style={{ margin: '0' }}
                   >
@@ -133,6 +138,7 @@ export default function CreateTask(): ReactElement {
                   <Form.Item
                     name="deadlineTime"
                     required={false}
+                    hasFeedback
                     rules={[{ required: true, message: 'Выберите время дедлайна!' }]}
                     style={{ margin: '0 0 0 10px' }}
                   >
@@ -144,6 +150,7 @@ export default function CreateTask(): ReactElement {
                 label="Name folder"
                 name="folder"
                 required={false}
+                hasFeedback
                 rules={[{ required: true, message: 'Напишите название папки!' }]}
               >
                 <Input />
@@ -152,6 +159,7 @@ export default function CreateTask(): ReactElement {
                 label="Name branch"
                 name="branch"
                 required={false}
+                hasFeedback
                 rules={[{ required: true, message: 'Напишите название ветки!' }]}
               >
                 <Input />
@@ -160,6 +168,7 @@ export default function CreateTask(): ReactElement {
                 label="Name task"
                 name="nameTask"
                 required={false}
+                hasFeedback
                 rules={[{ required: true, message: 'Напишите название задания!' }]}
               >
                 <Input />
@@ -167,6 +176,7 @@ export default function CreateTask(): ReactElement {
               <Form.Item
                 label="Type"
                 required={false}
+                hasFeedback
                 rules={[{ required: true, message: 'Выберите тип задания!' }]}
               >
                 <Select id="type">
@@ -184,6 +194,7 @@ export default function CreateTask(): ReactElement {
                 label="Organizer"
                 name="organizer"
                 required={false}
+                hasFeedback
                 rules={[{ required: true, message: 'Напишите имя организатора!' }]}
               >
                 <Input />
@@ -191,16 +202,16 @@ export default function CreateTask(): ReactElement {
               <Form.Item label="Show map">
                 <Switch onChange={(prev) => setShowMap(!prev)} />
               </Form.Item>
-              <Form.Item label="Place">
+              <Form.Item label="Coordinates">
                 <Input.Group compact>
                   <Form.Item
-                    name={['place', 'latitude']}
+                    name={['Coordinates', 'latitude']}
                     noStyle
                   >
                     <Input style={{ width: '50%' }} placeholder="latitude" id="latitude" />
                   </Form.Item>
                   <Form.Item
-                    name={['place', 'longitude']}
+                    name={['Coordinates', 'longitude']}
                     noStyle
                   >
                     <Input style={{ width: '50%' }} placeholder="longitude" id="longitude" />
