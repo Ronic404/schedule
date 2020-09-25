@@ -17,8 +17,6 @@ const Feedback: FC = (): ReactElement => {
       message.error('Fill in all the lines');
     } else {
       setConfirmLoading(true);
-      console.log(`nick: ${(document.querySelector('#input') as HTMLInputElement).value}`);
-      console.log(`comment: ${(document.querySelector('#textarea') as HTMLInputElement).value}`);
       setTimeout(() => {
         setVisible(false);
         setConfirmLoading(false);
@@ -34,7 +32,7 @@ const Feedback: FC = (): ReactElement => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        Leave feedback
+        Send feedback
       </Button>
       <Modal
         title="Your opinion is important to us!"

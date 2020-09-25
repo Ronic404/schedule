@@ -27,8 +27,11 @@ const App: FC = ({ types }:any): ReactElement => {
     case 'Calendar':
       viewTasks = <CalendarSchedule />;
       break;
-    default:
+    case 'Create task':
       viewTasks = <CreateTask />;
+      break;
+    default:
+      viewTasks = <TableContainer />;
   }
 
   return (

@@ -42,6 +42,7 @@
 
 .topTable {
   max-width: 500px;
+  overflow-x: scroll;
 }
 
 .button-task {

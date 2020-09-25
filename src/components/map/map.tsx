@@ -1,7 +1,8 @@
-import React, { ReactElement, FC } from 'react';
+import React, { ReactElement, FC, useState } from 'react';
 import {
   YMaps, Map, FullscreenControl, TypeSelector, ZoomControl, Placemark,
 } from 'react-yandex-maps';
+import { Spin } from 'antd';
 import styles from './map.module.css';
 
 interface IProps {
@@ -12,7 +13,13 @@ interface IProps {
 const MapRonic: FC<IProps> = ({ latitude, longitude }: IProps): ReactElement => {
   const coordinates = [latitude, longitude];
   const textBaloon = 'А может лучше дома посидеть? ;)';
-  console.log(coordinates);
+  const [showLoad, setShowLoad] = useState<boolean>(true);
+
+  if (showLoad) {
+    setTimeout(() => setShowLoad(false), 2000);
+    return <Spin className={styles.spin} tip="Loading..." />;
+  }
+
   return (
     <>
       <YMaps>

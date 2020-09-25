@@ -91,17 +91,14 @@ export default function CreateTask(): ReactElement {
     setTagNumber(Number(document.querySelector('#type')?.getAttribute('aria-activedescendant')?.slice(-1)));
     setLatitude(Number((document.querySelector('#latitude') as HTMLInputElement).value));
     setLongitude(Number((document.querySelector('#longitude') as HTMLInputElement).value));
-
     message.success('Task has been saved!');
-  // console.log(document.querySelector('#type')?.getAttribute('aria-activedescendant')?.slice(-1));
   };
 
   return (
     <>
       <div className={styles.wrapper}>
         <div className={styles.main}>
-          {/* <div className={!taskHide ? styles.editTask : styles.hide}> */}
-          <div className={taskHide ? styles.editTask : styles.hide}>
+          <div className={!taskHide ? styles.editTask : styles.hide}>
             <Form>
               <Form.Item label="Start task">
                 <Input.Group compact>

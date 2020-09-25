@@ -1,16 +1,12 @@
 import React, {
-  FC, ReactElement, useState, useEffect,
+  FC, ReactElement, useState,
 } from 'react';
 import { Rate } from 'antd';
 
-const desc = ['Junior', 'Middle', 'Senior', 'TeamLead', 'StudentRS ;)'];
+const desc = ['Junior', 'Middle', 'Senior', 'TeamLead', 'StudentRS 😉'];
 
 const Rater: FC = (): ReactElement => {
   const [rate, setRate] = useState<number>(0);
-
-  useEffect(() => {
-    console.log(`rate: ${rate} stars`);
-  }, [rate]);
 
   const handleChange = (value: number) => {
     setRate(value);
