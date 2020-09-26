@@ -1,12 +1,8 @@
-type TimeType = {
-  hour: number,
-  minute: number,
-};
-
 export interface IEvent {
   id?: string,
-  date?: number[],
-  time: TimeType | null,
+  key?: string,
+  date?: any,
+  time: any,
   type: string,
   place: string,
   name: string,

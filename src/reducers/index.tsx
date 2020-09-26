@@ -1,19 +1,21 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 import { IEvent } from '../interfaces';
 
-type stateType = {
+type StateType = {
   role: string,
   type: string,
   events: IEvent[],
+  loading: boolean,
 }
 
-const initialState: stateType = {
+const initialState: StateType = {
   role: 'mentor',
   type: 'table',
   events: [],
+  loading: true,
 };
 
-const reducer = (state: stateType = initialState, action: any): stateType => {
+const reducer = (state: StateType = initialState, action: any): StateType => {
   switch (action.type) {
     case 'CHANGE_ROLE':
       return {
@@ -29,16 +31,11 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
       return {
         ...state,
         events: action.payload,
+        loading: false,
       };
     default:
       return state;
   }
 };
 
-const rootReducer = combineReducers({
-  types: reducer,
-  roles: reducer,
-  events: reducer,
-});
-
-export { reducer, rootReducer };
+export default reducer;
