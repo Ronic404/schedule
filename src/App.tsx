@@ -35,14 +35,11 @@ const App: FC = ({ types }: any): ReactElement => {
       viewTasks = <CreateTask />;
       break;
     default:
-      viewTasks = <CreateTask />;
-      break;
-    // default:
-    //   viewTasks = (
-    //     <TableContainer
-    //       setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
-    //     />
-    //   );
+      viewTasks = (
+        <TableContainer
+          setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
+        />
+      );
   }
 
   return (
