@@ -117,7 +117,7 @@ const MainTable: FC<PropType> = ({
         eventsLoaded(res);
         setVisibleData(mapDatesToString(res));
       });
-  }, []);
+  }, [scheduleService, eventsLoaded]);
 
   useEffect(() => {
     setColsTitles(createColsTitles(columns));
