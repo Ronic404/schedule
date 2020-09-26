@@ -6,6 +6,7 @@ type StateType = {
   type: string,
   events: IEvent[],
   loading: boolean,
+  zone: string,
 }
 
 const initialState: StateType = {
@@ -13,6 +14,7 @@ const initialState: StateType = {
   type: 'table',
   events: [],
   loading: true,
+  zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 };
 
 const reducer = (state: StateType = initialState, action: any): StateType => {
@@ -32,6 +34,11 @@ const reducer = (state: StateType = initialState, action: any): StateType => {
         ...state,
         events: action.payload,
         loading: false,
+      };
+    case 'CHANGE_TIMEZONE':
+      return {
+        ...state,
+        zone: action.payload,
       };
     default:
       return state;

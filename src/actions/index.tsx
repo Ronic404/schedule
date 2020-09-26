@@ -15,8 +15,14 @@ const eventsLoaded = (newEvents: IEvent[]): { type: string, payload: IEvent[] } 
   payload: newEvents,
 });
 
+const changeTimezone = (newTimezone: string): { type: string, payload: string } => ({
+  type: 'CHANGE_TIMEZONE',
+  payload: newTimezone,
+});
+
 export {
   changeRole,
   changeType,
   eventsLoaded,
+  changeTimezone,
 };

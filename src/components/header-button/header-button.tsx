@@ -1,13 +1,15 @@
+/* eslint-disable react/require-default-props */
 import React, { ReactElement } from 'react';
 
 import { Button } from 'antd';
 
 type HeaderButtonProps = {
-    buttonImage: ReactElement,
+  buttonImage: ReactElement;
+  onClick?: () => void;
 }
 
-const HeaderButton = ({ buttonImage } : HeaderButtonProps): ReactElement => (
-  <Button type="text" size="large">{buttonImage}</Button>
+const HeaderButton = ({ buttonImage, onClick } : HeaderButtonProps): ReactElement => (
+  <Button type="text" size="large" onClick={onClick}>{buttonImage}</Button>
 );
 
 export default HeaderButton;

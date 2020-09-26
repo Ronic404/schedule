@@ -58,9 +58,9 @@ const MainTable: FC<PropType> = ({
   const activeCols = () => {
     const temp: any = [];
 
-    colsTitles.forEach((el) => {
+    colsTitles.forEach((el: any) => {
       if (el.checked) {
-        temp.push(columns.find((c) => c.title === el.title));
+        temp.push(columns.find((c: any) => c.title === el.title));
       }
     });
 
