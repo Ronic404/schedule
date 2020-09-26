@@ -9,19 +9,19 @@ type StyleSelectorItemType = {
 }
 
 const StyleSelectorItem = ({ text, color, onColorPick }: StyleSelectorItemType): ReactElement => {
-    const colorStyles = {
-        width: '26px',
-        height: '26px',
-        backgroundColor: color,
-        display: 'inline-block',
-        borderRadius: '50%'
-    }
-    return (
-        <div className={styles['style-selector__item']}>
-            <span>{text}</span>
-            <span style={colorStyles} onClick={onColorPick} data-color={color}/>
-        </div>
-    );
-}
+  const colorStyles = {
+    width: '26px',
+    height: '26px',
+    backgroundColor: color,
+    display: 'inline-block',
+    borderRadius: '50%',
+  };
+  return (
+    <div className={styles['style-selector__item']}>
+      <span>{text}</span>
+      <span style={colorStyles} onClick={onColorPick} data-color={color} />
+    </div>
+  );
+};
 
 export default StyleSelectorItem;

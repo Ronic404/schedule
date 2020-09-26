@@ -41,6 +41,6 @@ const textColor: taskTypesArray = {
   text: 'Text color',
   value: 'text color',
   color: '#000',
-}
+};
 
-export { taskTypes as  default, textColor };
+export { taskTypes as default, textColor };

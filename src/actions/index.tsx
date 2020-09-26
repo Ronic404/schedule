@@ -16,8 +16,9 @@ const changeStyleSelectorVisibility = (newVisibility: boolean): { type: string, 
   payload: newVisibility,
 });
 
-export { 
-  changeRole, 
-  changeType, 
-  changeTimezone, 
-  changeStyleSelectorVisibility };
+export {
+  changeRole,
+  changeType,
+  changeTimezone,
+  changeStyleSelectorVisibility,
+};

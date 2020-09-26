@@ -38,7 +38,7 @@ const App: FC = ({ types, styleSelectorVisibility }:any): ReactElement => {
       </div>
       <Content>
         {viewTasks}
-      <StyleSelector visibility={styleSelectorVisibility}/>
+        <StyleSelector visibility={styleSelectorVisibility} />
       </Content>
     </Layout>
   );
@@ -46,7 +46,7 @@ const App: FC = ({ types, styleSelectorVisibility }:any): ReactElement => {
 
 const mapStateToProps = (state:any) => ({
   types: state.types.type,
-  styleSelectorVisibility: state.styleSelectorVisibility.styleSelectorVisibility
+  styleSelectorVisibility: state.styleSelectorVisibility.styleSelectorVisibility,
 });
 
 export default connect(mapStateToProps)(App);

@@ -11,7 +11,7 @@ const initialState: stateType = {
   role: 'mentor',
   type: 'table',
   zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  styleSelectorVisibility: false
+  styleSelectorVisibility: false,
 };
 
 const reducer = (state: stateType = initialState, action: any): stateType => {
@@ -45,7 +45,7 @@ const rootReducer = combineReducers({
   types: reducer,
   roles: reducer,
   timezone: reducer,
-  styleSelectorVisibility: reducer
+  styleSelectorVisibility: reducer,
 });
 
 export { reducer, rootReducer };

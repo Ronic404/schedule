@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
-import { changeType, 
-  changeTimezone, 
-  changeStyleSelectorVisibility } from '../../actions';
+import {
+  changeType,
+  changeTimezone,
+  changeStyleSelectorVisibility,
+} from '../../actions';
 import HeaderButton from '../header-button/header-button';
 import {
   locations,
@@ -27,7 +29,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, changeStyleSelectorV
 
   const styleSelectorVisibilityChange = (): void => {
     changeStyleSelectorVisibility(true);
-  }
+  };
 
   const [timeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
@@ -48,7 +50,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, changeStyleSelectorV
 };
 
 const mapDispatchToProps = {
-  changeType, changeTimezone, changeStyleSelectorVisibility
+  changeType, changeTimezone, changeStyleSelectorVisibility,
 };
 
 export default connect(null, mapDispatchToProps)(TableHeader);
