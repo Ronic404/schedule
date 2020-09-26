@@ -254,6 +254,7 @@ export default function CreateTask(): ReactElement {
             </div>
             <ReactMarkdown source={text} className={`${styles.markdown} markdown-body`} escapeHtml={false} />
             {mapComponent}
+            <Divider />
             <Feedback />
           </div>
         </div>
