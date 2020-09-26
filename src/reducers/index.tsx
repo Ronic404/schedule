@@ -27,7 +27,7 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
     case 'CHANGE_TIMEZONE':
       return {
         ...state,
-        type: action.payload,
+        zone: action.payload,
       };
     default:
       return state;

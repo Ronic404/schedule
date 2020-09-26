@@ -77,6 +77,12 @@ function CreateTask({ role }: any): ReactElement {
     }
   }, []);
 
+  useEffect((): void => {
+    if (role === 'Student') {
+      setTaskHide(true);
+    }
+  }, [role]);
+
   const handleChange = (): void => {
     setText(textarea.current?.value || '');
     localStorage.setItem('task-text', JSON.stringify(textarea.current?.value || ''));
