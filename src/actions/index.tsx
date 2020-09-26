@@ -7,5 +7,9 @@ const changeType = (newType: string): { type: string, payload: string } => ({
   type: 'CHANGE_TYPE',
   payload: newType,
 });
+const changeTimezone = (newTimezone: string): { type: string, payload: string } => ({
+  type: 'CHANGE_TIMEZONE',
+  payload: newTimezone,
+});
 
-export { changeRole, changeType };
+export { changeRole, changeType, changeTimezone };

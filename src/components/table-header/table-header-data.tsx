@@ -30,11 +30,11 @@ const locations: Array<IOptionItem> = [
     id: 7,
   },
   {
-    name: 'Europe/Tashkent',
+    name: 'Asia/Tashkent',
     id: 8,
   },
   {
-    name: 'Europe/Tbilisi',
+    name: 'Asia/Tbilisi',
     id: 9,
   },
 ];

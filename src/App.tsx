@@ -1,9 +1,6 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { connect } from 'react-redux';
-import './App.css';
 import { Layout } from 'antd';
-
-import styles from './App.module.css';
 
 import Header from './components/header';
 import TableContainer from './components/table-container';
@@ -11,15 +8,22 @@ import TableHeader from './components/table-header';
 import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
 import CreateTask from './components/create-task';
+import { TableDownloadProps } from './interfaces';
 
-const { Content } = Layout;
+import styles from './App.module.css';
 
-const App: FC = ({ types }:any): ReactElement => {
+const App: FC = ({ types }: any): ReactElement => {
+  const [tableRef, setTableRef] = useState();
+
   let viewTasks;
 
   switch (types) {
     case 'Table':
-      viewTasks = <TableContainer />;
+      viewTasks = (
+        <TableContainer
+          setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
+        />
+      );
       break;
     case 'List':
       viewTasks = <ListContainer />;
@@ -31,23 +35,25 @@ const App: FC = ({ types }:any): ReactElement => {
       viewTasks = <CreateTask />;
       break;
     default:
-      viewTasks = <TableContainer />;
+      viewTasks = (
+        <TableContainer
+          setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
+        />
+      );
   }
 
   return (
     <Layout>
       <div className={styles.header}>
         <Header />
-        <TableHeader />
-      </div>
-      <Content>
+        <TableHeader tableRef={tableRef} />
         {viewTasks}
-      </Content>
+      </div>
     </Layout>
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   types: state.types.type,
 });
 

@@ -1,21 +1,24 @@
 import React, {
-  FC, ReactElement, useEffect, useState,
+  FC, useEffect, useState, ReactElement,
 } from 'react';
 import {
   Table, Layout, Button,
 } from 'antd';
+import { connect } from 'react-redux';
+import moment from 'moment-timezone';
+import { PDFExport } from '@progress/kendo-react-pdf';
 
-import styles from './main-table.module.css';
 import ColsSelector from '../cols-selector';
-import columns from '../columns';
-import data from '../data';
 
-const dateFormat = 'DD-MM-YYYY';
+import getColumnDefs from '../columns';
+import data from '../data';
+import { TableContainerProps } from '../../interfaces';
+import styles from './main-table.module.css';
+
+// const dateFormat = 'DD-MM-YYYY';
 
 interface Item {
   key: string,
-  date?: any,
-  time: string,
   type: string,
   place: string,
   name: string,
@@ -23,34 +26,32 @@ interface Item {
   comment: string,
   done?: boolean,
   hided?: boolean,
+  dateTime: any,
 }
 
-const mapDatesToString = () => {
-  const [...tempData] = data;
-  return tempData.map((el) => {
-    const { ...temp } = el;
-    temp.date = temp.date?.format(dateFormat);
-    return temp;
-  });
-};
+interface MainTableProps {
+  timezone: string,
+  setTableRef: TableContainerProps['setTableRef'],
+}
 
-const createColsTitles = () => {
+const createColsTitles = (columns: any) => {
   const temp: { title: string, checked: boolean }[] = [];
   const [...titles] = columns;
-  titles.forEach((col) => {
+  titles.forEach((col: any) => {
     temp.push({ title: col.title, checked: true });
   });
   return temp;
 };
-
-const MainTable: FC = (): ReactElement => {
+// eslint-disable-next-line
+const MainTable: FC<MainTableProps> = ({ timezone, setTableRef }: MainTableProps): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<Item[]>([]);
   const [hidedRows, setHidedRows] = useState<Item[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
-  // eslint-disable-next-line
-  const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
+  const [columns, setColumns] = useState(getColumnDefs(timezone));
+  const [visibleData, setVisibleData] = useState<Item[]>(data);
+  const startOfToday = moment().startOf('day');
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
@@ -68,6 +69,7 @@ const MainTable: FC = (): ReactElement => {
     setVisibleData(data);
     setShowAllBtn(false);
   };
+
   const activeCols = () => {
     const temp: any = [];
     colsTitles.forEach((el) => {
@@ -101,7 +103,7 @@ const MainTable: FC = (): ReactElement => {
       }
       setHidedRows(rowsToHide);
     }
-    console.log(rowsToHide);
+
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
         // eslint-disable-next-line no-param-reassign
@@ -117,8 +119,10 @@ const MainTable: FC = (): ReactElement => {
   };
 
   useEffect(() => {
-    setColsTitles(createColsTitles());
-  }, []);
+    const newColumns = getColumnDefs(timezone);
+    setColumns(newColumns);
+    setColsTitles(createColsTitles(newColumns));
+  }, [timezone]);
 
   useEffect(() => {
     setShowHideBtn(Boolean(hidedRows.length));
@@ -135,13 +139,21 @@ const MainTable: FC = (): ReactElement => {
         {showHideBtn && <Button onClick={hideClickHandle}>Hide</Button>}
       </div>
       <Table
+        rowClassName={(record) => (moment(record.dateTime).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
         size="middle"
         columns={activeCols()}
         dataSource={visibleData}
         onRow={(record) => ({ onClick: (el) => selectRow(record, el) })}
       />
+      <PDFExport ref={(component) => setTableRef(component)}>
+        <Table size="middle" columns={activeCols()} dataSource={data} />
+      </PDFExport>
     </Layout>
   );
 };
 
-export default MainTable;
+const mapStateToProps = (state: any) => (({
+  timezone: state.timezone.type,
+}));
+
+export default connect(mapStateToProps)(MainTable);
