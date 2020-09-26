@@ -2,6 +2,7 @@
 import React, {
   ReactElement, useEffect, useRef, useState,
 } from 'react';
+import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown/with-html';
 import {
   Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table, Divider, message,
@@ -15,7 +16,9 @@ import 'github-markdown-css';
 import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
-export default function CreateTask(): ReactElement {
+function CreateTask({ role }: any): ReactElement {
+  console.log(role);
+
   const [taskHide, setTaskHide] = useState<boolean>(true);
   const [text, setText] = useState<string>(initialTaskText);
   const [latitude, setLatitude] = useState<number>(53.9000000);
@@ -33,6 +36,7 @@ export default function CreateTask(): ReactElement {
   const textarea = useRef<HTMLTextAreaElement>(null);
 
   const mapComponent = !showMap ? <MapRonic latitude={latitude} longitude={longitude} /> : null;
+  const editButtonClass = role === 'Mentor' ? styles['button-task'] : styles.hide;
 
   const tableHeader = [
     {
@@ -259,7 +263,7 @@ export default function CreateTask(): ReactElement {
           </div>
         </div>
         <Button
-          className={styles['button-task']}
+          className={editButtonClass}
           onClick={() => setTaskHide(!taskHide)}
           type="primary"
           size="large"
@@ -270,3 +274,9 @@ export default function CreateTask(): ReactElement {
     </>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  role: state.roles.role,
+});
+
+export default connect(mapStateToProps)(CreateTask);

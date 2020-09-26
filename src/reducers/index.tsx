@@ -7,7 +7,7 @@ type stateType = {
 }
 
 const initialState: stateType = {
-  role: 'mentor',
+  role: 'student',
   type: 'table',
   zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 };

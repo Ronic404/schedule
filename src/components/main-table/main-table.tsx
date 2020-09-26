@@ -153,7 +153,7 @@ const MainTable: FC<MainTableProps> = ({ timezone, setTableRef }: MainTableProps
 };
 
 const mapStateToProps = (state: any) => (({
-  timezone: state.timezone.type,
+  timezone: state.timezone.zone,
 }));
 
 export default connect(mapStateToProps)(MainTable);
