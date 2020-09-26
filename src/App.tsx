@@ -7,6 +7,7 @@ import TableContainer from './components/table-container';
 import TableHeader from './components/table-header';
 import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
+import CreateTask from './components/create-task';
 import { TableDownloadProps } from './interfaces';
 
 import styles from './App.module.css';
@@ -29,6 +30,9 @@ const App: FC = ({ types }: any): ReactElement => {
       break;
     case 'Calendar':
       viewTasks = <CalendarSchedule />;
+      break;
+    case 'Create task':
+      viewTasks = <CreateTask />;
       break;
     default:
       viewTasks = (

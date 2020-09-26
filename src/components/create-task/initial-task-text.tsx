@@ -1,4 +1,4 @@
-const initialTaskText = `# Task name
+const initialTaskText = `# You may delete code below, it is just example
 ![](https://cdn.5bestthings.com/wp-content/uploads/2019/11/Business-Tasks-356x220.jpg)  
 Description.
 ## HTML block below
