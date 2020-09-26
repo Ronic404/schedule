@@ -38,6 +38,8 @@ const StyleSelector: FC<any> = ({ visibility, changeStyleSelectorVisibility }) =
     }
 
     changeStyleSelectorVisibility(false);
+    localStorage.setItem('taskTypes', JSON.stringify(taskTypes));
+    localStorage.setItem('textColor', JSON.stringify(textColor));
   };
 
   const handleCancel = (): void => {
