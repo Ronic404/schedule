@@ -12,11 +12,11 @@ import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
 import CreateTask from './components/create-task';
 import { TableDownloadProps } from './interfaces';
+import StyleSelector from './components/style-selector';
 
 import styles from './App.module.css';
-import data from './components/data';
 
-const App: FC = ({ types }: any): ReactElement => {
+const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
 
   let viewTasks: ReactElement;
@@ -45,7 +45,7 @@ const App: FC = ({ types }: any): ReactElement => {
         />
       );
   }
-
+  console.log(types);
   return (
     <BrowserRouter>
       <Layout>
@@ -57,6 +57,7 @@ const App: FC = ({ types }: any): ReactElement => {
             <Route path={`/${types}`} render={() => viewTasks} />
             <Route path="/task" render={() => <CreateTask />} />
           </Switch>
+          <StyleSelector visibility={styleSelectorVisibility} />
         </div>
       </Layout>
     </BrowserRouter>
@@ -65,6 +66,7 @@ const App: FC = ({ types }: any): ReactElement => {
 
 const mapStateToProps = (state: any) => ({
   types: state.type,
+  styleSelectorVisibility: state.styleSelectorVisibility,
 });
 
 export default connect(mapStateToProps)(App);

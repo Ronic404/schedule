@@ -6,7 +6,11 @@ import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/ico
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
 import DropboxRoute from '../dropbox-route';
-import { changeType, changeTimezone } from '../../actions';
+import {
+  changeType,
+  changeTimezone,
+  changeStyleSelectorVisibility,
+} from '../../actions';
 import HeaderButton from '../header-button/header-button';
 import TableDownloadModal from '../table-download-modal';
 import {
@@ -21,10 +25,16 @@ import {
 type PropType = {
   changeType: any,
   changeTimezone: any,
+  changeStyleSelectorVisibility: any,
   tableRef: any,
 }
 
-const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef }: PropType): ReactElement => {
+const TableHeader: FC<any> = ({
+  changeType,
+  changeTimezone,
+  changeStyleSelectorVisibility,
+  tableRef,
+}: PropType): ReactElement => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [timeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
@@ -34,6 +44,10 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef }: PropType
 
   const timezoneChange = (el: any): void => {
     changeTimezone(el);
+  };
+
+  const styleSelectorVisibilityChange = (value: boolean): void => {
+    changeStyleSelectorVisibility(value);
   };
 
   return (
@@ -48,7 +62,10 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef }: PropType
         />
         <DropboxRoute handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
         <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
-        <HeaderButton buttonImage={<BgColorsOutlined />} />
+        <HeaderButton
+          buttonImage={<BgColorsOutlined />}
+          onClick={() => { styleSelectorVisibilityChange(true); }}
+        />
       </div>
       <div className={styles['table__header-right']}>
         <HeaderButton buttonImage={<EyeOutlined />} />
@@ -67,7 +84,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef }: PropType
 };
 
 const mapDispatchToProps = {
-  changeType, changeTimezone,
+  changeType, changeTimezone, changeStyleSelectorVisibility,
 };
 
 export default connect(null, mapDispatchToProps)(TableHeader);

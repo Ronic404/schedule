@@ -8,6 +8,7 @@ type StateType = {
   loading: boolean,
   taskNumber: number,
   timezone: string,
+  styleSelectorVisibility: boolean
 }
 
 const initialState: StateType = {
@@ -17,6 +18,7 @@ const initialState: StateType = {
   loading: true,
   taskNumber: 1,
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  styleSelectorVisibility: false,
 };
 
 const reducer = (state: StateType = initialState, action: any): StateType => {
@@ -46,6 +48,11 @@ const reducer = (state: StateType = initialState, action: any): StateType => {
       return {
         ...state,
         taskNumber: action.payload,
+      };
+    case 'CHANGE_STYLESELECTOR_VISIBILITY':
+      return {
+        ...state,
+        styleSelectorVisibility: action.payload,
       };
     default:
       return state;

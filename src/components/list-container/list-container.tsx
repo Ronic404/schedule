@@ -2,11 +2,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { List, Tag, Card } from 'antd';
+import { List, Card } from 'antd';
 import { connect } from 'react-redux';
+import CustomTag from '../custom-tag';
 import { changeTaskNumber } from '../../actions';
 import data from '../data';
-import taskTypes from '../task-types';
+import taskTypes, { textColor } from '../task-types';
 
 import styles from './list-structure.module.css';
 
@@ -22,12 +23,12 @@ function ListContainer({ changeTaskNumber }: any): ReactElement {
         pagination={{ pageSize: 12 }}
         renderItem={(item) => (
           <Card.Grid className={styles.item} key={item.key}>
-            <Tag
-              className={styles.type}
-              color={taskTypes.find((task) => task.value === item.type)?.color}
-            >
-              {item.type.toUpperCase()}
-            </Tag>
+            <CustomTag
+              tagClassName={styles.type}
+              backgroundColor={taskTypes.find((task) => task.value === item.type)?.color}
+              color={textColor.color}
+              text={item.type.toUpperCase()}
+            />
             <Card
               className={styles.taskCard}
               type="inner"
