@@ -24,8 +24,6 @@ const { Option } = Select;
 
 const dateFormat = 'DD-MM-YYYY';
 
-const reg = new RegExp('^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$');
-
 // interface Item {
 //     key: string,
 //     date?: any,
@@ -40,28 +38,28 @@ const reg = new RegExp('^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$');
 // }
 
 interface Column {
-    key?: string,
-    title: string,
-    dataIndex: string,
-    editable?: boolean,
-    render?: any
+  key?: string,
+  title: string,
+  dataIndex: string,
+  editable?: boolean,
+  render?: any
 }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-    editing: boolean;
-    dataIndex: string;
-    title: string;
-    record: IEvent;
-    index: number;
-    children: React.ReactNode;
-  }
+  editing: boolean;
+  dataIndex: string;
+  title: string;
+  record: IEvent;
+  index: number;
+  children: React.ReactNode;
+}
 
-  type PropType = {
-    scheduleService: any,
-    events: IEvent[],
-    eventsLoaded: any,
-    loading: boolean,
-  };
+type PropType = {
+  scheduleService: any,
+  events: IEvent[],
+  eventsLoaded: any,
+  loading: boolean,
+};
 
 const createOriginData = (data: IEvent[]) => {
   const [...originData] = data;
@@ -149,10 +147,13 @@ const TableForMentor: FC<PropType> = ({
   //   setTimeStr(event.target.value);
   // }
 
-  function checkTime() {
-    if (reg.test(timeInput.current.value)) {
+  function checkTime(dataInput: string) {
+    const reg = /^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/gm;
+
+    if (reg.test(dataInput)) {
       return 'success';
     }
+
     return 'error';
   }
 
@@ -301,15 +302,18 @@ const TableForMentor: FC<PropType> = ({
 
   const save = async (key: string) => {
     try {
-      if (checkTime() !== 'success') {
-        console.log(timeInput.current.state.value)
+      const curData: string = timeInput.current.state.value;
+
+      if (checkTime(curData) !== 'success') {
         alert('Please, enter time in HH:mm format');
         return;
       }
+
       const row = (await form.validateFields()) as IEvent;
       const originRow = (await form.validateFields()) as IEvent;
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
+
       if (index > -1) {
         const item: IEvent = newData[index];
         const originItem: IEvent = originData[index];
