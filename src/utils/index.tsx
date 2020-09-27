@@ -1,3 +1,9 @@
 import compose from './compose';
+import mapDatesToString from './map-dates-to-string';
+import createColsTitles from './create-cols-titles';
 
-export default compose;
+export {
+  compose,
+  mapDatesToString,
+  createColsTitles,
+};

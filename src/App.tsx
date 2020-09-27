@@ -54,7 +54,7 @@ const App: FC = ({ types }: any): ReactElement => {
 };
 
 const mapStateToProps = (state: any) => ({
-  types: state.types.type,
+  types: state.type,
 });
 
 export default connect(mapStateToProps)(App);

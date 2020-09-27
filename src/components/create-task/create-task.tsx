@@ -282,7 +282,7 @@ function CreateTask({ role }: any): ReactElement {
 }
 
 const mapStateToProps = (state: any) => ({
-  role: state.roles.role,
+  role: state.role,
 });
 
 export default connect(mapStateToProps)(CreateTask);

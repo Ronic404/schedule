@@ -1,132 +1,139 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-shadow */
 import React, {
-  FC, useEffect, useState, ReactElement,
+  FC, ReactElement, useEffect, useState,
 } from 'react';
 import {
   Table, Layout, Button,
 } from 'antd';
 import { connect } from 'react-redux';
-import moment from 'moment-timezone';
-import { PDFExport } from '@progress/kendo-react-pdf';
 
 import ColsSelector from '../cols-selector';
+import Spinner from '../spinner';
 
-import getColumnDefs from '../columns';
-import data from '../data';
-import { TableContainerProps } from '../../interfaces';
+import { eventsLoaded } from '../../actions';
+import {
+  compose, mapDatesToString, createColsTitles,
+} from '../../utils';
+import columns from '../columns';
+import { IEvent } from '../../interfaces';
+import withScheduleService from '../hoc';
 import styles from './main-table.module.css';
 
-// const dateFormat = 'DD-MM-YYYY';
-
-interface Item {
-  key: string,
-  type: string,
-  place: string,
-  name: string,
-  organizer: string,
-  comment: string,
-  done?: boolean,
-  hided?: boolean,
-  dateTime: any,
-}
-
-interface MainTableProps {
-  timezone: string,
-  setTableRef: TableContainerProps['setTableRef'],
-}
-
-const createColsTitles = (columns: any) => {
-  const temp: { title: string, checked: boolean }[] = [];
-  const [...titles] = columns;
-  titles.forEach((col: any) => {
-    temp.push({ title: col.title, checked: true });
-  });
-  return temp;
+type PropType = {
+  scheduleService: any,
+  events: IEvent[],
+  eventsLoaded: any,
+  loading: boolean,
 };
-// eslint-disable-next-line
-const MainTable: FC<MainTableProps> = ({ timezone, setTableRef }: MainTableProps): ReactElement => {
+
+const MainTable: FC<PropType> = ({
+  scheduleService, events, eventsLoaded, loading,
+}: PropType): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
-  const [checkedRows, setCheckedRows] = useState<Item[]>([]);
-  const [hidedRows, setHidedRows] = useState<Item[]>([]);
+  const [checkedRows, setCheckedRows] = useState<IEvent[]>([]);
+  const [hiddenRows, setHiddenRows] = useState<IEvent[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
-  const [columns, setColumns] = useState(getColumnDefs(timezone));
-  const [visibleData, setVisibleData] = useState<Item[]>(data);
-  const startOfToday = moment().startOf('day');
+  const [visibleData, setVisibleData] = useState<IEvent[]>(events);
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
   };
 
   const hideClickHandle = () => {
-    // eslint-disable-next-line
-    const updatedData = visibleData.filter((row) => !hidedRows.some((hiddenRow) => row.key === hiddenRow.key));
+    const updatedData = visibleData.filter((row) => !hiddenRows.some((hiddenRow) => (
+      row.key === hiddenRow.key
+    )));
+
     setShowHideBtn(false);
     setVisibleData(updatedData);
     setShowAllBtn(true);
   };
 
-  const unhideClickHandle = () => {
-    setVisibleData(data);
+  const unhiddenClickHandle = () => {
     setShowAllBtn(false);
   };
 
   const activeCols = () => {
     const temp: any = [];
-    colsTitles.forEach((el) => {
-      if (el.checked) temp.push(columns.find((c) => c.title === el.title));
+
+    colsTitles.forEach((el: any) => {
+      if (el.checked) {
+        temp.push(columns.find((c: any) => c.title === el.title));
+      }
     });
+
     return temp;
   };
 
-  const selectRow = (record: Item, el: any) => {
+  const selectRow = (record: IEvent, el: any) => {
     const selectedRows = [...checkedRows];
-    let rowsToHide = [...hidedRows];
+    let rowsToHide = [...hiddenRows];
 
-    if (el.shiftKey && el.target.classList.contains('ant-table-cell')) {
+    if (el.ctrlKey && el.target.classList.contains('ant-table-cell')) {
       el.target.parentNode.classList.toggle('ant-table-row-selected');
+
       if (rowsToHide.indexOf(record) !== -1) {
         rowsToHide.splice(rowsToHide.indexOf(record), 1);
       } else {
         rowsToHide.push(record);
       }
-      setHidedRows(rowsToHide);
+
+      setHiddenRows(rowsToHide);
     }
 
-    if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
+    if (!el.ctrlKey && el.target.classList.contains('ant-table-cell')) {
       const removeStyles = document.querySelectorAll('.ant-table-row-selected');
+
       removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
+
       if (rowsToHide.length) {
         rowsToHide = [];
       } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
       }
-      setHidedRows(rowsToHide);
+
+      setHiddenRows(rowsToHide);
     }
 
     if (el.target.classList.contains('ant-checkbox-input')) {
       if (selectedRows.indexOf(record) !== -1) {
-        // eslint-disable-next-line no-param-reassign
         record.done = false;
         selectedRows.splice(selectedRows.indexOf(record), 1);
       } else {
         selectedRows.push(record);
-        // eslint-disable-next-line no-param-reassign
         record.done = true;
       }
+
       setCheckedRows(selectedRows);
     }
   };
 
   useEffect(() => {
-    const newColumns = getColumnDefs(timezone);
-    setColumns(newColumns);
-    setColsTitles(createColsTitles(newColumns));
-  }, [timezone]);
+    scheduleService.getAllEvents()
+      .then((res: any) => {
+        eventsLoaded(res);
+
+        // res.forEach((el: any) => {
+        //   scheduleService.deleteEvent(el.id);
+        // });
+        setVisibleData(mapDatesToString(res));
+      });
+  }, [scheduleService, eventsLoaded]);
 
   useEffect(() => {
-    setShowHideBtn(Boolean(hidedRows.length));
-  }, [hidedRows]);
+    setColsTitles(createColsTitles(columns));
+  }, []);
+
+  useEffect(() => {
+    setShowHideBtn(Boolean(hiddenRows.length));
+  }, [hiddenRows]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <Layout>
@@ -135,25 +142,29 @@ const MainTable: FC<MainTableProps> = ({ timezone, setTableRef }: MainTableProps
           onChangeCols={(cols: { title: string, checked: boolean }[]) => changeColsHandler(cols)}
           columns={colsTitles}
         />
-        {showAllBtn && <Button onClick={unhideClickHandle}>Show Hided</Button>}
+        {showAllBtn && <Button onClick={unhiddenClickHandle}>Show Hidden</Button>}
         {showHideBtn && <Button onClick={hideClickHandle}>Hide</Button>}
       </div>
       <Table
-        rowClassName={(record) => (moment(record.dateTime).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
         size="middle"
         columns={activeCols()}
         dataSource={visibleData}
         onRow={(record) => ({ onClick: (el) => selectRow(record, el) })}
       />
-      <PDFExport ref={(component) => setTableRef(component)}>
-        <Table size="middle" columns={activeCols()} dataSource={data} />
-      </PDFExport>
     </Layout>
   );
 };
 
-const mapStateToProps = (state: any) => (({
-  timezone: state.timezone.zone,
-}));
+const mapStateToProps = ({ events, loading }: any): any => ({
+  events,
+  loading,
+});
 
-export default connect(mapStateToProps)(MainTable);
+const mapDispatchToProps = {
+  eventsLoaded,
+};
+
+export default compose(
+  withScheduleService(),
+  connect(mapStateToProps, mapDispatchToProps),
+)(MainTable);
