@@ -11,7 +11,7 @@ import MapRonic from '../map';
 import Feedback from '../feedback';
 import initialTaskText from './initial-task-text';
 import allTypes from '../task-types';
-import defaultEvent from './default-event';
+import defaultTask from './default-task';
 
 import 'github-markdown-css';
 import 'antd/dist/antd.css';
@@ -22,7 +22,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
   const event = eventsSort[taskNumber - 1];
   const {
     date, time, name, organizer, type,
-  } = event || defaultEvent;
+  } = event || defaultTask;
   const typeNumber = allTypes.findIndex((el) => el.value === type);
   const startTaskBackendDay = (date.day.toString().length === 1) ? `0${date.day}` : date.day;
   const startTaskBackendMonth = (date.month.toString().length === 1) ? `0${date.month}` : date.month;
@@ -104,7 +104,9 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
 
   const onFinish = () => {
     message.success('Task has been saved!');
+    // =========================================
     // 👇 Тут нужно сделать отпавку на backend 👇
+    // =========================================
     const currentEvent = {
       date: {
         hour: startTaskTime.split(':')[0],
