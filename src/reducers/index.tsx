@@ -12,7 +12,7 @@ type StateType = {
 }
 
 const initialState: StateType = {
-  role: 'mentor',
+  role: 'Student',
   type: 'table',
   events: [],
   loading: true,
