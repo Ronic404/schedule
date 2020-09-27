@@ -1,4 +1,3 @@
-// import { combineReducers } from 'redux';
 import { IEvent } from '../interfaces';
 
 type StateType = {

@@ -1,8 +1,8 @@
 import { PDFExport } from '@progress/kendo-react-pdf';
 
 export interface IEvent {
-  id?: string,
-  key?: string,
+  id?: any,
+  key?: any,
   date?: any,
   time: any,
   type: string,
