@@ -119,8 +119,6 @@ const TableForMentor: FC<PropType> = ({
   const [editingKey, setEditingKey] = useState('');
   const [dateStr, setDateStr] = useState('');
   const [dateMoment, setDateMoment] = useState(null);
-  const [timeStr, setTimeStr] = useState('');
-  const [timeSuccess, setTimeSuccess] = useState<'' | 'error' | 'success' | 'warning' | 'validating' | undefined>('success');
   const rowRef = useRef({ type: '', organizer: '' });
   const timeInput = useRef<any>();
 
@@ -134,9 +132,6 @@ const TableForMentor: FC<PropType> = ({
         // });
         dataFromBack = res;
         originData = createOriginData(dataFromBack);
-        console.log('origin', originData);
-        console.log('from back', dataFromBack);
-        console.log('to str', mapDatesToString(originData));
         setData(mapDatesToString(dataFromBack));
       });
   }, [scheduleService, eventsLoaded]);
@@ -150,13 +145,15 @@ const TableForMentor: FC<PropType> = ({
     rowRef.current.type = type;
   }
 
-  function onTimeChange(event: ChangeEvent<HTMLInputElement>) {
-    setTimeStr(event.target.value);
-    if (reg.test(event.target.value)) {
-      setTimeSuccess('success');
-    } else {
-      setTimeSuccess('error');
+  // function onTimeChange(event: ChangeEvent<HTMLInputElement>) {
+  //   setTimeStr(event.target.value);
+  // }
+
+  function checkTime() {
+    if (reg.test(timeInput.current.value)) {
+      return 'success';
     }
+    return 'error';
   }
 
   const chooseInputNode = (title: string) => {
@@ -179,9 +176,7 @@ const TableForMentor: FC<PropType> = ({
     }
     if (title === 'Time') {
       return (
-        <Form.Item validateStatus={timeSuccess}>
-          <Input id="warning2" ref={timeInput} onChange={onTimeChange} value={timeStr} />
-        </Form.Item>
+        <Input ref={timeInput} />
       );
     }
 
@@ -258,7 +253,6 @@ const TableForMentor: FC<PropType> = ({
     setEditingKey(record.key);
     setDateStr(record.date);
     rowRef.current.type = record.type;
-    setTimeStr(record.time);
   };
 
   const cancel = () => {
@@ -307,7 +301,8 @@ const TableForMentor: FC<PropType> = ({
 
   const save = async (key: string) => {
     try {
-      if (timeSuccess !== 'success') {
+      if (checkTime() !== 'success') {
+        console.log(timeInput.current.state.value)
         alert('Please, enter time in HH:mm format');
         return;
       }
