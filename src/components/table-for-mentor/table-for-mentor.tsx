@@ -116,7 +116,7 @@ const TableForMentor: FC<PropType> = ({
   const [data, setData] = useState(events);
   const [editingKey, setEditingKey] = useState('');
   const [dateStr, setDateStr] = useState('');
-  const [dateMoment, setDateMoment] = useState(null);
+  const [dateMoment, setDateMoment] = useState(moment());
   const rowRef = useRef({ type: '', organizer: '' });
   const timeInput = useRef<any>();
 
@@ -225,7 +225,7 @@ const TableForMentor: FC<PropType> = ({
     );
   };
 
-  const isEditing = (record: IEvent) => record.key === editingKey;
+  const isEditing = (record: IEvent) => record.id === editingKey;
 
   const edit = (record: IEvent) => {
     form.setFieldsValue({
@@ -241,8 +241,8 @@ const TableForMentor: FC<PropType> = ({
   }, [data]);
   /* eslint-enable */
   const editHandler = (record: IEvent) => {
-    const temp = originData.map((el, i) => {
-      if ((i + 1).toString() !== record.key) {
+    const temp = originData.map((el) => {
+      if (el.id !== record.id) {
         const { ...tempEl } = el;
         const t: IEvent[] = [];
         t.push(tempEl);
@@ -250,9 +250,11 @@ const TableForMentor: FC<PropType> = ({
       }
       return el;
     });
+    console.log(temp);
     setData(temp);
-    setEditingKey(record.key);
+    setEditingKey(record.id);
     setDateStr(record.date);
+    setDateMoment((originData.find((el) => el.id === record.id))?.date);
     rowRef.current.type = record.type;
   };
 
@@ -262,7 +264,7 @@ const TableForMentor: FC<PropType> = ({
     if (!dataToMap.length) return;
     dataToMap = mapDateToString(dataToMap);
     const newData = data.map((el) => {
-      if (el.key === dataToMap[0].key) return dataToMap[0];
+      if (el.id === dataToMap[0].id) return dataToMap[0];
       return el;
     });
     setData(newData);
@@ -300,7 +302,7 @@ const TableForMentor: FC<PropType> = ({
     setData(mapDatesToString(dataFromBack));
   };
 
-  const save = async (key: string) => {
+  const save = async (id: string) => {
     try {
       const curData: string = timeInput.current.state.value;
 
@@ -312,13 +314,14 @@ const TableForMentor: FC<PropType> = ({
       const row = (await form.validateFields()) as IEvent;
       const originRow = (await form.validateFields()) as IEvent;
       const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-
+      const index = newData.findIndex((item) => id === item.id);
+      console.log('index', index);
       if (index > -1) {
         const item: IEvent = newData[index];
         const originItem: IEvent = originData[index];
         item.date = dateStr;
         row.date = dateStr;
+        console.log('dm', dateMoment);
         originItem.date = dateMoment;
         originRow.date = dateMoment;
         item.type = rowRef.current.type;
@@ -327,6 +330,7 @@ const TableForMentor: FC<PropType> = ({
         originItem.type = rowRef.current.type;
         newData.splice(index, 1, { ...item, ...row });
         originData.splice(index, 1, { ...originItem, ...originRow });
+        console.log('rogon', originData);
         setData(newData);
         setEditingKey('');
       } else {
@@ -368,7 +372,7 @@ const TableForMentor: FC<PropType> = ({
       return editable ? (
         <span>
           <button
-            onClick={() => save(record.key)}
+            onClick={() => save(record.id)}
             style={{
               marginRight: 8,
             }}
