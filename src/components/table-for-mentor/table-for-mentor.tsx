@@ -1,4 +1,5 @@
 import React, {
+  ChangeEvent,
   FC, ReactElement, useEffect, useRef, useState,
 } from 'react';
 import {
@@ -22,6 +23,8 @@ import {
 const { Option } = Select;
 
 const dateFormat = 'DD-MM-YYYY';
+
+const reg = new RegExp('^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$');
 
 // interface Item {
 //     key: string,
@@ -73,28 +76,8 @@ const createOriginData = (data: IEvent[]) => {
   return temp;
 };
 
-// let allData = () => {
-//   scheduleService.getAllEvents()
-//     .then((res: any) => {
-//       eventsLoaded(res);
-
-//       // res.forEach((el: any) => {
-//       //   scheduleService.deleteEvent(el.id);
-//       // });
-//       console.log('res', res);
-//     });
-// };
-
-// let originData = createOriginData(allData);
-
 let originData: IEvent[] = [];
 let dataFromBack: IEvent[] = [];
-
-// const mapStringToMoment = (record: IEvent) => {
-//   console.log(record)
-//   const temp = { ...record };
-//   return temp;
-// };
 
 const createCols = (): Column[] => {
   const tempCols = [...allCols];
@@ -136,7 +119,10 @@ const TableForMentor: FC<PropType> = ({
   const [editingKey, setEditingKey] = useState('');
   const [dateStr, setDateStr] = useState('');
   const [dateMoment, setDateMoment] = useState(null);
+  const [timeStr, setTimeStr] = useState('');
+  const [timeSuccess, setTimeSuccess] = useState<'' | 'error' | 'success' | 'warning' | 'validating' | undefined>('success');
   const rowRef = useRef({ type: '', organizer: '' });
+  const timeInput = useRef<any>();
 
   useEffect(() => {
     scheduleService.getAllEvents()
@@ -164,6 +150,15 @@ const TableForMentor: FC<PropType> = ({
     rowRef.current.type = type;
   }
 
+  function onTimeChange(event: ChangeEvent<HTMLInputElement>) {
+    setTimeStr(event.target.value);
+    if (reg.test(event.target.value)) {
+      setTimeSuccess('success');
+    } else {
+      setTimeSuccess('error');
+    }
+  }
+
   const chooseInputNode = (title: string) => {
     if (title === 'Date') return <DatePicker onChange={onDateChange} format="DD-MM-YYYY" />;
     if (title === 'Type') {
@@ -182,6 +177,14 @@ const TableForMentor: FC<PropType> = ({
         </Input.Group>
       );
     }
+    if (title === 'Time') {
+      return (
+        <Form.Item validateStatus={timeSuccess}>
+          <Input id="warning2" ref={timeInput} onChange={onTimeChange} value={timeStr} />
+        </Form.Item>
+      );
+    }
+
     return <Input />;
   };
 
@@ -255,6 +258,7 @@ const TableForMentor: FC<PropType> = ({
     setEditingKey(record.key);
     setDateStr(record.date);
     rowRef.current.type = record.type;
+    setTimeStr(record.time);
   };
 
   const cancel = () => {
@@ -295,6 +299,7 @@ const TableForMentor: FC<PropType> = ({
       hidden: false,
       task: '',
     };
+    scheduleService.postEvent(newData);
     dataFromBack = [...dataFromBack, newData];
     originData = createOriginData(dataFromBack);
     setData(mapDatesToString(dataFromBack));
@@ -302,6 +307,10 @@ const TableForMentor: FC<PropType> = ({
 
   const save = async (key: string) => {
     try {
+      if (timeSuccess !== 'success') {
+        alert('Please, enter time in HH:mm format');
+        return;
+      }
       const row = (await form.validateFields()) as IEvent;
       const originRow = (await form.validateFields()) as IEvent;
       const newData = [...data];
@@ -435,5 +444,3 @@ export default compose(
   withScheduleService(),
   connect(mapStateToProps, mapDispatchToProps),
 )(TableForMentor);
-
-// export default TableForMentor;
