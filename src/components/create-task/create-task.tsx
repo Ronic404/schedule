@@ -16,9 +16,8 @@ import 'github-markdown-css';
 import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
-function CreateTask({ role }: any): ReactElement {
-  console.log(role);
-
+function CreateTask({ numberTask, role }: any): ReactElement {
+  console.log(numberTask);
   const [taskHide, setTaskHide] = useState<boolean>(true);
   const [text, setText] = useState<string>(initialTaskText);
   const [latitude, setLatitude] = useState<number>(53.9000000);

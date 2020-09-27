@@ -14,6 +14,7 @@ import CreateTask from './components/create-task';
 import { TableDownloadProps } from './interfaces';
 
 import styles from './App.module.css';
+import data from './components/data';
 
 const App: FC = ({ types }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
@@ -54,7 +55,7 @@ const App: FC = ({ types }: any): ReactElement => {
           <Switch>
             <Route exact path="/" render={() => <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />} />
             <Route path={`/${types}`} render={() => viewTasks} />
-            <Route path="/createtask" component={CreateTask} />
+            <Route path="/task" render={() => <CreateTask numberTask="111" />} />
           </Switch>
         </div>
       </Layout>
