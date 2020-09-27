@@ -9,3 +9,10 @@
     list-style: none;
     width: 40%;
 }
+
+.new-type__modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

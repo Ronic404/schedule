@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'antd';
+import { Modal, Input, Alert } from 'antd';
 import { SketchPicker } from 'react-color';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { changeStyleSelectorVisibility } from '../../actions';
@@ -17,6 +17,10 @@ type StyleSelectorTypes = {
 const StyleSelector = ({ visibility, changeStyleSelectorVisibility } : StyleSelectorTypes) => {
   const [stateColor, setStateColor] = useState('#fff');
   const [stateElement, setStateElement] = useState(null);
+  const [newTypeModalVisibility, setNewTypeModalVisibility] = useState(false);
+  const [newTypeName, setNewTypeName] = useState('');
+  const [newTypeColor, setNewTypeColor] = useState('#123321');
+  const [newTypeError, setNewTypeError] = useState('');
   const taskTypesModified = taskTypes.map((item, id) => ({ ...item, id }));
   taskTypesModified.push({ ...textColor, id: taskTypes.length });
   const [taskData, setTaskData] = useState(taskTypesModified);
@@ -64,7 +68,7 @@ const StyleSelector = ({ visibility, changeStyleSelectorVisibility } : StyleSele
   const handleChangeComplete = ({ hex }: handleChangeCompleteTypes): void => {
     setStateColor(hex);
     if (stateElement !== null) {
-      // @ts-expect-error: object cant be null here
+      // @ts-ignore
       const { color } = stateElement.dataset;
       const index = taskData.findIndex((item) => item.color === color);
       if (index !== -1) {
@@ -89,49 +93,90 @@ const StyleSelector = ({ visibility, changeStyleSelectorVisibility } : StyleSele
     }
   };
 
-  const handleTypeAdd = ():void => {
-    let name = 'new type';
-    name = name.charAt(0).toUpperCase() + name.slice(1);
-    const color = '#123456';
-    const newType = {
-      text: name,
-      value: name.toLowerCase(),
-      color,
-      id: taskData.length,
-    };
-    const draftState = [...taskData];
-    draftState.push(newType);
-    setTaskData(draftState);
-  };
+  const newTypeModalHandleOk = () => {
+    if (!newTypeName.trim().length) {
+      setNewTypeError('enter name');
+    } else if (taskTypes.find(item => item.value.toLowerCase() === newTypeName.trim().toLowerCase())) {
+      setNewTypeError('name already exists');
+    } else {
+      setNewTypeError('');
+        const newType = {
+          text: newTypeName,
+          value: newTypeName.toLowerCase(),
+          color: newTypeColor,
+          id: taskData.length,
+        };
+        const draftState = [...taskData];
+        draftState.push(newType);
+        setTaskData(draftState);
+        setNewTypeColor('#123321');
+        setNewTypeName('');
+        setNewTypeModalVisibility(false);
+    }
+  }
+
+  const newTypeModalHandleCancel = () => {
+    setNewTypeError('');
+    setNewTypeColor('#123321');
+    setNewTypeName('');
+    setNewTypeModalVisibility(false);
+  }
+
+  const newTypeChangeComplete = ({ hex }: handleChangeCompleteTypes): void => {
+    setNewTypeColor(hex);
+  }
+
+  const newTypeChangeName = (e: any) => {
+    const name = e.target.value;
+    setNewTypeName(name);
+  }
 
   return (
-    <Modal
-      title="Select Styles"
-      visible={visibility}
-      onOk={handleOk}
-      onCancel={handleCancel}
-    >
-      <div className={styles['modal-container']}>
-        <ul className={styles['style-selector__list']}>
-          {taskData.map(({ text, color, id }) => (
-            <li key={id}>
-              <StyleSelectorItem
-                text={text}
-                color={color}
-                onColorPick={onColorPick}
-              />
-            </li>
-          ))}
-          <HeaderButton buttonImage={<PlusCircleOutlined />} handler={handleTypeAdd} />
-        </ul>
-        <div className="color-selector">
-          <SketchPicker
-            color={stateColor}
-            onChangeComplete={handleChangeComplete}
-          />
+    <>
+      <Modal 
+        className={styles['new-type__modal']}
+        title="Add new type"
+        visible={newTypeModalVisibility}
+        onOk={newTypeModalHandleOk}
+        onCancel={newTypeModalHandleCancel}
+      >
+        <Input placeholder="Type name" value={newTypeName} onChange={newTypeChangeName}/>
+        {newTypeError ? (
+          <Alert message={newTypeError} type="error" />
+        ) : null}
+        <SketchPicker
+              color={newTypeColor}
+              onChangeComplete={newTypeChangeComplete}
+        />
+      </Modal>
+      <Modal
+        title="Select Styles"
+        visible={visibility}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <div className={styles['modal-container']}>
+          <ul className={styles['style-selector__list']}>
+            {taskData.map(({ text, color, id }) => (
+              <li key={id}>
+                <StyleSelectorItem
+                  text={text}
+                  color={color}
+                  onColorPick={onColorPick}
+                />
+              </li>
+            ))}
+            <HeaderButton buttonImage={<PlusCircleOutlined />} handler={setNewTypeModalVisibility} />
+          </ul>
+          <div className="color-selector">
+            <SketchPicker
+              color={stateColor}
+              onChangeComplete={handleChangeComplete}
+            />
+          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+    </>
   );
 };
 
