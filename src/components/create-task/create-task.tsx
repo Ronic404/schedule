@@ -18,11 +18,12 @@ import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
 function CreateTask({ role, events, taskNumber }: any): ReactElement {
-  const event = events[taskNumber - 1];
+  const eventsSort = events.sort((a: any, b: any): number => a.key - b.key);
+  const event = eventsSort[taskNumber - 1];
   const {
-    date, time, name, organizer,
+    date, time, name, organizer, type,
   } = event || defaultEvent;
-
+  const typeNumber = allTypes.findIndex((el) => el.value === type);
   const startTaskBackendDay = (date.day.toString().length === 1) ? `0${date.day}` : date.day;
   const startTaskBackendMonth = (date.month.toString().length === 1) ? `0${date.month}` : date.month;
   const deadlineBackendDay = (time.day.toString().length === 1) ? `0${time.day}` : time.day;
@@ -45,7 +46,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
   const [startTaskTime, setStartTaskTime] = useState<string>(`${startTaskBackendHour}:${startTaskBackendMinute}`);
   const [deadlineDate, setDeadlineDate] = useState<string>(`${deadlineBackendDay}.${deadlinekBackendMonth}.${time.year}`);
   const [deadlineTime, setDeadlineTime] = useState<string>(`${deadlinekBackendHour}:${deadlinekBackendMinute}`);
-  const [tagNumber, setTagNumber] = useState<number>(0);
+  const [tagNumber, setTagNumber] = useState<number>(typeNumber);
   const textarea = useRef<HTMLTextAreaElement>(null);
 
   const mapComponent = !showMap ? <MapRonic latitude={latitude} longitude={longitude} /> : null;
@@ -133,6 +134,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                     hasFeedback
                     rules={[{ required: true, message: 'Выберите дату!' }]}
                     style={{ margin: '0' }}
+                    // initialValue="01-01-2020"
                   >
                     <DatePicker />
                   </Form.Item>
@@ -192,6 +194,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                 name="nameTask"
                 required={false}
                 hasFeedback
+                initialValue={name}
                 rules={[{ required: true, message: 'Напишите название задания!' }]}
               >
                 <Input />
@@ -203,12 +206,12 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                 rules={[{ required: true, message: 'Выберите тип задания!' }]}
               >
                 <Select id="type">
-                  {allTypes.map((type) => (
+                  {allTypes.map((el) => (
                     <Select.Option
-                      key={type.value}
-                      value={type.value}
+                      key={el.value}
+                      value={el.value}
                     >
-                      <Tag color={type.color} key={type.value}>{type.value.toUpperCase()}</Tag>
+                      <Tag color={el.color} key={el.value}>{el.value.toUpperCase()}</Tag>
                     </Select.Option>
                   ))}
                 </Select>

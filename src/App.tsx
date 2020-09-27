@@ -35,9 +35,6 @@ const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
     case 'Calendar':
       viewTasks = <CalendarSchedule />;
       break;
-    // case 'Create task':
-    //   viewTasks = <CreateTask />;
-    //   break;
     default:
       viewTasks = (
         <TableContainer
