@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import { List, Tag, Card } from 'antd';
 import data from '../data';
 import taskTypes from '../task-types';
@@ -24,7 +25,7 @@ export default function ListContainer(): ReactElement {
               className={styles.taskCard}
               type="inner"
               title={item.dateTime.format('DD-MM-YYYY HH:mm')}
-              extra={<a href="#">More</a>}
+              extra={<Link to="/createtask">More</Link>}
             >
               <p className={styles.taskText}>{item.name}</p>
             </Card>

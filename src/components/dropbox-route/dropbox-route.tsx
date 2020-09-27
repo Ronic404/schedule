@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import { Select } from 'antd';
 import { IOptionItem } from '../../interfaces';
 
@@ -24,7 +25,9 @@ const Dropbox = ({
       className={styles[componentClassName]}
     >
       {items.map(({ name, id }): ReactElement => (
-        <Option value={name} key={id}>{name}</Option>
+        <Option value={name} key={id}>
+          <Link to={`/${name}`} style={{ width: '100%', display: 'block' }}>{name}</Link>
+        </Option>
       ))}
     </Select>
   );

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
+import DropboxRoute from '../dropbox-route';
 import { changeType, changeTimezone } from '../../actions';
 import HeaderButton from '../header-button/header-button';
 import TableDownloadModal from '../table-download-modal';
@@ -45,7 +46,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef }: PropType
           items={locations}
           defaultIndex={defaultLocationIndex}
         />
-        <Dropbox handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
+        <DropboxRoute handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
         <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
         <HeaderButton buttonImage={<BgColorsOutlined />} />
       </div>
