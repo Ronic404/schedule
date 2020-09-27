@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
-import { Tag, Checkbox } from 'antd';
+import { Checkbox } from 'antd';
 import moment from 'moment-timezone';
+import CustomTag from './custom-tag';
 import OrganizerCell from './organizer-cell';
-import taskTypes from './task-types';
+import taskTypes, { textColor } from './task-types';
 
 const filterTypes = () => {
   const [...typesArray] = taskTypes;
@@ -49,9 +50,12 @@ const getColumnDefs = (timezone: string) => ([
     editable: true,
     render: (tag: string): ReactElement => (
       <>
-        <Tag color={taskTypes.find((task) => task.value === tag)?.color} key={tag}>
-          {tag.toUpperCase()}
-        </Tag>
+        <CustomTag
+          backgroundColor={taskTypes.find((task) => task.value === tag)?.color}
+          color={textColor.color}
+          key={tag}
+          text={tag.toUpperCase()}
+        />
       </>
     ),
     filters: filterTypes(),

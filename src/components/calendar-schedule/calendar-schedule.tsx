@@ -1,11 +1,13 @@
 import React, { FC, ReactElement } from 'react';
 import {
-  Layout, Calendar, Tag, Select, Row, Col,
+  Layout, Calendar, Select, Row, Col,
 } from 'antd';
 
 import moment, { Moment } from 'moment';
+import CustomTag from '../custom-tag';
+
 import data from '../data';
-import taskTypes from '../task-types';
+import taskTypes, { textColor } from '../task-types';
 
 import styles from './calendar-schedule.module.css';
 
@@ -47,9 +49,11 @@ const dateCellRender = (value : Moment): ReactElement => {
     <ul className={styles.calendar__cell}>
       {listData.map((item: list) => (
         <li key={item.key} className={styles['calendar__list-item']}>
-          <Tag color={taskTypes.find((task) => task.value === item.type)?.color}>
-            {item.type.toUpperCase()}
-          </Tag>
+          <CustomTag
+            backgroundColor={taskTypes.find((task) => task.value === item.type)?.color}
+            color={textColor.color}
+            text={item.type.toUpperCase()}
+          />
           <span>{item.name}</span>
         </li>
       ))}

@@ -25,10 +25,17 @@ const changeTaskNumber = (newTaskNumber: number): { type: string, payload: numbe
   payload: newTaskNumber,
 });
 
+const changeStyleSelectorVisibility = (newVisibility: boolean)
+  : { type: string, payload: boolean } => ({
+  type: 'CHANGE_STYLESELECTOR_VISIBILITY',
+  payload: newVisibility,
+});
+
 export {
   changeRole,
   changeType,
   eventsLoaded,
   changeTimezone,
   changeTaskNumber,
+  changeStyleSelectorVisibility,
 };

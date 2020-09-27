@@ -22,7 +22,7 @@ const defaultEvent = {
   organizer: 'Name',
   place: '',
   task: '',
-  type: '',
+  type: 'stream',
 };
 
 export default defaultEvent;

@@ -14,6 +14,7 @@ import TableHeader from './components/table-header';
 import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
 import CreateTask from './components/create-task';
+import StyleSelector from './components/style-selector';
 
 import { eventsLoaded } from './actions';
 import { compose } from './utils';
@@ -25,9 +26,12 @@ type PropType = {
   types: any,
   scheduleService: any,
   eventsLoaded: any,
+  styleSelectorVisibility: any,
 };
 
-const App: FC<PropType> = ({ types, scheduleService, eventsLoaded }: PropType): ReactElement => {
+const App: FC<PropType> = ({
+  types, scheduleService, eventsLoaded, styleSelectorVisibility,
+}: PropType): ReactElement => {
   const [tableRef, setTableRef] = useState();
 
   let viewTasks: ReactElement;
@@ -76,6 +80,7 @@ const App: FC<PropType> = ({ types, scheduleService, eventsLoaded }: PropType): 
             <Route path={`/${types}`} render={() => viewTasks} />
             <Route path="/task" render={() => <CreateTask />} />
           </Switch>
+          <StyleSelector visibility={styleSelectorVisibility} />
         </div>
       </Layout>
     </BrowserRouter>
@@ -84,6 +89,7 @@ const App: FC<PropType> = ({ types, scheduleService, eventsLoaded }: PropType): 
 
 const mapStateToProps = (state: any) => ({
   types: state.type,
+  styleSelectorVisibility: state.styleSelectorVisibility,
 });
 
 const mapDispatchToProps = {
