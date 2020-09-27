@@ -106,6 +106,7 @@ const MainTable: FC<PropType> = ({
 
       if (rowsToHide.length) {
         rowsToHide = [];
+        
       } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
@@ -145,12 +146,23 @@ const MainTable: FC<PropType> = ({
         //   scheduleService.deleteEvent(el.id);
         // });
         setVisibleData(res.filter((el:IEvent)=>!el.hidden));
-        setHiddenRows(res.filter((el:IEvent)=>el.hidden));
-        setShowAllBtn(res.filter((el:IEvent)=>el.hidden));     
+        setHiddenRows(res.filter((el:IEvent)=>el.hidden));     
+        localStorage.setItem('hidden',JSON.stringify(res.filter((el:IEvent)=>el.hidden)));
+        if (res.filter((el:IEvent)=>el.hidden).length) setShowAllBtn(true);
       });
   }, [scheduleService, eventsLoaded]);
- 
- 
+
+  // useEffect(() => {
+  //   const hiddenStorageRows = localStorage.getItem('hidden');
+  //   let hiddenStorageRowsArr =  hiddenStorageRows ? JSON.parse(hiddenStorageRows) : [];
+  //   setHiddenRows(hiddenStorageRowsArr);
+  //  if (hiddenRows.length) setShowAllBtn(true);
+  // }, []);
+
+  useEffect(() => {
+    if(!hiddenRows.length) setShowHideBtn(false);
+  }, [hiddenRows]);
+
   useEffect(() => {
     const newColumns = getColumnDefs(timezone);
     setColumns(newColumns);

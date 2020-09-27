@@ -12,7 +12,6 @@ const filterTypes = () => {
     delete newTemp.color;
     return newTemp;
   });
- 
   return temp;
 };
 
