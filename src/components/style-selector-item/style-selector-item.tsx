@@ -19,9 +19,14 @@ const StyleSelectorItem = ({ text, color, onColorPick }: StyleSelectorItemType):
   return (
     <div className={styles['style-selector__item']}>
       <span>{text}</span>
+      {/* eslint-disable-next-line */}
       <span style={colorStyles} onClick={onColorPick} data-color={color} />
     </div>
   );
+};
+
+StyleSelectorItem.defaultProps = {
+  color: '#000000',
 };
 
 export default StyleSelectorItem;

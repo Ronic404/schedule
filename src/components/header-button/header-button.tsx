@@ -11,4 +11,8 @@ const HeaderButton = ({ buttonImage, handler } : HeaderButtonProps): ReactElemen
   <Button type="text" size="large" onClick={handler}>{buttonImage}</Button>
 );
 
+HeaderButton.defaultProps = {
+  handler: null,
+};
+
 export default HeaderButton;

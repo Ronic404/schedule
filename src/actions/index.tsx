@@ -11,7 +11,8 @@ const changeTimezone = (newTimezone: string): { type: string, payload: string } 
   type: 'CHANGE_TIMEZONE',
   payload: newTimezone,
 });
-const changeStyleSelectorVisibility = (newVisibility: boolean): { type: string, payload: boolean } => ({
+const changeStyleSelectorVisibility = (newVisibility: boolean)
+  : { type: string, payload: boolean } => ({
   type: 'CHANGE_STYLESELECTOR_VISIBILITY',
   payload: newVisibility,
 });
