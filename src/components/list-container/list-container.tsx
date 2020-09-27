@@ -25,7 +25,7 @@ export default function ListContainer(): ReactElement {
               className={styles.taskCard}
               type="inner"
               title={item.dateTime.format('DD-MM-YYYY HH:mm')}
-              extra={<Link to="/createtask">More</Link>}
+              extra={<Link to={`/createtask/${item.key}`}>More</Link>}
             >
               <p className={styles.taskText}>{item.name}</p>
             </Card>
