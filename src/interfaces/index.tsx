@@ -1,15 +1,18 @@
 import { PDFExport } from '@progress/kendo-react-pdf';
 
 export interface IEvent {
-  id: string,
-  name: string,
-  description: string,
-  descriptionUrl: string,
+  id?: string,
+  key?: string,
+  date?: any,
+  time: any,
   type: string,
-  timeZone: string,
-  dateTime: string,
   place: string,
+  name: string,
+  organizer: string,
+  task: string,
   comment: string,
+  done?: boolean,
+  hidden?: boolean,
 }
 
 export interface IOrganizer {

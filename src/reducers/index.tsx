@@ -1,18 +1,23 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
+import { IEvent } from '../interfaces';
 
-type stateType = {
+type StateType = {
   role: string,
   type: string,
+  events: IEvent[],
+  loading: boolean,
   zone: string,
 }
 
-const initialState: stateType = {
-  role: 'student',
+const initialState: StateType = {
+  role: 'mentor',
   type: 'table',
+  events: [],
+  loading: true,
   zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 };
 
-const reducer = (state: stateType = initialState, action: any): stateType => {
+const reducer = (state: StateType = initialState, action: any): StateType => {
   switch (action.type) {
     case 'CHANGE_ROLE':
       return {
@@ -24,6 +29,12 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
         ...state,
         type: action.payload,
       };
+    case 'EVENTS_LOADED':
+      return {
+        ...state,
+        events: action.payload,
+        loading: false,
+      };
     case 'CHANGE_TIMEZONE':
       return {
         ...state,
@@ -34,10 +45,4 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
   }
 };
 
-const rootReducer = combineReducers({
-  types: reducer,
-  roles: reducer,
-  timezone: reducer,
-});
-
-export { reducer, rootReducer };
+export default reducer;
