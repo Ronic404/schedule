@@ -11,7 +11,8 @@ import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import ColsSelector from '../cols-selector';
 import Spinner from '../spinner';
-
+// import scheduleService from '../../services/schedule-service';
+import withScheduleService from '../hoc';
 import { eventsLoaded, changeTimezone } from '../../actions';
 import {
   compose, createColsTitles,
@@ -24,9 +25,11 @@ type PropType = {
   events: IEvent[],
   loading: boolean,
   timezone: any,
+  scheduleService: any,
 };
 
 const MainTable: FC<PropType> = ({
+  scheduleService,
   events, loading, timezone,
 }: PropType): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
@@ -46,7 +49,11 @@ const MainTable: FC<PropType> = ({
     const updatedData = visibleData.filter((row) => !hiddenRows.some((hiddenRow) => (
       row.key === hiddenRow.key
     )));
-
+    hiddenRows.forEach((record: IEvent) => {
+      record.hidden = true;
+      scheduleService.updateEvent(record.id, record);
+    });
+    localStorage.setItem('hidden', JSON.stringify(hiddenRows));
     setShowHideBtn(false);
     setVisibleData(updatedData);
     setShowAllBtn(true);
@@ -55,6 +62,12 @@ const MainTable: FC<PropType> = ({
   const unhiddenClickHandle = () => {
     setShowAllBtn(false);
     setVisibleData(events);
+    hiddenRows.forEach((record: IEvent) => {
+      record.hidden = false;
+      scheduleService.updateEvent(record.id, record);
+    });
+    setHiddenRows([]);
+    localStorage.setItem('hidden', JSON.stringify([]));
   };
 
   const activeCols = () => {
@@ -66,6 +79,7 @@ const MainTable: FC<PropType> = ({
       }
     });
 
+    localStorage.setItem('activeColumns', JSON.stringify(temp));
     return temp;
   };
 
@@ -73,21 +87,20 @@ const MainTable: FC<PropType> = ({
     const selectedRows = [...checkedRows];
     let rowsToHide = [...hiddenRows];
 
-    if (el.ctrlKey && el.target.classList.contains('ant-table-cell')) {
+    if (el.shiftKey && el.target.classList.contains('ant-table-cell')) {
+      setShowHideBtn(true);
       el.target.parentNode.classList.toggle('ant-table-row-selected');
-
       if (rowsToHide.indexOf(record) !== -1) {
         rowsToHide.splice(rowsToHide.indexOf(record), 1);
       } else {
         rowsToHide.push(record);
       }
-
       setHiddenRows(rowsToHide);
     }
 
-    if (!el.ctrlKey && el.target.classList.contains('ant-table-cell')) {
+    if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
       const removeStyles = document.querySelectorAll('.ant-table-row-selected');
-
+      setShowHideBtn(true);
       removeStyles.forEach((e: any) => { e.classList.remove('ant-table-row-selected'); });
 
       if (rowsToHide.length) {
@@ -101,12 +114,20 @@ const MainTable: FC<PropType> = ({
     }
 
     if (el.target.classList.contains('ant-checkbox-input')) {
+      const checkedRows = localStorage.getItem('checked');
+      const checkedArr = checkedRows ? JSON.parse(checkedRows) : [];
       if (selectedRows.indexOf(record) !== -1) {
+        checkedArr.splice(checkedArr.indexOf(record), 1);
+        localStorage.setItem('checked', JSON.stringify(checkedArr));
         record.done = false;
+        scheduleService.updateEvent(record.id, record);
         selectedRows.splice(selectedRows.indexOf(record), 1);
       } else {
         selectedRows.push(record);
+        checkedArr.push(record);
+        localStorage.setItem('checked', JSON.stringify(checkedArr));
         record.done = true;
+        scheduleService.updateEvent(record.id, record);
       }
 
       setCheckedRows(selectedRows);
@@ -114,11 +135,22 @@ const MainTable: FC<PropType> = ({
   };
 
   useEffect(() => {
-    setVisibleData(events);
-  }, [events]);
+    scheduleService.getAllEvents()
+      .then((res: any) => {
+        eventsLoaded(res);
+
+        // res.forEach((el: any) => {
+        //   scheduleService.deleteEvent(el.id);
+        // });
+        setVisibleData(res.filter((el: IEvent) => !el.hidden));
+        setHiddenRows(res.filter((el: IEvent) => el.hidden));
+        localStorage.setItem('hidden', JSON.stringify(res.filter((el: IEvent) => el.hidden)));
+        if (res.filter((el: IEvent) => el.hidden).length) setShowAllBtn(true);
+      });
+  }, [scheduleService]);
 
   useEffect(() => {
-    setShowHideBtn(Boolean(hiddenRows.length));
+    if (!hiddenRows.length) setShowHideBtn(false);
   }, [hiddenRows]);
 
   useEffect(() => {
@@ -159,9 +191,9 @@ const mapStateToProps = ({ events, loading, timezone }: any): any => ({
 });
 
 const mapDispatchToProps = {
+
   eventsLoaded, changeTimezone,
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(MainTable);
+export default compose(withScheduleService(),
+  connect(mapStateToProps, mapDispatchToProps))(MainTable);

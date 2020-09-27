@@ -33,7 +33,7 @@ const App: FC<PropType> = ({
   types, scheduleService, eventsLoaded, styleSelectorVisibility,
 }: PropType): ReactElement => {
   const [tableRef, setTableRef] = useState();
-
+  localStorage.setItem('view type', types);
   let viewTasks: ReactElement;
 
   useEffect(() => {
