@@ -4,12 +4,13 @@ import { Tag } from 'antd';
 type CustomTagType = {
     backgroundColor?: string,
     color?: string,
-    text: string
+    text: string,
+    tagClassName?: string
 }
 
-const CustomTag = ({ backgroundColor, color, text }: CustomTagType): ReactElement => {
+const CustomTag = ({ backgroundColor, color, text, tagClassName }: CustomTagType): ReactElement => {
     return (
-        <Tag color={backgroundColor} style={{color: color}}>
+        <Tag color={backgroundColor} style={{color: color}} className={tagClassName}>
             {text}
         </Tag>
     );
@@ -17,7 +18,8 @@ const CustomTag = ({ backgroundColor, color, text }: CustomTagType): ReactElemen
 
 CustomTag.defaultProps = {
     backgroundColor: 'magenta',
-    color: '#000000'
+    color: '#000000',
+    tagClassName: ''
 }
 
 export default CustomTag;

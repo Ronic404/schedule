@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactElement } from 'react';
-import { List, Tag, Card } from 'antd';
+import { List, Card } from 'antd';
+import CustomTag from '../custom-tag';
 import data from '../data';
-import taskTypes from '../task-types';
+import taskTypes, {textColor} from '../task-types';
 
 import styles from './list-structure.module.css';
 
@@ -13,12 +14,12 @@ export default function ListContainer(): ReactElement {
         dataSource={data}
         renderItem={(item) => (
           <Card.Grid className={styles.item} key={item.key}>
-            <Tag
-              className={styles.type}
-              color={taskTypes.find((task) => task.value === item.type)?.color}
-            >
-              {item.type.toUpperCase()}
-            </Tag>
+            <CustomTag
+              tagClassName={styles.type}
+              backgroundColor={taskTypes.find((task) => task.value === item.type)?.color}
+              color={textColor.color}
+              text={item.type.toUpperCase()}
+            />
             <Card
               className={styles.main}
               type="inner"
