@@ -49,7 +49,7 @@ const MainTable: FC<PropType> = ({
     const updatedData = visibleData.filter((row) => !hiddenRows.some((hiddenRow) => (
       row.key === hiddenRow.key
     )));
-    hiddenRows.forEach((record:IEvent)=>{
+    hiddenRows.forEach((record: IEvent) => {
       record.hidden = true;
       scheduleService.updateEvent(record.id, record);
     });
@@ -62,7 +62,7 @@ const MainTable: FC<PropType> = ({
   const unhiddenClickHandle = () => {
     setShowAllBtn(false);
     setVisibleData(events);
-    hiddenRows.forEach((record:IEvent)=>{
+    hiddenRows.forEach((record: IEvent) => {
       record.hidden = false;
       scheduleService.updateEvent(record.id, record);
     });
@@ -92,11 +92,10 @@ const MainTable: FC<PropType> = ({
       el.target.parentNode.classList.toggle('ant-table-row-selected');
       if (rowsToHide.indexOf(record) !== -1) {
         rowsToHide.splice(rowsToHide.indexOf(record), 1);
-       } else {
+      } else {
         rowsToHide.push(record);
       }
       setHiddenRows(rowsToHide);
-
     }
 
     if (!el.shiftKey && el.target.classList.contains('ant-table-cell')) {
@@ -106,7 +105,6 @@ const MainTable: FC<PropType> = ({
 
       if (rowsToHide.length) {
         rowsToHide = [];
-        
       } else {
         el.target.parentNode.classList.add('ant-table-row-selected');
         rowsToHide.push(record);
@@ -117,14 +115,13 @@ const MainTable: FC<PropType> = ({
 
     if (el.target.classList.contains('ant-checkbox-input')) {
       const checkedRows = localStorage.getItem('checked');
-      let checkedArr = checkedRows ? JSON.parse(checkedRows) : [];
+      const checkedArr = checkedRows ? JSON.parse(checkedRows) : [];
       if (selectedRows.indexOf(record) !== -1) {
         checkedArr.splice(checkedArr.indexOf(record), 1);
         localStorage.setItem('checked', JSON.stringify(checkedArr));
         record.done = false;
         scheduleService.updateEvent(record.id, record);
         selectedRows.splice(selectedRows.indexOf(record), 1);
-       
       } else {
         selectedRows.push(record);
         checkedArr.push(record);
@@ -145,22 +142,15 @@ const MainTable: FC<PropType> = ({
         // res.forEach((el: any) => {
         //   scheduleService.deleteEvent(el.id);
         // });
-        setVisibleData(res.filter((el:IEvent)=>!el.hidden));
-        setHiddenRows(res.filter((el:IEvent)=>el.hidden));     
-        localStorage.setItem('hidden',JSON.stringify(res.filter((el:IEvent)=>el.hidden)));
-        if (res.filter((el:IEvent)=>el.hidden).length) setShowAllBtn(true);
+        setVisibleData(res.filter((el: IEvent) => !el.hidden));
+        setHiddenRows(res.filter((el: IEvent) => el.hidden));
+        localStorage.setItem('hidden', JSON.stringify(res.filter((el: IEvent) => el.hidden)));
+        if (res.filter((el: IEvent) => el.hidden).length) setShowAllBtn(true);
       });
   }, [scheduleService, eventsLoaded]);
 
-  // useEffect(() => {
-  //   const hiddenStorageRows = localStorage.getItem('hidden');
-  //   let hiddenStorageRowsArr =  hiddenStorageRows ? JSON.parse(hiddenStorageRows) : [];
-  //   setHiddenRows(hiddenStorageRowsArr);
-  //  if (hiddenRows.length) setShowAllBtn(true);
-  // }, []);
-
   useEffect(() => {
-    if(!hiddenRows.length) setShowHideBtn(false);
+    if (!hiddenRows.length) setShowHideBtn(false);
   }, [hiddenRows]);
 
   useEffect(() => {

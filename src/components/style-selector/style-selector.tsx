@@ -68,6 +68,7 @@ const StyleSelector = ({ visibility, changeStyleSelectorVisibility } : StyleSele
   const handleChangeComplete = ({ hex }: handleChangeCompleteTypes): void => {
     setStateColor(hex);
     if (stateElement !== null) {
+      // eslint-disable-next-line
       // @ts-ignore
       const { color } = stateElement.dataset;
       const index = taskData.findIndex((item) => item.color === color);

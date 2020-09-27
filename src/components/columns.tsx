@@ -59,7 +59,7 @@ const getColumnDefs = (timezone: string) => ([
       </>
     ),
     filters: filterTypes(),
-    onFilter: (value: any, record: any): boolean => { return record.type.indexOf(value) === 0},
+    onFilter: (value: any, record: any): boolean => record.type.indexOf(value) === 0,
   },
   {
     title: 'Place',

@@ -18,7 +18,7 @@ import styles from './App.module.css';
 
 const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
-  localStorage.setItem('view type',types);
+  localStorage.setItem('view type', types);
   let viewTasks: ReactElement;
 
   switch (types) {
@@ -42,7 +42,7 @@ const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
         />
       );
   }
- 
+
   return (
     <BrowserRouter>
       <Layout>
