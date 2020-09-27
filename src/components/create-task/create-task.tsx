@@ -18,7 +18,7 @@ import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
 function CreateTask({ role, events, taskNumber }: any): ReactElement {
-  const event = events[taskNumber];
+  const event = events[taskNumber - 1];
   const {
     date, time, name, organizer,
   } = event || defaultEvent;

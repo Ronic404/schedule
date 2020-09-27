@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { IEvent, IOrganizer } from '../interfaces';
 
 class ScheduleService {
@@ -76,8 +77,7 @@ class ScheduleService {
 
   getAllEvents = async (): Promise<IEvent[]> => {
     const events = await this.getResource('/events/');
-
-    return events.data;
+    return events.data.sort((left:any, right:any) => moment.utc(left.time).diff(moment.utc(right.time)));// eslint-disable-line
   };
 
   getEvent = async (id: string): Promise<IEvent> => {

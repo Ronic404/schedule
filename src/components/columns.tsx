@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Tag, Checkbox } from 'antd';
-
+import moment from 'moment-timezone';
 import OrganizerCell from './organizer-cell';
 import taskTypes from './task-types';
 
@@ -14,18 +14,33 @@ const filterTypes = () => {
   return temp;
 };
 
-export default [
+const dateRenderer = (timeZone: string) => (value: any) => (
+  value
+    ? moment(value)
+      .tz(timeZone)
+      .format('ll')
+    : '');
+
+const timeRenderer = (timeZone: string) => (value: any) => (value
+  ? moment(value)
+    .tz(timeZone)
+    .format('HH:mm')
+  : '');
+
+const getColumnDefs = (timezone: string) => ([
   {
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
     editable: true,
+    render: dateRenderer(timezone),
   },
   {
     title: 'Time',
     dataIndex: 'time',
     key: 'time',
     editable: true,
+    render: timeRenderer(timezone),
   },
   {
     title: 'Type',
@@ -74,4 +89,5 @@ export default [
     editable: true,
     render: (done: boolean): ReactElement => <Checkbox checked={done} />,
   },
-];
+]);
+export default getColumnDefs;
