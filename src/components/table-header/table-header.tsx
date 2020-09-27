@@ -37,6 +37,7 @@ const TableHeader: FC<any> = ({
 }: PropType): ReactElement => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [timeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  localStorage.setItem('timezone',timeZone);
 
   const typeChange = (el: any): void => {
     changeType(el);
@@ -44,6 +45,7 @@ const TableHeader: FC<any> = ({
 
   const timezoneChange = (el: any): void => {
     changeTimezone(el);
+    localStorage.setItem('timezone',el);
   };
 
   const styleSelectorVisibilityChange = (value: boolean): void => {
