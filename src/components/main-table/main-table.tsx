@@ -11,7 +11,8 @@ import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import ColsSelector from '../cols-selector';
 import Spinner from '../spinner';
-
+// import scheduleService from '../../services/schedule-service';
+import withScheduleService from '../hoc';
 import { eventsLoaded, changeTimezone } from '../../actions';
 import {
   compose, createColsTitles,
@@ -24,9 +25,11 @@ type PropType = {
   events: IEvent[],
   loading: boolean,
   timezone: any,
+  scheduleService: any,
 };
 
 const MainTable: FC<PropType> = ({
+  scheduleService,
   events, loading, timezone,
 }: PropType): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
@@ -146,10 +149,6 @@ const MainTable: FC<PropType> = ({
       });
   }, [scheduleService, eventsLoaded]);
 
-    useEffect(() => {
-    setVisibleData(events);
-  }, [events]);
-
   useEffect(() => {
     if (!hiddenRows.length) setShowHideBtn(false);
   }, [hiddenRows]);
@@ -192,9 +191,9 @@ const mapStateToProps = ({ events, loading, timezone }: any): any => ({
 });
 
 const mapDispatchToProps = {
+
   eventsLoaded, changeTimezone,
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(MainTable);
+export default compose(withScheduleService(),
+  connect(mapStateToProps, mapDispatchToProps))(MainTable);
