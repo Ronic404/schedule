@@ -6,6 +6,7 @@ type StateType = {
   type: string,
   events: IEvent[],
   loading: boolean,
+  taskNumber: number,
   timezone: string,
 }
 
@@ -14,6 +15,7 @@ const initialState: StateType = {
   type: 'table',
   events: [],
   loading: true,
+  taskNumber: 1,
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 };
 
@@ -39,6 +41,11 @@ const reducer = (state: StateType = initialState, action: any): StateType => {
       return {
         ...state,
         timezone: action.payload,
+      };
+    case 'CHANGE_TASK_NUMBER':
+      return {
+        ...state,
+        taskNumber: action.payload,
       };
     default:
       return state;

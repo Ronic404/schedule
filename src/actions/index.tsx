@@ -20,9 +20,15 @@ const changeTimezone = (newTimezone: string): { type: string, payload: string } 
   payload: newTimezone,
 });
 
+const changeTaskNumber = (newTaskNumber: number): { type: string, payload: number } => ({
+  type: 'CHANGE_TASK_NUMBER',
+  payload: newTaskNumber,
+});
+
 export {
   changeRole,
   changeType,
   eventsLoaded,
   changeTimezone,
+  changeTaskNumber,
 };

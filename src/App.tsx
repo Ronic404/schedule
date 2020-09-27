@@ -1,5 +1,8 @@
 import React, { FC, ReactElement, useState } from 'react';
 import { connect } from 'react-redux';
+import {
+  BrowserRouter, Switch, Route,
+} from 'react-router-dom';
 import { Layout } from 'antd';
 
 import Header from './components/header';
@@ -11,11 +14,12 @@ import CreateTask from './components/create-task';
 import { TableDownloadProps } from './interfaces';
 
 import styles from './App.module.css';
+import data from './components/data';
 
 const App: FC = ({ types }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
 
-  let viewTasks;
+  let viewTasks: ReactElement;
 
   switch (types) {
     case 'Table':
@@ -31,9 +35,9 @@ const App: FC = ({ types }: any): ReactElement => {
     case 'Calendar':
       viewTasks = <CalendarSchedule />;
       break;
-    case 'Create task':
-      viewTasks = <CreateTask />;
-      break;
+    // case 'Create task':
+    //   viewTasks = <CreateTask />;
+    //   break;
     default:
       viewTasks = (
         <TableContainer
@@ -43,13 +47,19 @@ const App: FC = ({ types }: any): ReactElement => {
   }
 
   return (
-    <Layout>
-      <div className={styles.header}>
-        <Header />
-        <TableHeader tableRef={tableRef} />
-        {viewTasks}
-      </div>
-    </Layout>
+    <BrowserRouter>
+      <Layout>
+        <div className={styles.header}>
+          <Header />
+          <TableHeader tableRef={tableRef} />
+          <Switch>
+            <Route exact path="/" render={() => <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />} />
+            <Route path={`/${types}`} render={() => viewTasks} />
+            <Route path="/task" render={() => <CreateTask />} />
+          </Switch>
+        </div>
+      </Layout>
+    </BrowserRouter>
   );
 };
 

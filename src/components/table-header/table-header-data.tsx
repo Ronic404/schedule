@@ -53,10 +53,10 @@ const displays: Array<IOptionItem> = [
     name: 'Calendar',
     id: 3,
   },
-  {
-    name: 'Create task',
-    id: 4,
-  },
+  // {
+  //   name: 'Create task',
+  //   id: 4,
+  // },
 ];
 const defaultDisplayIndex = 0;
 
