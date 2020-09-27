@@ -1,13 +1,21 @@
+/* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import { List, Card } from 'antd';
+import { connect } from 'react-redux';
 import CustomTag from '../custom-tag';
+import { changeTaskNumber } from '../../actions';
 import data from '../data';
 import taskTypes, { textColor } from '../task-types';
 
 import styles from './list-structure.module.css';
 
-export default function ListContainer(): ReactElement {
+function ListContainer({ changeTaskNumber }: any): ReactElement {
+  const taskNumberChange = (taskNumber: any): void => {
+    changeTaskNumber(taskNumber);
+  };
+
   return (
     <Card className={styles.list} title="Tasks list" bodyStyle={{ padding: 0 }}>
       <List
@@ -25,7 +33,7 @@ export default function ListContainer(): ReactElement {
               className={styles.taskCard}
               type="inner"
               title={item.dateTime.format('DD-MM-YYYY HH:mm')}
-              extra={<a href="#">More</a>}
+              extra={<Link to={`/task/${item.key}`} onClick={() => taskNumberChange(item.key)}>More</Link>}
             >
               <p className={styles.taskText}>{item.name}</p>
             </Card>
@@ -35,3 +43,9 @@ export default function ListContainer(): ReactElement {
     </Card>
   );
 }
+
+const mapDispatchToProps = {
+  changeTaskNumber,
+};
+
+export default connect(null, mapDispatchToProps)(ListContainer);

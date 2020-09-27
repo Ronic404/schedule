@@ -15,14 +15,15 @@ const filterTypes = () => {
   return temp;
 };
 
-const dateRenderer = (timeZone: string) => (value: string) => (value
-  ? moment(value, 'YYYY-MM-DD HH:mmZ')
-    .tz(timeZone)
-    .format('ll')
-  : '');
+const dateRenderer = (timeZone: string) => (value: any) => (
+  value
+    ? moment(value)
+      .tz(timeZone)
+      .format('ll')
+    : '');
 
-const timeRenderer = (timeZone: string) => (value: string) => (value
-  ? moment(value, 'YYYY-MM-DD HH:mmZ')
+const timeRenderer = (timeZone: string) => (value: any) => (value
+  ? moment(value)
     .tz(timeZone)
     .format('HH:mm')
   : '');
@@ -30,14 +31,14 @@ const timeRenderer = (timeZone: string) => (value: string) => (value
 const getColumnDefs = (timezone: string) => ([
   {
     title: 'Date',
-    dataIndex: 'dateTime',
+    dataIndex: 'date',
     key: 'date',
     editable: true,
     render: dateRenderer(timezone),
   },
   {
     title: 'Time',
-    dataIndex: 'dateTime',
+    dataIndex: 'time',
     key: 'time',
     editable: true,
     render: timeRenderer(timezone),

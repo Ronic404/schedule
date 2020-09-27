@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
+import DropboxRoute from '../dropbox-route';
 import {
   changeType,
   changeTimezone,
@@ -29,7 +30,10 @@ type PropType = {
 }
 
 const TableHeader: FC<any> = ({
-  changeType, changeTimezone, tableRef, changeStyleSelectorVisibility,
+  changeType,
+  changeTimezone,
+  changeStyleSelectorVisibility,
+  tableRef,
 }: PropType): ReactElement => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [timeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -41,8 +45,9 @@ const TableHeader: FC<any> = ({
   const timezoneChange = (el: any): void => {
     changeTimezone(el);
   };
-  const styleSelectorVisibilityChange = ():void => {
-    changeStyleSelectorVisibility(true);
+
+  const styleSelectorVisibilityChange = (value: boolean): void => {
+    changeStyleSelectorVisibility(value);
   };
 
   return (
@@ -55,11 +60,11 @@ const TableHeader: FC<any> = ({
           items={locations}
           defaultIndex={defaultLocationIndex}
         />
-        <Dropbox handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
+        <DropboxRoute handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
         <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
         <HeaderButton
           buttonImage={<BgColorsOutlined />}
-          onClick={() => styleSelectorVisibilityChange()}
+          onClick={() => { styleSelectorVisibilityChange(true); }}
         />
       </div>
       <div className={styles['table__header-right']}>

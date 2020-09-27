@@ -1,20 +1,27 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
+import { IEvent } from '../interfaces';
 
-type stateType = {
+type StateType = {
   role: string,
   type: string,
-  zone: string,
+  events: IEvent[],
+  loading: boolean,
+  taskNumber: number,
+  timezone: string,
   styleSelectorVisibility: boolean
 }
 
-const initialState: stateType = {
-  role: 'student',
+const initialState: StateType = {
+  role: 'mentor',
   type: 'table',
-  zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  events: [],
+  loading: true,
+  taskNumber: 1,
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   styleSelectorVisibility: false,
 };
 
-const reducer = (state: stateType = initialState, action: any): stateType => {
+const reducer = (state: StateType = initialState, action: any): StateType => {
   switch (action.type) {
     case 'CHANGE_ROLE':
       return {
@@ -26,10 +33,21 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
         ...state,
         type: action.payload,
       };
+    case 'EVENTS_LOADED':
+      return {
+        ...state,
+        events: action.payload,
+        loading: false,
+      };
     case 'CHANGE_TIMEZONE':
       return {
         ...state,
-        zone: action.payload,
+        timezone: action.payload,
+      };
+    case 'CHANGE_TASK_NUMBER':
+      return {
+        ...state,
+        taskNumber: action.payload,
       };
     case 'CHANGE_STYLESELECTOR_VISIBILITY':
       return {
@@ -41,11 +59,4 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
   }
 };
 
-const rootReducer = combineReducers({
-  types: reducer,
-  roles: reducer,
-  timezone: reducer,
-  styleSelectorVisibility: reducer,
-});
-
-export { reducer, rootReducer };
+export default reducer;

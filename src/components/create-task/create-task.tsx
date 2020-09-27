@@ -11,13 +11,26 @@ import MapRonic from '../map';
 import Feedback from '../feedback';
 import initialTaskText from './initial-task-text';
 import allTypes from '../task-types';
+import defaultEvent from './default-event';
 
 import 'github-markdown-css';
 import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
-function CreateTask({ role }: any): ReactElement {
-  console.log(role);
+function CreateTask({ role, events, taskNumber }: any): ReactElement {
+  const event = events[taskNumber - 1];
+  const {
+    date, time, name, organizer,
+  } = event || defaultEvent;
+
+  const startTaskBackendDay = (date.day.toString().length === 1) ? `0${date.day}` : date.day;
+  const startTaskBackendMonth = (date.month.toString().length === 1) ? `0${date.month}` : date.month;
+  const deadlineBackendDay = (time.day.toString().length === 1) ? `0${time.day}` : time.day;
+  const deadlinekBackendMonth = (time.month.toString().length === 1) ? `0${time.month}` : time.month;
+  const startTaskBackendHour = (date.hour.toString().length === 1) ? `0${date.hour}` : date.hour;
+  const startTaskBackendMinute = (date.minute.toString().length === 1) ? `0${date.minute}` : date.minute;
+  const deadlinekBackendHour = (time.hour.toString().length === 1) ? `0${time.hour}` : time.hour;
+  const deadlinekBackendMinute = (time.minute.toString().length === 1) ? `0${time.minute}` : time.minute;
 
   const [taskHide, setTaskHide] = useState<boolean>(true);
   const [text, setText] = useState<string>(initialTaskText);
@@ -26,12 +39,12 @@ function CreateTask({ role }: any): ReactElement {
   const [showMap, setShowMap] = useState<boolean>(true);
   const [nameFolder, setNameFolder] = useState<string>('RSSschool');
   const [nameBranch, setNameBranch] = useState<string>('RSSschool');
-  const [nameTask, setNameTask] = useState<string>('Name task');
-  const [nameOrganizer, setNameOrganizer] = useState<string>('Your name');
-  const [startTaskDate, setStartTaskDate] = useState<string>('01.01.1970');
-  const [startTaskTime, setStartTaskTime] = useState<string>('00:00');
-  const [deadlineDate, setDeadlineDate] = useState<string>('01.01.1970');
-  const [deadlineTime, setDeadlineTime] = useState<string>('23:59');
+  const [nameTask, setNameTask] = useState<string>(name);
+  const [nameOrganizer, setNameOrganizer] = useState<string>(organizer);
+  const [startTaskDate, setStartTaskDate] = useState<string>(`${startTaskBackendDay}.${startTaskBackendMonth}.${date.year}`);
+  const [startTaskTime, setStartTaskTime] = useState<string>(`${startTaskBackendHour}:${startTaskBackendMinute}`);
+  const [deadlineDate, setDeadlineDate] = useState<string>(`${deadlineBackendDay}.${deadlinekBackendMonth}.${time.year}`);
+  const [deadlineTime, setDeadlineTime] = useState<string>(`${deadlinekBackendHour}:${deadlinekBackendMinute}`);
   const [tagNumber, setTagNumber] = useState<number>(0);
   const textarea = useRef<HTMLTextAreaElement>(null);
 
@@ -282,7 +295,9 @@ function CreateTask({ role }: any): ReactElement {
 }
 
 const mapStateToProps = (state: any) => ({
-  role: state.roles.role,
+  role: state.role,
+  events: state.events,
+  taskNumber: state.taskNumber,
 });
 
 export default connect(mapStateToProps)(CreateTask);
