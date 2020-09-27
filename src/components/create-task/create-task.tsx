@@ -7,22 +7,31 @@ import ReactMarkdown from 'react-markdown/with-html';
 import {
   Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table, Divider, message,
 } from 'antd';
+import { Link } from 'react-router-dom';
 import MapRonic from '../map';
 import Feedback from '../feedback';
 import initialTaskText from './initial-task-text';
 import allTypes from '../task-types';
-import defaultEvent from './default-event';
+import defaultTask from './default-task';
 
 import 'github-markdown-css';
 import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
-function CreateTask({ role, events, taskNumber }: any): ReactElement {
+interface IProps {
+  role: string
+  events: [any]
+  taskNumber: number
+}
+
+function CreateTask({
+  role, events, taskNumber,
+}: IProps): ReactElement {
   const eventsSort = events.sort((a: any, b: any): number => a.key - b.key);
   const event = eventsSort[taskNumber - 1];
   const {
-    date, time, name, organizer, type,
-  } = event || defaultEvent;
+    date, time, name, organizer, type, key, id,
+  } = event || defaultTask;
   const typeNumber = allTypes.findIndex((el) => el.value === type);
   const startTaskBackendDay = (date.day.toString().length === 1) ? `0${date.day}` : date.day;
   const startTaskBackendMonth = (date.month.toString().length === 1) ? `0${date.month}` : date.month;
@@ -104,6 +113,36 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
 
   const onFinish = () => {
     message.success('Task has been saved!');
+    // =========================================
+    // 👇 Тут нужно сделать отпавку на backend 👇
+    // =========================================
+    const currentEvent = {
+      date: {
+        hour: startTaskTime.split(':')[0],
+        minute: startTaskTime.split(':')[1],
+        day: startTaskDate.split('.')[0],
+        month: startTaskDate.split('.')[1],
+        year: startTaskDate.split('.')[2],
+      },
+      time: {
+        hour: deadlineTime.split(':')[0],
+        minute: deadlineTime.split(':')[1],
+        day: deadlineDate.split('.')[0],
+        month: deadlineDate.split('.')[1],
+        year: deadlineDate.split('.')[2],
+      },
+      comment: JSON.stringify(textarea.current?.value),
+      done: false,
+      hidden: false,
+      id,
+      key,
+      name: nameTask,
+      organizer: nameOrganizer,
+      place: '',
+      task: '',
+      type: allTypes[tagNumber].value,
+    };
+    console.log(currentEvent);
   };
 
   const saveDescription = () => {
@@ -134,7 +173,6 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                     hasFeedback
                     rules={[{ required: true, message: 'Выберите дату!' }]}
                     style={{ margin: '0' }}
-                    // initialValue="01-01-2020"
                   >
                     <DatePicker />
                   </Form.Item>
@@ -176,6 +214,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                 name="folder"
                 required={false}
                 hasFeedback
+                initialValue={nameFolder}
                 rules={[{ required: true, message: 'Напишите название папки!' }]}
               >
                 <Input />
@@ -185,6 +224,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                 name="branch"
                 required={false}
                 hasFeedback
+                initialValue={nameBranch}
                 rules={[{ required: true, message: 'Напишите название ветки!' }]}
               >
                 <Input />
@@ -194,7 +234,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                 name="nameTask"
                 required={false}
                 hasFeedback
-                initialValue={name}
+                initialValue={nameTask}
                 rules={[{ required: true, message: 'Напишите название задания!' }]}
               >
                 <Input />
@@ -222,6 +262,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                 required={false}
                 hasFeedback
                 rules={[{ required: true, message: 'Напишите имя организатора!' }]}
+                initialValue={nameOrganizer}
               >
                 <Input />
               </Form.Item>
@@ -266,7 +307,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
                 pagination={false}
                 className={styles.topTable}
               />
-              <Divider style={{ fontSize: '3em' }}>{nameTask}</Divider>
+              <div style={{ fontSize: '2em' }}>{nameTask}</div>
               <div>
                 <Tag
                   color={allTypes[tagNumber].color}
@@ -292,12 +333,13 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
         >
           Edit
         </Button>
+        <Link to="/list" className={styles.back}>&#8592;</Link>
       </div>
     </>
   );
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IProps) => ({
   role: state.role,
   events: state.events,
   taskNumber: state.taskNumber,

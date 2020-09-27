@@ -1,4 +1,4 @@
-const defaultEvent = {
+const defaultTask = {
   date: {
     day: 1,
     hour: 0,
@@ -25,4 +25,4 @@ const defaultEvent = {
   type: 'stream',
 };
 
-export default defaultEvent;
+export default defaultTask;
