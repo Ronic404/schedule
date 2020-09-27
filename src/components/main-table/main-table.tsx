@@ -18,19 +18,16 @@ import {
 } from '../../utils';
 import getColumnDefs from '../columns';
 import { IEvent } from '../../interfaces';
-import withScheduleService from '../hoc';
 import styles from './main-table.module.css';
 
 type PropType = {
-  scheduleService: any,
   events: IEvent[],
-  eventsLoaded: any,
   loading: boolean,
   timezone: any,
 };
 
 const MainTable: FC<PropType> = ({
-  scheduleService, events, eventsLoaded, loading, timezone,
+  events, loading, timezone,
 }: PropType): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<IEvent[]>([]);
@@ -117,17 +114,8 @@ const MainTable: FC<PropType> = ({
   };
 
   useEffect(() => {
-    scheduleService.getAllEvents()
-      .then((res: any) => {
-        eventsLoaded(res);
-
-        // res.forEach((el: any) => {
-        //   scheduleService.deleteEvent(el.id);
-        // });
-        setVisibleData(res);
-        console.log(res);
-      });
-  }, [scheduleService, eventsLoaded]);
+    setVisibleData(events);
+  }, [events]);
 
   useEffect(() => {
     setShowHideBtn(Boolean(hiddenRows.length));
@@ -175,6 +163,5 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  withScheduleService(),
   connect(mapStateToProps, mapDispatchToProps),
 )(MainTable);
