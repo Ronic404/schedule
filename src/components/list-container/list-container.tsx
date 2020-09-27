@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { List, Card } from 'antd';
 import CustomTag from '../custom-tag';
 import data from '../data';
-import taskTypes, {textColor} from '../task-types';
+import taskTypes, { textColor } from '../task-types';
 
 import styles from './list-structure.module.css';
 

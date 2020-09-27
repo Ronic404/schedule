@@ -8,18 +8,18 @@ type CustomTagType = {
     tagClassName?: string
 }
 
-const CustomTag = ({ backgroundColor, color, text, tagClassName }: CustomTagType): ReactElement => {
-    return (
-        <Tag color={backgroundColor} style={{color: color}} className={tagClassName}>
-            {text}
-        </Tag>
-    );
-} 
+const CustomTag = ({
+  backgroundColor, color, text, tagClassName,
+}: CustomTagType): ReactElement => (
+  <Tag color={backgroundColor} style={{ color }} className={tagClassName}>
+    {text}
+  </Tag>
+);
 
 CustomTag.defaultProps = {
-    backgroundColor: 'magenta',
-    color: '#000000',
-    tagClassName: ''
-}
+  backgroundColor: 'magenta',
+  color: '#000000',
+  tagClassName: '',
+};
 
 export default CustomTag;

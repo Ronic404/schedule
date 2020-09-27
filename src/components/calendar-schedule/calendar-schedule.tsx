@@ -3,9 +3,9 @@ import {
   Layout, Calendar, Select, Row, Col,
 } from 'antd';
 
+import moment, { Moment } from 'moment';
 import CustomTag from '../custom-tag';
 
-import moment, { Moment } from 'moment';
 import data from '../data';
 import taskTypes, { textColor } from '../task-types';
 
@@ -49,11 +49,11 @@ const dateCellRender = (value : Moment): ReactElement => {
     <ul className={styles.calendar__cell}>
       {listData.map((item: list) => (
         <li key={item.key} className={styles['calendar__list-item']}>
-          <CustomTag 
+          <CustomTag
             backgroundColor={taskTypes.find((task) => task.value === item.type)?.color}
             color={textColor.color}
             text={item.type.toUpperCase()}
-            />
+          />
           <span>{item.name}</span>
         </li>
       ))}

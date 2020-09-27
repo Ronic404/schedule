@@ -96,57 +96,59 @@ const StyleSelector = ({ visibility, changeStyleSelectorVisibility } : StyleSele
   const newTypeModalHandleOk = () => {
     if (!newTypeName.trim().length) {
       setNewTypeError('enter name');
-    } else if (taskTypes.find(item => item.value.toLowerCase() === newTypeName.trim().toLowerCase())) {
+    } else
+    if (taskTypes
+      .find((item) => item.value.toLowerCase() === newTypeName.trim().toLowerCase())) {
       setNewTypeError('name already exists');
     } else {
       setNewTypeError('');
-        const newType = {
-          text: newTypeName,
-          value: newTypeName.toLowerCase(),
-          color: newTypeColor,
-          id: taskData.length,
-        };
-        const draftState = [...taskData];
-        draftState.push(newType);
-        setTaskData(draftState);
-        setNewTypeColor('#123321');
-        setNewTypeName('');
-        setNewTypeModalVisibility(false);
+      const newType = {
+        text: newTypeName,
+        value: newTypeName.toLowerCase(),
+        color: newTypeColor,
+        id: taskData.length,
+      };
+      const draftState = [...taskData];
+      draftState.push(newType);
+      setTaskData(draftState);
+      setNewTypeColor('#123321');
+      setNewTypeName('');
+      setNewTypeModalVisibility(false);
     }
-  }
+  };
 
   const newTypeModalHandleCancel = () => {
     setNewTypeError('');
     setNewTypeColor('#123321');
     setNewTypeName('');
     setNewTypeModalVisibility(false);
-  }
+  };
 
   const newTypeChangeComplete = ({ hex }: handleChangeCompleteTypes): void => {
     setNewTypeColor(hex);
-  }
+  };
 
   const newTypeChangeName = (e: any) => {
     const name = e.target.value;
     setNewTypeName(name);
-  }
+  };
 
   return (
     <>
-      <Modal 
+      <Modal
         className={styles['new-type__modal']}
         title="Add new type"
         visible={newTypeModalVisibility}
         onOk={newTypeModalHandleOk}
         onCancel={newTypeModalHandleCancel}
       >
-        <Input placeholder="Type name" value={newTypeName} onChange={newTypeChangeName}/>
+        <Input placeholder="Type name" value={newTypeName} onChange={newTypeChangeName} />
         {newTypeError ? (
           <Alert message={newTypeError} type="error" />
         ) : null}
         <SketchPicker
-              color={newTypeColor}
-              onChangeComplete={newTypeChangeComplete}
+          color={newTypeColor}
+          onChangeComplete={newTypeChangeComplete}
         />
       </Modal>
       <Modal
@@ -166,7 +168,10 @@ const StyleSelector = ({ visibility, changeStyleSelectorVisibility } : StyleSele
                 />
               </li>
             ))}
-            <HeaderButton buttonImage={<PlusCircleOutlined />} handler={setNewTypeModalVisibility} />
+            <HeaderButton
+              buttonImage={<PlusCircleOutlined />}
+              handler={setNewTypeModalVisibility}
+            />
           </ul>
           <div className="color-selector">
             <SketchPicker
