@@ -1,4 +1,7 @@
-import React, { FC, ReactElement, useState } from 'react';
+/* eslint-disable no-shadow */
+import React, {
+  FC, ReactElement, useState, useEffect,
+} from 'react';
 import { connect } from 'react-redux';
 import {
   BrowserRouter, Switch, Route,
@@ -11,15 +14,34 @@ import TableHeader from './components/table-header';
 import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
 import CreateTask from './components/create-task';
-import { TableDownloadProps } from './interfaces';
 import StyleSelector from './components/style-selector';
 
+import { eventsLoaded } from './actions';
+import { compose } from './utils';
+import withScheduleService from './components/hoc';
+import { TableDownloadProps } from './interfaces';
 import styles from './App.module.css';
 
-const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
+type PropType = {
+  types: any,
+  scheduleService: any,
+  eventsLoaded: any,
+  styleSelectorVisibility: any,
+};
+
+const App: FC<PropType> = ({
+  types, scheduleService, eventsLoaded, styleSelectorVisibility,
+}: PropType): ReactElement => {
   const [tableRef, setTableRef] = useState();
   localStorage.setItem('view type', types);
   let viewTasks: ReactElement;
+
+  useEffect(() => {
+    scheduleService.getAllEvents()
+      .then((res: any) => {
+        eventsLoaded(res);
+      });
+  }, [scheduleService, eventsLoaded]);
 
   switch (types) {
     case 'Table':
@@ -50,7 +72,11 @@ const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
           <Header />
           <TableHeader tableRef={tableRef} />
           <Switch>
-            <Route exact path="/" render={() => <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />} />
+            <Route
+              exact
+              path="/"
+              render={() => <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />}
+            />
             <Route path={`/${types}`} render={() => viewTasks} />
             <Route path="/task" render={() => <CreateTask />} />
           </Switch>
@@ -66,4 +92,11 @@ const mapStateToProps = (state: any) => ({
   styleSelectorVisibility: state.styleSelectorVisibility,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+  eventsLoaded,
+};
+
+export default compose(
+  withScheduleService(),
+  connect(mapStateToProps, mapDispatchToProps),
+)(App);
