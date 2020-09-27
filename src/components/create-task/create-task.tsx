@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown/with-html';
 import {
   Button, Form, Input, DatePicker, TimePicker, Select, Tag, Switch, Table, Divider, message,
 } from 'antd';
+import { Link } from 'react-router-dom';
 import MapRonic from '../map';
 import Feedback from '../feedback';
 import initialTaskText from './initial-task-text';
@@ -23,7 +24,9 @@ interface IProps {
   taskNumber: number
 }
 
-function CreateTask({ role, events, taskNumber }: IProps): ReactElement {
+function CreateTask({
+  role, events, taskNumber,
+}: IProps): ReactElement {
   const eventsSort = events.sort((a: any, b: any): number => a.key - b.key);
   const event = eventsSort[taskNumber - 1];
   const {
@@ -304,7 +307,7 @@ function CreateTask({ role, events, taskNumber }: IProps): ReactElement {
                 pagination={false}
                 className={styles.topTable}
               />
-              <Divider style={{ fontSize: '3em' }}>{nameTask}</Divider>
+              <div style={{ fontSize: '2em' }}>{nameTask}</div>
               <div>
                 <Tag
                   color={allTypes[tagNumber].color}
@@ -330,12 +333,13 @@ function CreateTask({ role, events, taskNumber }: IProps): ReactElement {
         >
           Edit
         </Button>
+        <Link to="/list" className={styles.back}>&#8592;</Link>
       </div>
     </>
   );
 }
 
-const mapStateToProps = (state: IProps) => ({
+const mapStateToProps = (state: any) => ({
   role: state.role,
   events: state.events,
   taskNumber: state.taskNumber,

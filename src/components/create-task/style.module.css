@@ -52,6 +52,13 @@
   top: 10px;
 }
 
+.back {
+  font-size: 3em;
+  position: absolute;
+  right: 110px;
+  top: -53px;
+}
+
 @media screen and (max-width: 768px) {
   .wrapper {
     padding: 0 20px;
