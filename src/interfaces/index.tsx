@@ -9,6 +9,7 @@ export interface IEvent {
   place: string,
   name: string,
   organizer: string,
+  task: string,
   comment: string,
   done?: boolean,
   hidden?: boolean,

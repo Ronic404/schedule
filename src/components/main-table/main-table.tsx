@@ -115,6 +115,10 @@ const MainTable: FC<PropType> = ({
     scheduleService.getAllEvents()
       .then((res: any) => {
         eventsLoaded(res);
+
+        // res.forEach((el: any) => {
+        //   scheduleService.deleteEvent(el.id);
+        // });
         setVisibleData(mapDatesToString(res));
       });
   }, [scheduleService, eventsLoaded]);
