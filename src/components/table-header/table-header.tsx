@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 import { EyeOutlined, BgColorsOutlined, DownloadOutlined } from '@ant-design/icons';
 import styles from './table-header.module.css';
 import Dropbox from '../dropbox';
-import { changeType, changeTimezone } from '../../actions';
+import {
+  changeType,
+  changeTimezone,
+  changeStyleSelectorVisibility,
+} from '../../actions';
 import HeaderButton from '../header-button/header-button';
 import TableDownloadModal from '../table-download-modal';
 import {
@@ -24,7 +28,9 @@ type PropType = {
   tableRef: any,
 }
 
-const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef, changeStyleSelectorVisibility }: PropType): ReactElement => {
+const TableHeader: FC<any> = ({
+  changeType, changeTimezone, tableRef, changeStyleSelectorVisibility,
+}: PropType): ReactElement => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [timeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
@@ -37,7 +43,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef, changeStyl
   };
   const styleSelectorVisibilityChange = ():void => {
     changeStyleSelectorVisibility(true);
-  }
+  };
 
   return (
     <div className={styles.table__header}>
@@ -51,8 +57,8 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef, changeStyl
         />
         <Dropbox handler={typeChange} items={displays} defaultIndex={defaultDisplayIndex} />
         <Dropbox items={courses} defaultIndex={defaultCourseIndex} />
-        <HeaderButton 
-          buttonImage={<BgColorsOutlined />} 
+        <HeaderButton
+          buttonImage={<BgColorsOutlined />}
           onClick={() => styleSelectorVisibilityChange()}
         />
       </div>
@@ -73,7 +79,7 @@ const TableHeader: FC<any> = ({ changeType, changeTimezone, tableRef, changeStyl
 };
 
 const mapDispatchToProps = {
-  changeType, changeTimezone, changeStyleSelectorVisibility
+  changeType, changeTimezone, changeStyleSelectorVisibility,
 };
 
 export default connect(null, mapDispatchToProps)(TableHeader);

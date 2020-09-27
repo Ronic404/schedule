@@ -170,7 +170,7 @@ const StyleSelector = ({ visibility, changeStyleSelectorVisibility } : StyleSele
             ))}
             <HeaderButton
               buttonImage={<PlusCircleOutlined />}
-              handler={setNewTypeModalVisibility}
+              onClick={() => setNewTypeModalVisibility(true)}
             />
           </ul>
           <div className="color-selector">

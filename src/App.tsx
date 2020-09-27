@@ -49,7 +49,7 @@ const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
         <Header />
         <TableHeader tableRef={tableRef} />
         {viewTasks}
-        <StyleSelector visibility={styleSelectorVisibility}/>
+        <StyleSelector visibility={styleSelectorVisibility} />
       </div>
     </Layout>
   );
