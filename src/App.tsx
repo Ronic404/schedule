@@ -37,14 +37,12 @@ const App: FC<PropType> = ({
   const [tableRef, setTableRef] = useState();
   localStorage.setItem('view type', types);
   let viewTasks: ReactElement;
-  console.log(roles)
   useEffect(() => {
     scheduleService.getAllEvents()
       .then((res: any) => {
         eventsLoaded(res);
       });
   }, [scheduleService, eventsLoaded]);
-
 
   switch (types) {
     case 'Table':
@@ -74,16 +72,18 @@ const App: FC<PropType> = ({
         <div className={styles.header}>
           <Header />
           <TableHeader tableRef={tableRef} />
-          {roles==='Mentor'?<TableForMentor/>:
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />}
-            />
-            <Route path={`/${types}`} render={() => viewTasks} />
-            <Route path="/task" render={() => <CreateTask />} />
-          </Switch>}
+          {roles === 'Mentor' ? <TableForMentor />
+            : (
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />}
+                />
+                <Route path={`/${types}`} render={() => viewTasks} />
+                <Route path="/task" render={() => <CreateTask />} />
+              </Switch>
+            )}
           <StyleSelector visibility={styleSelectorVisibility} />
         </div>
       </Layout>
