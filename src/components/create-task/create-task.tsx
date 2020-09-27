@@ -17,7 +17,13 @@ import 'github-markdown-css';
 import 'antd/dist/antd.css';
 import styles from './style.module.css';
 
-function CreateTask({ role, events, taskNumber }: any): ReactElement {
+interface IProps {
+  role: string
+  events: [any]
+  taskNumber: number
+}
+
+function CreateTask({ role, events, taskNumber }: IProps): ReactElement {
   const eventsSort = events.sort((a: any, b: any): number => a.key - b.key);
   const event = eventsSort[taskNumber - 1];
   const {
@@ -329,7 +335,7 @@ function CreateTask({ role, events, taskNumber }: any): ReactElement {
   );
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IProps) => ({
   role: state.role,
   events: state.events,
   taskNumber: state.taskNumber,
