@@ -56,7 +56,7 @@ let originData: IEvent[] = [];
 let dataFromBack: IEvent[] = [];
 
 const createCols = (): Column[] => {
-  const tempCols = [...allCols];
+  const tempCols = [...allCols('Europe/Moscow')];
   const temp = tempCols.map((data) => {
     const { ...newTemp } = data;
     delete newTemp.render;
@@ -118,10 +118,6 @@ const TableForMentor: FC<PropType> = ({
   function onTypeChange(type: string) {
     rowRef.current.type = type;
   }
-
-  // function onTimeChange(event: ChangeEvent<HTMLInputElement>) {
-  //   setTimeStr(event.target.value);
-  // }
 
   function checkTime(dataInput: string) {
     const reg = /^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/gm;
