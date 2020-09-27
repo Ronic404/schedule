@@ -11,8 +11,8 @@
   display: flex;
 }
 
-.task,
-.markdown {
+.editTask,
+.taskPage {
   min-height: 600px;
   flex: 1;
   overflow: hidden;
@@ -20,19 +20,29 @@
   border: 1px solid rgb(195, 195, 195);
 }
 
-.task {
+.editTask {
   font-size: 16px;
   background-color: #f6f8fa;
   padding-top: 20px;
   resize: none;
 }
 
-textarea:focus {
+.textarea {
+  width: 100%;
+  height: 50vh;
+}
+
+.textarea:focus {
   outline: none;
 }
 
-.markdown {
+.taskPage {
   margin-left: 10px;
+}
+
+.topTable {
+  max-width: 500px;
+  overflow-x: scroll;
 }
 
 .button-task {
@@ -55,7 +65,7 @@ textarea:focus {
     margin-bottom: 10px;
   }
 
-  .markdown {
+  .taskPage {
     margin-left: 0;
   }
 

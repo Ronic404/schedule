@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Tag, Checkbox } from 'antd';
+
 import OrganizerCell from './organizer-cell';
 import taskTypes from './task-types';
 

@@ -1,12 +1,16 @@
 import React, { FC, ReactElement } from 'react';
 
-import styles from './table-container.module.css';
 import MainTable from '../main-table';
 import TableForMentor from '../table-for-mentor';
+import { TableContainerProps } from '../../interfaces';
 
-const TableContainer: FC = (): ReactElement => (
-  <section className={styles['table-container']}>
-    <MainTable />
+import styles from './table-container.module.css';
+
+const TableContainer: FC<TableContainerProps> = ({
+  setTableRef,
+}: TableContainerProps): ReactElement => (
+  <section className={styles['PDFTable-container']}>
+    <MainTable setTableRef={setTableRef} />
     <TableForMentor />
   </section>
 );

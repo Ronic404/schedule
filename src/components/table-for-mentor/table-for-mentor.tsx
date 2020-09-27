@@ -5,29 +5,36 @@ import {
   Table, Input, Popconfirm, Form, DatePicker, Select, Tag, Button,
 } from 'antd';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import styles from './table-for-mentor.module.css';
 import allCols from '../columns';
-import datafromFile from '../data';
+// import datafromFile from '../data';
 import allTypes from '../task-types';
 import OrganizerCell from '../organizer-cell';
+import { IEvent } from '../../interfaces';
+import withScheduleService from '../hoc';
+import { eventsLoaded } from '../../actions';
+import {
+  compose, mapDatesToString, createColsTitles,
+} from '../../utils';
 
 const { Option } = Select;
 
 const dateFormat = 'DD-MM-YYYY';
 
-interface Item {
-    key: string,
-    date?: any,
-    time: string,
-    type: string,
-    place: string,
-    name: string,
-    organizer: string,
-    comment: string,
-    done?: boolean,
-    hided?: boolean,
-}
+// interface Item {
+//     key: string,
+//     date?: any,
+//     time: string,
+//     type: string,
+//     place: string,
+//     name: string,
+//     organizer: string,
+//     comment: string,
+//     done?: boolean,
+//     hided?: boolean,
+// }
 
 interface Column {
     key?: string,
@@ -41,24 +48,53 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
     dataIndex: string;
     title: string;
-    record: Item;
+    record: IEvent;
     index: number;
     children: React.ReactNode;
   }
 
-const createOriginData = (data: Item[]) => {
+  type PropType = {
+    scheduleService: any,
+    events: IEvent[],
+    eventsLoaded: any,
+    loading: boolean,
+  };
+
+const createOriginData = (data: IEvent[]) => {
   const [...originData] = data;
   const temp = originData.map((d) => {
     const { ...newTemp } = d;
+    newTemp.date = moment(newTemp?.date);
+    newTemp.time = moment(newTemp.time)?.format('HH:mm');
     delete newTemp.done;
-    delete newTemp.hided;
+    delete newTemp.hidden;
     return newTemp;
   });
   return temp;
 };
 
-let allData = [...datafromFile];
-let originData = createOriginData(allData);
+// let allData = () => {
+//   scheduleService.getAllEvents()
+//     .then((res: any) => {
+//       eventsLoaded(res);
+
+//       // res.forEach((el: any) => {
+//       //   scheduleService.deleteEvent(el.id);
+//       // });
+//       console.log('res', res);
+//     });
+// };
+
+// let originData = createOriginData(allData);
+
+let originData: IEvent[] = [];
+let dataFromBack: IEvent[] = [];
+
+// const mapStringToMoment = (record: IEvent) => {
+//   console.log(record)
+//   const temp = { ...record };
+//   return temp;
+// };
 
 const createCols = (): Column[] => {
   const tempCols = [...allCols];
@@ -73,7 +109,7 @@ const createCols = (): Column[] => {
   return temp;
 };
 
-const mapDateToString = (data: Item[]) => {
+const mapDateToString = (data: IEvent[]) => {
   try {
     const [...tempData] = data;
     return tempData.map((el) => {
@@ -91,15 +127,37 @@ const mapDateToString = (data: Item[]) => {
   }
 };
 
-const EditableTable: FC = (): ReactElement => {
+const TableForMentor: FC<PropType> = ({
+  // eslint-disable-next-line no-shadow
+  scheduleService, events, eventsLoaded, loading,
+}: PropType): ReactElement => {
   const [form] = Form.useForm();
-  const [data, setData] = useState(mapDateToString(originData));
+  const [data, setData] = useState(events);
   const [editingKey, setEditingKey] = useState('');
   const [dateStr, setDateStr] = useState('');
+  const [dateMoment, setDateMoment] = useState(null);
   const rowRef = useRef({ type: '', organizer: '' });
+
+  useEffect(() => {
+    scheduleService.getAllEvents()
+      .then((res: any) => {
+        eventsLoaded(res);
+
+        // res.forEach((el: any) => {
+        //   scheduleService.deleteEvent(el.id);
+        // });
+        dataFromBack = res;
+        originData = createOriginData(dataFromBack);
+        console.log('origin', originData);
+        console.log('from back', dataFromBack);
+        console.log('to str', mapDatesToString(originData));
+        setData(mapDatesToString(dataFromBack));
+      });
+  }, [scheduleService, eventsLoaded]);
 
   function onDateChange(date: any, dateString: string) {
     setDateStr(dateString);
+    setDateMoment(date);
   }
 
   function onTypeChange(type: string) {
@@ -168,9 +226,9 @@ const EditableTable: FC = (): ReactElement => {
     );
   };
 
-  const isEditing = (record: Item) => record.key === editingKey;
+  const isEditing = (record: IEvent) => record.key === editingKey;
 
-  const edit = (record: Item) => {
+  const edit = (record: IEvent) => {
     form.setFieldsValue({
       ...record,
     });
@@ -183,11 +241,11 @@ const EditableTable: FC = (): ReactElement => {
     }
   }, [data]);
   /* eslint-enable */
-  const editHandler = (record: Item) => {
+  const editHandler = (record: IEvent) => {
     const temp = originData.map((el, i) => {
       if ((i + 1).toString() !== record.key) {
         const { ...tempEl } = el;
-        const t: Item[] = [];
+        const t: IEvent[] = [];
         t.push(tempEl);
         return mapDateToString(t)[0];
       }
@@ -214,48 +272,53 @@ const EditableTable: FC = (): ReactElement => {
   const handleAdd = () => {
     const newData = {
       key: (data.length + 1).toString(),
-      date: moment([2020, 8, 19]),
-      time: moment({ hour: 18, minute: 0 }).format('HH:mm'),
+      date: {
+        day: 19,
+        hour: 19,
+        minute: 0,
+        month: 8,
+        year: 2020,
+      },
+      time: {
+        day: 19,
+        hour: 19,
+        minute: 0,
+        month: 8,
+        year: 2020,
+      },
       type: 'test',
       place: ' ',
       name: ' ',
       organizer: 'dzmitry-varabei',
       comment: ' ',
       done: false,
-      hided: false,
+      hidden: false,
+      task: '',
     };
-    allData = [...allData, newData];
-    originData = createOriginData(allData);
-    const tempNewData = mapDateToString(originData);
-    setData(tempNewData);
+    dataFromBack = [...dataFromBack, newData];
+    originData = createOriginData(dataFromBack);
+    setData(mapDatesToString(dataFromBack));
   };
 
   const save = async (key: string) => {
     try {
-      const row = (await form.validateFields()) as Item;
-      const originRow = (await form.validateFields()) as Item;
-      const allDataRow = (await form.validateFields()) as Item;
+      const row = (await form.validateFields()) as IEvent;
+      const originRow = (await form.validateFields()) as IEvent;
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
-        const item: Item = newData[index];
-        const originItem: Item = originData[index];
-        const allDataItem: Item = allData[index];
+        const item: IEvent = newData[index];
+        const originItem: IEvent = originData[index];
         item.date = dateStr;
         row.date = dateStr;
-        originItem.date = moment(dateStr, dateFormat);
-        originRow.date = moment(dateStr, dateFormat);
-        allDataItem.date = moment(dateStr, dateFormat);
-        allDataRow.date = moment(dateStr, dateFormat);
+        originItem.date = dateMoment;
+        originRow.date = dateMoment;
         item.type = rowRef.current.type;
         row.type = rowRef.current.type;
         originRow.type = rowRef.current.type;
         originItem.type = rowRef.current.type;
-        allDataRow.type = rowRef.current.type;
-        allDataItem.type = rowRef.current.type;
         newData.splice(index, 1, { ...item, ...row });
         originData.splice(index, 1, { ...originItem, ...originRow });
-        allData.splice(index, 1, { ...allDataItem, ...allDataRow });
         setData(newData);
         setEditingKey('');
       } else {
@@ -292,7 +355,7 @@ const EditableTable: FC = (): ReactElement => {
   newCols.push({
     title: 'Operation',
     dataIndex: 'operation',
-    render: (_: any, record: Item) => {
+    render: (_: any, record: IEvent) => {
       const editable = isEditing(record);
       return editable ? (
         <span>
@@ -325,7 +388,7 @@ const EditableTable: FC = (): ReactElement => {
 
     return {
       ...col,
-      onCell: (record: Item) => ({
+      onCell: (record: IEvent) => ({
         record,
         dataIndex: col.dataIndex,
         title: col.title,
@@ -359,4 +422,18 @@ const EditableTable: FC = (): ReactElement => {
   );
 };
 
-export default EditableTable;
+const mapStateToProps = ({ events, loading }: any): any => ({
+  events,
+  loading,
+});
+
+const mapDispatchToProps = {
+  eventsLoaded,
+};
+
+export default compose(
+  withScheduleService(),
+  connect(mapStateToProps, mapDispatchToProps),
+)(TableForMentor);
+
+// export default TableForMentor;
