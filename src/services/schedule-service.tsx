@@ -1,5 +1,5 @@
 import { IEvent, IOrganizer } from '../interfaces';
-
+import moment from 'moment';
 class ScheduleService {
   apiBase = 'https://rs-react-schedule.firebaseapp.com/api/team/team19';
 
@@ -77,7 +77,9 @@ class ScheduleService {
   getAllEvents = async (): Promise<IEvent[]> => {
     const events = await this.getResource('/events/');
 
-    return events.data;
+    return events.data.sort((left:any, right:any) => {
+      return moment.utc(left.time).diff(moment.utc(right.time));
+  });
   };
 
   getEvent = async (id: string): Promise<IEvent> => {
