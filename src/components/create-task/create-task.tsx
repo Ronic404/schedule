@@ -30,7 +30,7 @@ function CreateTask({
   const eventsSort = events.sort((a: any, b: any): number => a.key - b.key);
   const event = eventsSort[taskNumber - 1];
   const {
-    date, time, name, organizer, type,
+    date, time, name, organizer, type, key, id,
   } = event || defaultTask;
   const typeNumber = allTypes.findIndex((el) => el.value === type);
   const startTaskBackendDay = (date.day.toString().length === 1) ? `0${date.day}` : date.day;
@@ -131,11 +131,11 @@ function CreateTask({
         month: deadlineDate.split('.')[1],
         year: deadlineDate.split('.')[2],
       },
-      comment: '',
+      comment: JSON.stringify(textarea.current?.value),
       done: false,
       hidden: false,
-      id: '',
-      key: '',
+      id,
+      key,
       name: nameTask,
       organizer: nameOrganizer,
       place: '',
@@ -339,7 +339,7 @@ function CreateTask({
   );
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IProps) => ({
   role: state.role,
   events: state.events,
   taskNumber: state.taskNumber,
