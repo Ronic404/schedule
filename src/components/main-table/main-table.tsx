@@ -8,14 +8,14 @@ import {
 } from 'antd';
 import { connect } from 'react-redux';
 
+import moment from 'moment-timezone';
 import ColsSelector from '../cols-selector';
 import Spinner from '../spinner';
 
-import { eventsLoaded ,changeTimezone} from '../../actions';
+import { eventsLoaded, changeTimezone } from '../../actions';
 import {
-  compose, mapDatesToString, createColsTitles,
+  compose, createColsTitles,
 } from '../../utils';
-import moment from 'moment-timezone';
 import getColumnDefs from '../columns';
 import { IEvent } from '../../interfaces';
 import withScheduleService from '../hoc';
@@ -30,7 +30,7 @@ type PropType = {
 };
 
 const MainTable: FC<PropType> = ({
-  scheduleService, events, eventsLoaded, loading, timezone
+  scheduleService, events, eventsLoaded, loading, timezone,
 }: PropType): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<IEvent[]>([]);
@@ -125,7 +125,7 @@ const MainTable: FC<PropType> = ({
         //   scheduleService.deleteEvent(el.id);
         // });
         setVisibleData(res);
-        console.log(res)
+        console.log(res);
       });
   }, [scheduleService, eventsLoaded]);
 
@@ -155,7 +155,7 @@ const MainTable: FC<PropType> = ({
       </div>
       <Table
         size="middle"
-        rowClassName={(record) => (moment({...record.date,...record.time}).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
+        rowClassName={(record) => (moment({ ...record.date, ...record.time }).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
         columns={activeCols()}
         dataSource={visibleData}
         onRow={(record) => ({ onClick: (el) => selectRow(record, el) })}
