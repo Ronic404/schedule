@@ -12,6 +12,7 @@ export default function ListContainer(): ReactElement {
     <Card className={styles.list} title="Tasks list" bodyStyle={{ padding: 0 }}>
       <List
         dataSource={data}
+        pagination={{ pageSize: 12 }}
         renderItem={(item) => (
           <Card.Grid className={styles.item} key={item.key}>
             <CustomTag
@@ -21,12 +22,12 @@ export default function ListContainer(): ReactElement {
               text={item.type.toUpperCase()}
             />
             <Card
-              className={styles.main}
+              className={styles.taskCard}
               type="inner"
               title={item.dateTime.format('DD-MM-YYYY HH:mm')}
               extra={<a href="#">More</a>}
             >
-              {item.name}
+              <p className={styles.taskText}>{item.name}</p>
             </Card>
           </Card.Grid>
         )}

@@ -1,25 +1,31 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { connect } from 'react-redux';
-import './App.css';
 import { Layout } from 'antd';
-
-import styles from './App.module.css';
 
 import Header from './components/header';
 import TableContainer from './components/table-container';
 import TableHeader from './components/table-header';
 import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
+import CreateTask from './components/create-task';
+import { TableDownloadProps } from './interfaces';
 import StyleSelector from './components/style-selector';
 
-const { Content } = Layout;
+import styles from './App.module.css';
+import { changeStyleSelectorVisibility } from './actions';
 
-const App: FC = ({ types, styleSelectorVisibility }:any): ReactElement => {
+const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
+  const [tableRef, setTableRef] = useState();
+
   let viewTasks;
 
   switch (types) {
     case 'Table':
-      viewTasks = <TableContainer />;
+      viewTasks = (
+        <TableContainer
+          setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
+        />
+      );
       break;
     case 'List':
       viewTasks = <ListContainer />;
@@ -27,24 +33,29 @@ const App: FC = ({ types, styleSelectorVisibility }:any): ReactElement => {
     case 'Calendar':
       viewTasks = <CalendarSchedule />;
       break;
+    case 'Create task':
+      viewTasks = <CreateTask />;
+      break;
     default:
-      viewTasks = <TableContainer />;
+      viewTasks = (
+        <TableContainer
+          setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)}
+        />
+      );
   }
   return (
     <Layout>
       <div className={styles.header}>
         <Header />
-        <TableHeader />
-      </div>
-      <Content>
+        <TableHeader tableRef={tableRef} />
         {viewTasks}
-        <StyleSelector visibility={styleSelectorVisibility} />
-      </Content>
+        <StyleSelector visibility={styleSelectorVisibility}/>
+      </div>
     </Layout>
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   types: state.types.type,
   styleSelectorVisibility: state.styleSelectorVisibility.styleSelectorVisibility,
 });

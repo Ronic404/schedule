@@ -8,7 +8,7 @@ type stateType = {
 }
 
 const initialState: stateType = {
-  role: 'mentor',
+  role: 'student',
   type: 'table',
   zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   styleSelectorVisibility: false,
@@ -29,7 +29,7 @@ const reducer = (state: stateType = initialState, action: any): stateType => {
     case 'CHANGE_TIMEZONE':
       return {
         ...state,
-        type: action.payload,
+        zone: action.payload,
       };
     case 'CHANGE_STYLESELECTOR_VISIBILITY':
       return {

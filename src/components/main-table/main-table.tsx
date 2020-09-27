@@ -1,15 +1,19 @@
 import React, {
-  FC, useEffect, useState,
+  FC, useEffect, useState, ReactElement,
 } from 'react';
 import {
   Table, Layout, Button,
 } from 'antd';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import styles from './main-table.module.css';
+import { PDFExport } from '@progress/kendo-react-pdf';
+
 import ColsSelector from '../cols-selector';
+
 import getColumnDefs from '../columns';
 import data from '../data';
+import { TableContainerProps } from '../../interfaces';
+import styles from './main-table.module.css';
 
 // const dateFormat = 'DD-MM-YYYY';
 
@@ -22,17 +26,13 @@ interface Item {
   comment: string,
   done?: boolean,
   hided?: boolean,
-  dateTime:any,
+  dateTime: any,
 }
 
-// const mapDatesToString = () => {
-//   const [...tempData] = data;
-//   return tempData.map((el) => {
-//     const { ...temp } = el;
-//     temp.dateTime = temp.dateTime?.format(dateFormat);
-//     return temp;
-//   });
-// };
+interface MainTableProps {
+  timezone: string,
+  setTableRef: TableContainerProps['setTableRef'],
+}
 
 const createColsTitles = (columns: any) => {
   const temp: { title: string, checked: boolean }[] = [];
@@ -42,19 +42,16 @@ const createColsTitles = (columns: any) => {
   });
   return temp;
 };
-  // eslint-disable-next-line
-const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
+// eslint-disable-next-line
+const MainTable: FC<MainTableProps> = ({ timezone, setTableRef }: MainTableProps): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<Item[]>([]);
   const [hidedRows, setHidedRows] = useState<Item[]>([]);
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
   const [columns, setColumns] = useState(getColumnDefs(timezone));
+  const [visibleData, setVisibleData] = useState<Item[]>(data);
   const startOfToday = moment().startOf('day');
-
-  // const [visibleData, setVisibleData] = useState<Item[]>(mapDatesToString());
-  // eslint-disable-next-line
- const [visibleData, setVisibleData] = useState<Item[]>(data);
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
@@ -148,11 +145,15 @@ const MainTable: FC<{ timezone: string }> = ({ timezone }) => {
         dataSource={visibleData}
         onRow={(record) => ({ onClick: (el) => selectRow(record, el) })}
       />
+      <PDFExport ref={(component) => setTableRef(component)}>
+        <Table size="middle" columns={activeCols()} dataSource={data} />
+      </PDFExport>
     </Layout>
   );
 };
+
 const mapStateToProps = (state: any) => (({
-  timezone: state.timezone.type,
+  timezone: state.timezone.zone,
 }));
 
 export default connect(mapStateToProps)(MainTable);

@@ -1,0 +1,7 @@
+.table-download-modal__button {
+  margin-bottom: 5px;
+}
+
+.table-download-modal__button:last-child {
+  margin-bottom: 0;
+}
