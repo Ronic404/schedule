@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import CustomTag from './custom-tag';
 import OrganizerCell from './organizer-cell';
 import taskTypes, { textColor } from './task-types';
-
+import { Link } from 'react-router-dom';
 const filterTypes = () => {
   const [...typesArray] = taskTypes;
   const temp = typesArray.map((task) => {
@@ -72,6 +72,8 @@ const getColumnDefs = (timezone: string) => ([
     key: 'name',
     dataIndex: 'name',
     editable: true,
+  render:(name: string, data: any)=> (<Link to={`/task/${data.key}`}>{name}</Link>),
+   
   },
   {
     title: 'Organizer',
