@@ -55,7 +55,7 @@ const App: FC = ({ types }: any): ReactElement => {
           <Switch>
             <Route exact path="/" render={() => <TableContainer setTableRef={(table: TableDownloadProps['PDFTable']) => setTableRef(table)} />} />
             <Route path={`/${types}`} render={() => viewTasks} />
-            <Route path="/task" render={() => <CreateTask numberTask="111" />} />
+            <Route path="/task" render={() => <CreateTask />} />
           </Switch>
         </div>
       </Layout>
