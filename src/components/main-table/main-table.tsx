@@ -147,7 +147,7 @@ const MainTable: FC<PropType> = ({
         localStorage.setItem('hidden', JSON.stringify(res.filter((el: IEvent) => el.hidden)));
         if (res.filter((el: IEvent) => el.hidden).length) setShowAllBtn(true);
       });
-  }, [scheduleService, eventsLoaded]);
+  }, [scheduleService]);
 
   useEffect(() => {
     if (!hiddenRows.length) setShowHideBtn(false);
