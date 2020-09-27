@@ -1,5 +1,4 @@
 import React, {
-  ChangeEvent,
   FC, ReactElement, useEffect, useRef, useState,
 } from 'react';
 import {
@@ -10,32 +9,18 @@ import { connect } from 'react-redux';
 
 import styles from './table-for-mentor.module.css';
 import allCols from '../columns';
-// import datafromFile from '../data';
 import allTypes from '../task-types';
 import OrganizerCell from '../organizer-cell';
 import { IEvent } from '../../interfaces';
 import withScheduleService from '../hoc';
-import { eventsLoaded } from '../../actions';
 import {
-  compose, mapDatesToString, createColsTitles,
+  compose, mapDatesToString, mapDateToObject,
 } from '../../utils';
+import Spinner from '../spinner';
 
 const { Option } = Select;
 
 const dateFormat = 'DD-MM-YYYY';
-
-// interface Item {
-//     key: string,
-//     date?: any,
-//     time: string,
-//     type: string,
-//     place: string,
-//     name: string,
-//     organizer: string,
-//     comment: string,
-//     done?: boolean,
-//     hided?: boolean,
-// }
 
 interface Column {
   key?: string,
@@ -53,13 +38,6 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   index: number;
   children: React.ReactNode;
 }
-
-type PropType = {
-  scheduleService: any,
-  events: IEvent[],
-  eventsLoaded: any,
-  loading: boolean,
-};
 
 const createOriginData = (data: IEvent[]) => {
   const [...originData] = data;
@@ -108,9 +86,15 @@ const mapDateToString = (data: IEvent[]) => {
   }
 };
 
+type PropType = {
+  scheduleService: any,
+  events: IEvent[],
+  loading: boolean,
+};
+
 const TableForMentor: FC<PropType> = ({
   // eslint-disable-next-line no-shadow
-  scheduleService, events, eventsLoaded, loading,
+  scheduleService, events, loading,
 }: PropType): ReactElement => {
   const [form] = Form.useForm();
   const [data, setData] = useState(events);
@@ -121,18 +105,10 @@ const TableForMentor: FC<PropType> = ({
   const timeInput = useRef<any>();
 
   useEffect(() => {
-    scheduleService.getAllEvents()
-      .then((res: any) => {
-        eventsLoaded(res);
-
-        // res.forEach((el: any) => {
-        //   scheduleService.deleteEvent(el.id);
-        // });
-        dataFromBack = res;
-        originData = createOriginData(dataFromBack);
-        setData(mapDatesToString(dataFromBack));
-      });
-  }, [scheduleService, eventsLoaded]);
+    dataFromBack = events;
+    originData = createOriginData(dataFromBack);
+    setData(mapDatesToString(dataFromBack));
+  }, [events]);
 
   function onDateChange(date: any, dateString: string) {
     setDateStr(dateString);
@@ -315,13 +291,13 @@ const TableForMentor: FC<PropType> = ({
       const originRow = (await form.validateFields()) as IEvent;
       const newData = [...data];
       const index = newData.findIndex((item) => id === item.id);
-      console.log('index', index);
+
       if (index > -1) {
         const item: IEvent = newData[index];
         const originItem: IEvent = originData[index];
+
         item.date = dateStr;
         row.date = dateStr;
-        console.log('dm', dateMoment);
         originItem.date = dateMoment;
         originRow.date = dateMoment;
         item.type = rowRef.current.type;
@@ -330,7 +306,18 @@ const TableForMentor: FC<PropType> = ({
         originItem.type = rowRef.current.type;
         newData.splice(index, 1, { ...item, ...row });
         originData.splice(index, 1, { ...originItem, ...originRow });
-        console.log('rogon', originData);
+
+        events.forEach((el: any) => {
+          if (el.id === item.id) {
+            scheduleService.updateEvent(el.id, {
+              ...item,
+              date: mapDateToObject(row.date, row.time),
+              time: mapDateToObject(row.date, row.time),
+            });
+          }
+        });
+
+        // eventsUpdate(newEvents);
         setData(newData);
         setEditingKey('');
       } else {
@@ -409,6 +396,10 @@ const TableForMentor: FC<PropType> = ({
     };
   });
 
+  if (loading) {
+    return <Spinner />
+  }
+
   return (
     <>
       <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
@@ -439,11 +430,7 @@ const mapStateToProps = ({ events, loading }: any): any => ({
   loading,
 });
 
-const mapDispatchToProps = {
-  eventsLoaded,
-};
-
 export default compose(
   withScheduleService(),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
 )(TableForMentor);
