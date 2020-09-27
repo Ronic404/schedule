@@ -8,14 +8,15 @@ import {
 } from 'antd';
 import { connect } from 'react-redux';
 
+import moment from 'moment-timezone';
 import ColsSelector from '../cols-selector';
 import Spinner from '../spinner';
 
-import { eventsLoaded } from '../../actions';
+import { eventsLoaded, changeTimezone } from '../../actions';
 import {
-  compose, mapDatesToString, createColsTitles,
+  compose, createColsTitles,
 } from '../../utils';
-import columns from '../columns';
+import getColumnDefs from '../columns';
 import { IEvent } from '../../interfaces';
 import withScheduleService from '../hoc';
 import styles from './main-table.module.css';
@@ -25,10 +26,11 @@ type PropType = {
   events: IEvent[],
   eventsLoaded: any,
   loading: boolean,
+  timezone: any,
 };
 
 const MainTable: FC<PropType> = ({
-  scheduleService, events, eventsLoaded, loading,
+  scheduleService, events, eventsLoaded, loading, timezone,
 }: PropType): ReactElement => {
   const [colsTitles, setColsTitles] = useState<{ title: string, checked: boolean }[]>([]);
   const [checkedRows, setCheckedRows] = useState<IEvent[]>([]);
@@ -36,6 +38,8 @@ const MainTable: FC<PropType> = ({
   const [showHideBtn, setShowHideBtn] = useState<boolean>(false);
   const [showAllBtn, setShowAllBtn] = useState<boolean>(false);
   const [visibleData, setVisibleData] = useState<IEvent[]>(events);
+  const [columns, setColumns] = useState(getColumnDefs(timezone));
+  const startOfToday = moment().startOf('day');
 
   const changeColsHandler = (cols: { title: string, checked: boolean }[]) => {
     setColsTitles(cols);
@@ -53,6 +57,7 @@ const MainTable: FC<PropType> = ({
 
   const unhiddenClickHandle = () => {
     setShowAllBtn(false);
+    setVisibleData(events);
   };
 
   const activeCols = () => {
@@ -119,17 +124,20 @@ const MainTable: FC<PropType> = ({
         // res.forEach((el: any) => {
         //   scheduleService.deleteEvent(el.id);
         // });
-        setVisibleData(mapDatesToString(res));
+        setVisibleData(res);
+        console.log(res);
       });
   }, [scheduleService, eventsLoaded]);
 
   useEffect(() => {
-    setColsTitles(createColsTitles(columns));
-  }, []);
-
-  useEffect(() => {
     setShowHideBtn(Boolean(hiddenRows.length));
   }, [hiddenRows]);
+
+  useEffect(() => {
+    const newColumns = getColumnDefs(timezone);
+    setColumns(newColumns);
+    setColsTitles(createColsTitles(newColumns));
+  }, [timezone]);
 
   if (loading) {
     return <Spinner />;
@@ -147,6 +155,7 @@ const MainTable: FC<PropType> = ({
       </div>
       <Table
         size="middle"
+        rowClassName={(record) => (moment({ ...record.date, ...record.time }).isBefore(startOfToday) ? `${styles['rs-table-row-disabled']}` : '')}
         columns={activeCols()}
         dataSource={visibleData}
         onRow={(record) => ({ onClick: (el) => selectRow(record, el) })}
@@ -155,13 +164,14 @@ const MainTable: FC<PropType> = ({
   );
 };
 
-const mapStateToProps = ({ events, loading }: any): any => ({
+const mapStateToProps = ({ events, loading, timezone }: any): any => ({
   events,
   loading,
+  timezone,
 });
 
 const mapDispatchToProps = {
-  eventsLoaded,
+  eventsLoaded, changeTimezone,
 };
 
 export default compose(
