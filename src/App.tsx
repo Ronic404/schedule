@@ -14,7 +14,6 @@ import CreateTask from './components/create-task';
 import { TableDownloadProps } from './interfaces';
 
 import styles from './App.module.css';
-import data from './components/data';
 
 const App: FC = ({ types }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
@@ -35,9 +34,6 @@ const App: FC = ({ types }: any): ReactElement => {
     case 'Calendar':
       viewTasks = <CalendarSchedule />;
       break;
-    // case 'Create task':
-    //   viewTasks = <CreateTask />;
-    //   break;
     default:
       viewTasks = (
         <TableContainer
