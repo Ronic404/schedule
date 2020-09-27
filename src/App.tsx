@@ -12,7 +12,6 @@ import { TableDownloadProps } from './interfaces';
 import StyleSelector from './components/style-selector';
 
 import styles from './App.module.css';
-import { changeStyleSelectorVisibility } from './actions';
 
 const App: FC = ({ types, styleSelectorVisibility }: any): ReactElement => {
   const [tableRef, setTableRef] = useState();
