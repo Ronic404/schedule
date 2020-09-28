@@ -15,7 +15,6 @@ import ListContainer from './components/list-container';
 import CalendarSchedule from './components/calendar-schedule';
 import CreateTask from './components/create-task';
 import StyleSelector from './components/style-selector';
-import TableForMentor from './components/table-for-mentor';
 
 import { eventsLoaded } from './actions';
 import { compose } from './utils';
@@ -25,14 +24,13 @@ import styles from './App.module.css';
 
 type PropType = {
   types: any,
-  roles: any,
   scheduleService: any,
   eventsLoaded: any,
   styleSelectorVisibility: any,
 };
 
 const App: FC<PropType> = ({
-  types, scheduleService, eventsLoaded, styleSelectorVisibility, roles,
+  types, scheduleService, eventsLoaded, styleSelectorVisibility,
 }: PropType): ReactElement => {
   const [tableRef, setTableRef] = useState();
   localStorage.setItem('view type', types);
@@ -72,8 +70,6 @@ const App: FC<PropType> = ({
         <div className={styles.header}>
           <Header />
           <TableHeader tableRef={tableRef} />
-          {roles === 'Mentor' ? <TableForMentor />
-            : (
               <Switch>
                 <Route
                   exact
@@ -83,7 +79,6 @@ const App: FC<PropType> = ({
                 <Route path={`/${types}`} render={() => viewTasks} />
                 <Route path="/task" render={() => <CreateTask />} />
               </Switch>
-            )}
           <StyleSelector visibility={styleSelectorVisibility} />
         </div>
       </Layout>
@@ -93,7 +88,6 @@ const App: FC<PropType> = ({
 
 const mapStateToProps = (state: any) => ({
   types: state.type,
-  roles: state.role,
   styleSelectorVisibility: state.styleSelectorVisibility,
 });
 
