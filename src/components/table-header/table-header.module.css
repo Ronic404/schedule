@@ -1,0 +1,24 @@
+.table__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+}
+
+.table__header-left *:not(:last-child) {
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 550px) {
+    .table__header-left,
+    .table__header {
+        display: flex;
+        flex-direction: column;   
+    }
+
+    .table__header-left *:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

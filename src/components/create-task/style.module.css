@@ -1,0 +1,82 @@
+.hide {
+  display: none;
+}
+
+.wrapper {
+  position: relative;
+  padding: 0 50px;
+}
+
+.main {
+  display: flex;
+}
+
+.editTask,
+.taskPage {
+  min-height: 600px;
+  flex: 1;
+  overflow: hidden;
+  padding: 10px;
+  border: 1px solid rgb(195, 195, 195);
+}
+
+.editTask {
+  font-size: 16px;
+  background-color: #f6f8fa;
+  padding-top: 20px;
+  resize: none;
+}
+
+.textarea {
+  width: 100%;
+  height: 50vh;
+}
+
+.textarea:focus {
+  outline: none;
+}
+
+.taskPage {
+  margin-left: 10px;
+}
+
+.topTable {
+  max-width: 500px;
+  overflow-x: scroll;
+}
+
+.button-task {
+  width: 100px;
+  position: absolute;
+  right: 60px;
+  top: 10px;
+}
+
+.back {
+  font-size: 3em;
+  position: absolute;
+  right: 110px;
+  top: -53px;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    padding: 0 20px;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+
+  .task {
+    margin-bottom: 10px;
+  }
+
+  .taskPage {
+    margin-left: 0;
+  }
+
+  .button-task {
+    right: 30px;
+  }
+}
