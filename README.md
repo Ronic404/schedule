@@ -1,44 +1,69 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Schedule
 
-## Available Scripts
+Возможная реализация расписания для [rs schoool](https://app.rs.school/).
 
-In the project directory, you can run:
+## Основные компоненты:
 
-### `npm start`
+#### Панель управления:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Основные элементы управления:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- выбор часового пояса;
+- выбор вида расписания;
+- выбор курса (находится в разработке);
+- кнопка для смены цвета и добавления нового события;
+- кнопка для загрузки расписания (находится в разработке);
+- переключение ролей студент/ментор (работает только в компоненте Задания).
 
-### `npm test`
+#### Таблица для студента:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Есть возможность убирать/возвращать колонки. Также по клику на строку можно выделить строку и кнопкой Hide спрятать ее (с зажатой кнопкой shift можно выделить сразу несколько строк). Если есть строки, которые были спрятаны, их можно показать кнопкой Show Hidden.
 
-### `npm run build`
+###### Данны колонок:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Date and Time - дата и время начала события;
+- Type - тип события (цвет можно менять в панели управления);
+- Place - место проведение события (не обязательное поле);
+- Name - имя события (по клику на него, можно узнать подробную информацию);
+- Organizer - имя организатора;
+- Comment	- Комментарий;
+- Done - пожно отметить выполненное событие.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+#### Таблица для ментора:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Включает в себя кнопку для добавления новых строк (строки добавляются в конец таблицы с праметрами по-умолчанию). Удаление строк пока в разработке.
 
-### `npm run eject`
+###### Данны колонок:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Date and Time - дата и время начала события;
+- Type - тип события (цвет можно менять в панели управления);
+- Place - место проведение события (не обязательное поле);
+- Name - имя события (по клику на него, можно узнать подробную информацию);
+- Organizer - имя организатора;
+- Comment	- Комментарий;
+- Operation - дает возможность редактировать строку.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Список:
+Приводит расписание к более компактному виду. По нажатию на кнопку More, открывается окно с подробной информацией о событии. Пока работает только с локальными данными.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Календарь:
+Приводит расписание к виду календарь. Пока работает только с локальными данными.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Окно с Заданим:
 
-## Learn More
+Основные элементы управления:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- содержит два режима для ментора/студента;
+- в режиме студент можно только просматривать информацию о событии;
+- в режиме ментор появляется возможность редактировать событие, а также указывать на карте место проведения этого события;
+- есть возможность оставить фидбэк.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Детали реализации:
+
+- react-hooks;
+- redux;
+- antd;
+- typescript.
+
+
+
