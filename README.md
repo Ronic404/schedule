@@ -61,9 +61,11 @@
 ## Детали реализации:
 
 - react-hooks;
+- react-markdown
 - redux;
 - antd;
-- typescript.
+- typescript;
+- moment.
 
 
 
